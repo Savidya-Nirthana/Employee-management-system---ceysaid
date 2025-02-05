@@ -1,1 +1,39 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap");
+
+.costom-font {
+  font-family: "Oswald", serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+}
+
+
+@keyframes errorShowing {
+    0% {
+        width: 0;
+      }
+      5% {
+        width: 300px;
+      }
+      95%{
+        width: 300px;
+      }
+      100% {
+        width: 0;
+      }
+  }
+  .animate-errorShow {
+    animation: errorShowing 5s ease-out forwards;
+  }
+
+  /* @keyframes errorText {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .animate-errorText {
+    animation: errorText 0.8s ease-out forwards;
+  } */

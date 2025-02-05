@@ -1,9 +1,11 @@
-import Hellow from "./components/Hellow";
+import Login from "./pages/login";
+import UserRegistration from "./pages/userRegistration";
 
 function App() {
   return (
     <>
-      <Hellow />
+      {/* <Login />  */}
+      <UserRegistration />
     </>
   );
 }
