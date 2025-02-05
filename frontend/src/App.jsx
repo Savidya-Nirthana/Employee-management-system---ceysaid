@@ -4,8 +4,8 @@ import UserRegistration from "./pages/userRegistration";
 function App() {
   return (
     <>
-      {/* <Login />  */}
-      <UserRegistration />
+      <Login /> 
+      {/* <UserRegistration /> */}
     </>
   );
 }
