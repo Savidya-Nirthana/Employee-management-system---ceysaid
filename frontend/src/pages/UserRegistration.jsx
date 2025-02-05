@@ -9,13 +9,7 @@ const StepOne = ({ formData, setFormData }) => {
       <div className=" text-3xl ml-[180px] my-[30px] font-semibold">
         Register new employee
       </div>
-      <div className=" flex flex-row justify-around items-center">
-        <button
-          className=" bg-pink-600 text-white px-4 rounded-sm py-1 hover:text-pink-600 hover:bg-white border-[1.5px] hover:border-pink-500 duration-200 cursor-pointer "
-          disabled
-        >
-          Previous
-        </button>
+      <div className=" flex flex-row justify-end items-center mr-[10%] gap-[40%]">
         <div>1/2</div>
         <button
           className="bg-pink-600 text-white px-4 rounded-sm py-1 hover:text-pink-600 hover:bg-white border-[1.5px] hover:border-pink-500 duration-200 cursor-pointer"
@@ -75,7 +69,7 @@ const StepOne = ({ formData, setFormData }) => {
           </div>
           <div className=" flex flex-row gap-[100px] my-5">
             <div>
-              <label htmlFor="">City/Town</label>
+              <label htmlFor="">City/Town:</label>
               <input
                 className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
                 type="text"
@@ -86,17 +80,39 @@ const StepOne = ({ formData, setFormData }) => {
               />
             </div>
             <div>
-              <label htmlFor="">District</label>
-              <input
-                className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
-                type="text"
-                name=""
-                id=""
-                
-              />
+              <label htmlFor="district">District:</label>
+
+              <select className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]" id="district">
+                <option value="">Select a district</option>
+                <option value="Ampara">Ampara</option>
+                <option value="Anuradhapura">Anuradhapura</option>
+                <option value="Badulla">Badulla</option>
+                <option value="Batticaloa">Batticaloa</option>
+                <option value="Colombo">Colombo</option>
+                <option value="Galle">Galle</option>
+                <option value="Gampaha">Gampaha</option>
+                <option value="Hambantota">Hambantota</option>
+                <option value="Jaffna">Jaffna</option>
+                <option value="Kalutara">Kalutara</option>
+                <option value="Kandy">Kandy</option>
+                <option value="Kegalle">Kegalle</option>
+                <option value="Kilinochchi">Kilinochchi</option>
+                <option value="Kurunegala">Kurunegala</option>
+                <option value="Mannar">Mannar</option>
+                <option value="Matale">Matale</option>
+                <option value="Matara">Matara</option>
+                <option value="Monaragala">Monaragala</option>
+                <option value="Mullaitivu">Mullaitivu</option>
+                <option value="Nuwara Eliya">Nuwara Eliya</option>
+                <option value="Polonnaruwa">Polonnaruwa</option>
+                <option value="Puttalam">Puttalam</option>
+                <option value="Ratnapura">Ratnapura</option>
+                <option value="Trincomalee">Trincomalee</option>
+                <option value="Vavuniya">Vavuniya</option>
+              </select>
             </div>
             <div>
-              <label htmlFor="">Postal Code</label>
+              <label htmlFor="">Postal Code:</label>
               <input
                 className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
                 type="text"
@@ -107,7 +123,7 @@ const StepOne = ({ formData, setFormData }) => {
           </div>
           <div className=" flex flex-row my-5 gap-[200px]">
             <div>
-              <label htmlFor="">GS Division</label>
+              <label htmlFor="">GS Division:</label>
               <input
                 className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
                 type="text"
@@ -116,7 +132,7 @@ const StepOne = ({ formData, setFormData }) => {
               />
             </div>
             <div>
-              <label htmlFor="">GN Divisoin</label>
+              <label htmlFor="">GN Divisoin:</label>
               <input
                 className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
                 type="text"
@@ -133,7 +149,7 @@ const StepOne = ({ formData, setFormData }) => {
         </div>
         <div className=" flex flex-row mt-10 mx-10 mb-5 gap-[200px]">
           <div>
-            <label htmlFor="">Telephone</label>
+            <label htmlFor="">Telephone:</label>
             <input
               type="text"
               className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
@@ -143,7 +159,7 @@ const StepOne = ({ formData, setFormData }) => {
           </div>
 
           <div>
-            <label htmlFor="">Mobile</label>
+            <label htmlFor="">Mobile:</label>
             <input
               className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
               type="text"
@@ -153,20 +169,14 @@ const StepOne = ({ formData, setFormData }) => {
           </div>
         </div>
         <div className=" mb-10 ml-10">
-          <label htmlFor="">Email</label>
+          <label htmlFor="">Email:</label>
           <input
             className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
             type="text"
           />
         </div>
       </form>
-      <div className=" flex flex-row justify-around items-center">
-        <button
-          className=" bg-pink-600 text-white px-4 rounded-sm py-1 hover:text-pink-600 hover:bg-white border-[1.5px] hover:border-pink-500 duration-200 cursor-pointer"
-          disabled
-        >
-          Previous
-        </button>
+      <div className=" flex flex-row justify-end items-center mr-[10%] gap-[40%]">
         <div>1/2</div>
         <button
           className="bg-pink-600 text-white px-4 rounded-sm py-1 hover:text-pink-600 hover:bg-white border-[1.5px] hover:border-pink-500 duration-200 cursor-pointer"
@@ -186,14 +196,14 @@ const StepTwo = ({ formData, setFormData }) => {
       <div className=" text-3xl ml-[180px] my-[30px] font-semibold">
         Register new employee
       </div>
-      <div className=" flex flex-row justify-around items-center">
+      <div className=" flex flex-row justify-around items-center gap-[15%]">
         <button
           className=" bg-pink-600 text-white px-4 rounded-sm py-1 hover:text-pink-600 hover:bg-white border-[1.5px] hover:border-pink-500 duration-200 cursor-pointer"
           onClick={() => navigate("/")}
         >
           Previous
         </button>
-        <div>1/2</div>
+        <div>2/2</div>
         <button className="bg-pink-600 text-white px-4 rounded-sm py-1 hover:text-pink-600 hover:bg-white border-[1.5px] hover:border-pink-500 duration-200 cursor-pointer">
           Finish
         </button>
@@ -221,6 +231,7 @@ const StepTwo = ({ formData, setFormData }) => {
                 id=""
                 className=" w-[150px] outline-pink-600 border-[1px] border-slate-400 rounded-sm"
               >
+                <option value="">Select gender</option>
                 <option value="">Male</option>
                 <option value="">Female</option>
               </select>
@@ -240,6 +251,7 @@ const StepTwo = ({ formData, setFormData }) => {
           <div>
             <label htmlFor="">Nationality: </label>
             <select className=" w-[150px] outline-pink-600 border-[1px] border-slate-400 rounded-sm">
+              <option value="">Select nationality</option>
               <option value="">Sinhala</option>
               <option value="">Tamil</option>
               <option value="">Muslim</option>
@@ -289,7 +301,7 @@ const StepTwo = ({ formData, setFormData }) => {
             />
           </div>
         </div>
-        <div className=" flex flex-row mx-10  mb-10 gap-[200px]">
+        <div className=" flex flex-row my-5 mx-10 gap-[200px]">
           <div>
             <label htmlFor="">Department: </label>
             <select
@@ -297,18 +309,32 @@ const StepTwo = ({ formData, setFormData }) => {
               id=""
               className=" w-[200px] border-[1px] border-slate-400 outline-pink-600 py-[0.5px] rounded-sm"
             >
+              <option value="">Select department</option>
               <option value="">Accounts</option>
               <option value="">Sales</option>
               <option value="">Operation</option>
             </select>
           </div>
           <div>
-            <label htmlFor="">Employee type: </label>
+            <label htmlFor="emType">Employee type: </label>
+            <select className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]" id="emType">
+              <option value="">Select employee type</option>
+              <option value="Permenant">Permenant</option>
+              <option value="Temporary">Temporary</option>
+              <option value="Training">Training</option>
+              <option value="Terminate">Terminate</option>
+              <option value="Resign">Resign</option>
+            </select>
+          </div>
+        </div>
+        <div className=" flex flex-row mx-10  mb-10 gap-[200px]">
+          <div>
+            <label htmlFor="">EPF number: </label>
             <input
-              className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
-              type="text"
-              name=""
-              id=""
+                className=" bg-slate-100 outline-pink-600 border-[1px] border-slate-400 rounded-sm ml-5 w-[200px] p-[1px]"
+                type="text"
+                name=""
+                id=""
             />
           </div>
         </div>
@@ -358,14 +384,14 @@ const StepTwo = ({ formData, setFormData }) => {
           </tr>
         </table>
       </form>
-      <div className=" flex flex-row justify-around items-center my-10">
+      <div className=" flex flex-row justify-around items-center my-10 gap-[15%]">
         <button
           className=" bg-pink-600 text-white px-4 rounded-sm py-1 hover:text-pink-600 hover:bg-white border-[1.5px] hover:border-pink-500 duration-200 cursor-pointer"
           onClick={() => navigate("/")}
         >
           Previous
         </button>
-        <div>1/2</div>
+        <div>2/2</div>
         <button className="bg-pink-600 text-white px-4 rounded-sm py-1 hover:text-pink-600 hover:bg-white border-[1.5px] hover:border-pink-500 duration-200 cursor-pointer">
           Finish
         </button>
