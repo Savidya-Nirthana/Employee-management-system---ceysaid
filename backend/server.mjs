@@ -3,6 +3,8 @@ import userRouter from "./routes/users.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import conn from "./config/connection.js";
+import databaseConnection from "./config/connection.js";
 
 const server = express();
 
@@ -28,5 +30,6 @@ server.use(notFound);
 server.use(errorHandler);
 
 server.listen(process.env.PORT, () => {
+  databaseConnection();
   console.log("server is running " + process.env.PORT);
 });

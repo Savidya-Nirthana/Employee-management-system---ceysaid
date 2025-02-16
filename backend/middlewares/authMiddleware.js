@@ -5,7 +5,8 @@ export const protect = async(req, res, next) => {
     if(token){
         try{
             const decoded =await jwt.verify(token,process.env.JWT_SECRET);
-            res.user = decoded
+            // console.log(decoded)
+            res.user = decoded;
             next();
         }
         catch(err) {

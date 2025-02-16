@@ -1,14 +1,32 @@
 import logo from "../assets/images/logo/company_logo.png";
 import travel_img from "../assets/images/login/travel_girl.jpg";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { login } from "../services/authservice.js";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../App.jsx";
+
 const Login = () => {
+  const navigate = useNavigate();
+  const [, setIsLogin,] = useContext(Context);
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
-
-  const loginHandle = (e) => {
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
+  const loginHandle = async (e) => {
     e.preventDefault();
-    login(username, password);
+    try {
+      const response = await login(username, password);
+      if (response.status === 200) {
+        setIsLogin(true);
+        navigate("/dashboard");
+      } else {
+        setErrorMessage(response.message);
+        setIsError(true);
+      }
+    } catch (err) {
+      setErrorMessage("Login failed. Please try again.");
+      setIsError(true);
+    }
   };
 
   return (
@@ -28,8 +46,12 @@ const Login = () => {
         <div className=" flex flex-col absolute top-[30%] lg:relative lg:top-0 items-center justify-center bg-slate-100 lg:w-[50%] w-[100%] lg:h-auto h-[400px] z-10 ">
           <div className="absolute top-2 right-0 flex flex-row">
             <div className="w-[6px] sm:h-[60px] h-[40px] bg-pink-600 "></div>
-            <div className="sm:w-[300px] w-[150px] bg-pink-600 text-white font-bold m-auto sm:h-[60px] h-[40px] flex items-center justify-around border-l-5 animate-errorShow relative overflow-hidden">
-              <div className="text-nowrap">Username or password incorrect</div>
+            <div
+              className={`sm:w-[0px] w-[0px] bg-pink-600 text-white font-bold m-auto sm:h-[60px] h-[40px] flex items-center justify-around border-l-5 ${
+                isError ? "animate-errorShow" : ""
+              } relative overflow-hidden`}
+            >
+              <div className="text-nowrap">{errorMessage}</div>
             </div>
           </div>
 
