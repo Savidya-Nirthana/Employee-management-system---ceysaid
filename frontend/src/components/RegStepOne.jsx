@@ -17,6 +17,28 @@ const RegStepOne = () => {
 
 
   const [profile, setProfile] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [houseNo, setHouseNo] = useState("");
+  const [street1, setStreet1] = useState("");
+  const [street2, setStreet2] = useState("");
+  const [city, setCity] = useState("");
+  const [district, setDistrict] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [gsDivision, setGsDivision] = useState("");
+  const [gnDivision, setGnDivision] = useState("");
+  const [telephone, setTelephone] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+  const [nic, setNic] = useState("");
+  const [nationality, setNationality] = useState("");
+  const [religion, setReligion] = useState("");
+  const [cooperateTitle, setCooperateTitle] = useState("");
+  const [location, setLocation] = useState("");
+  const [department, setDepartment] = useState("");
+  const [employeeType, setEmployeeType] = useState("");
+
+
 
   const handleProfileChange = (event) => {
     const file = event.target.files[0];
@@ -71,6 +93,7 @@ const RegStepOne = () => {
                 name="fullname"
                 id=""
                 placeholder="Full name"
+                onChange={(e) => setFullname(e.target.value)}
                 required
               />
             </div>
@@ -85,6 +108,7 @@ const RegStepOne = () => {
                   name="house_no"
                   id=""
                   placeholder="House no"
+                  onChange={(e) => setHouseNo(e.target.value)}
                 />
               </div>
               <div className=" flex flex-row gap-[20px] my-5">
@@ -95,6 +119,7 @@ const RegStepOne = () => {
                     name="street_1"
                     id=""
                     placeholder="Street 1"
+                    onChange={(e) => setStreet1(e.target.value)}
                   />
                 </div>
                 <div>
@@ -104,6 +129,7 @@ const RegStepOne = () => {
                     name="street_2"
                     id=""
                     placeholder="Street 2"
+                    onChange={(e) => setStreet2(e.target.value)}
                   />
                 </div>
               </div>
@@ -115,6 +141,7 @@ const RegStepOne = () => {
                     name="city"
                     id=""
                     placeholder="City/Town"
+                    onChange={(e) => setCity(e.target.value)}
                   />
                 </div>
                 <div>
@@ -122,6 +149,7 @@ const RegStepOne = () => {
                     className="  text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600]"
                     id="district"
                     name="district"
+                    onChange={(e) => setDistrict(e.target.value)}
                   >
                     <option value="" disabled>Select a district</option>
                     <option value="Ampara">Ampara</option>
@@ -158,6 +186,7 @@ const RegStepOne = () => {
                     name="postal_code"
                     id=""
                     placeholder="Postal code"
+                    onChange={(e) => setPostalCode(e.target.value)}
                   />
                 </div>
               </div>
@@ -169,6 +198,7 @@ const RegStepOne = () => {
                     name="gs_division"
                     id=""
                     placeholder="Gs division"
+                    onChange={(e) => setGsDivision(e.target.value)}
                   />
                 </div>
                 <div>
@@ -178,6 +208,7 @@ const RegStepOne = () => {
                     name="gn_division"
                     id=""
                     placeholder="Gn division"
+                    onChange={(e) => setGnDivision(e.target.value)}
                   />
                 </div>
                 <div></div>
@@ -195,6 +226,7 @@ const RegStepOne = () => {
                   name="telephone"
                   id=""
                   placeholder="Telephone"
+                  onChange={(e) => setTelephone(e.target.value)}
                 />
               </div>
 
@@ -205,6 +237,7 @@ const RegStepOne = () => {
                   name="mobile"
                   id=""
                   placeholder="Mobile"
+                  onChange={(e) => setMobile(e.target.value)}
                 />
               </div>
             </div>
@@ -215,6 +248,7 @@ const RegStepOne = () => {
                 name="email"
                 id=""
                 placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>
@@ -240,6 +274,7 @@ const RegStepOne = () => {
                   name="gender"
                   id=""
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
+                  onChange={(e) => setGender(e.target.value)}
                 >
                   <option value="">Select gender</option>
                   <option value="male">Male</option>
@@ -254,11 +289,15 @@ const RegStepOne = () => {
                 name="nic"
                 id=""
                 placeholder="NIC"
+                onChange={(e) => setNic(e.target.value)}
               />
             </div>
             <div className=" flex flex-row gap-[20px] m-5">
               <div>
-                <select className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600">
+                <select className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600" 
+                onChange={(e) => setNationality(e.target.value)}
+                >
+
                   <option value="">Select nationality</option>
                   <option value="sinhala">Sinhala</option>
                   <option value="tamil">Tamil</option>
@@ -271,6 +310,7 @@ const RegStepOne = () => {
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                   name="religion"
                   id=""
+                  onChange={(e) => setReligion(e.target.value)}
                 >
                   <option value="">Select Religion</option>
                   <option value="buddhism">Buddhism</option>
@@ -294,6 +334,7 @@ const RegStepOne = () => {
                     name="coporate_title"
                     id=""
                     placeholder="Cooperate title"
+                    onChange={(e) => setCooperateTitle(e.target.value)}
                   />
                 </div>
                 <div>
@@ -303,6 +344,7 @@ const RegStepOne = () => {
                     name="location"
                     id=""
                     placeholder="Location"
+                    onChange={(e) => setLocation(e.target.value)}
                   />
                 </div>
               </div>
@@ -312,6 +354,7 @@ const RegStepOne = () => {
                     name="department"
                     id=""
                     className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
+                    onChange={(e) => setDepartment(e.target.value)}
                   >
                     <option value="">Select department</option>
                     <option value="accounts">Accounts</option>
@@ -323,6 +366,7 @@ const RegStepOne = () => {
                   <select
                     className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     id="emType"
+                    onChange={(e) => setEmployeeType(e.target.value)}
                     required
                   >
                     <option value="">Select employee type</option>
