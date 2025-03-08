@@ -9,6 +9,7 @@ import {
   faPlane,
   faSignOut,
   faSortDesc,
+  faUnlock,
   faUser,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
@@ -66,17 +67,24 @@ const NavBar = ({ showNav, setShowNav }) => {
             }}
           >
             <FontAwesomeIcon icon={faUser} />
-            <div>Test {user.username}</div>
+            <div>Test {user.userId}</div>
             <FontAwesomeIcon icon={faSortDesc} />
           </div>
           {navDrop && (
-            <div className=" absolute bg-white rounded-sm w-[120px] flex flex-col items-center justify-center animate-fade-in">
+            <div className=" absolute right-0 bg-white rounded-sm w-[200px] flex flex-col items-center justify-center animate-fade-in z-1">
               <ul>
-                <div className=" flex flex-row  mt-3 items-center gap-2 text-[14px] text-slate-600">
+                <div className=" flex flex-row   mt-3 items-center gap-2 text-[14px] text-slate-600 hover:bg-slate-100 p-2 cursor-pointer">
                   <FontAwesomeIcon icon={faUser} />
                   <li className="">Your profile</li>
                 </div>
-                <button className=" text-blue-700 cursor-pointer px-2 my-3">
+                <div className=" flex flex-row   items-center gap-2 text-[14px] text-slate-600 hover:bg-slate-100 p-2 cursor-pointer">
+                  <FontAwesomeIcon icon={faUnlock} />
+                  <li className="">Change password</li>
+                </div>
+                <button
+                  className=" cursor-pointer px-2 mb-3 w-[200px] bg-indigo-400 text-white py-2 rounded-b-md hover:bg-indigo-500"
+                  onClick={() => logOutHandler()}
+                >
                   Logout
                 </button>
               </ul>
@@ -104,16 +112,18 @@ const NavBar = ({ showNav, setShowNav }) => {
               )}
             </div>
           </Link>
-          {user?.role === "admin" && <Link to={"/dashboard/employers"}>
-            <div
-              className={` flex flex-row ${
-                showNav ? "w-[100px]" : "w-[20px]"
-              } justify-start items-center gap-2 duration-500`}
-            >
-              <FontAwesomeIcon icon={faUsers} size="1x" className=" py-1" />
-              {showNav && <div className=" animate-fade-in">Employers</div>}
-            </div>
-          </Link>}
+          {user?.role === "admin" && (
+            <Link to={"/dashboard/employers"}>
+              <div
+                className={` flex flex-row ${
+                  showNav ? "w-[100px]" : "w-[20px]"
+                } justify-start items-center gap-2 duration-500`}
+              >
+                <FontAwesomeIcon icon={faUsers} size="1x" className=" py-1" />
+                {showNav && <div className=" animate-fade-in">Employers</div>}
+              </div>
+            </Link>
+          )}
 
           <Link to={"/dashboard/leave"}>
             <div

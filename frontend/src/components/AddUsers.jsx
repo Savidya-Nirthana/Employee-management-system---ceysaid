@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { register } from "../services/authservice";
+import { ToastContainer, toast } from "react-toastify";
 
 const AddUsers = () => {
   useEffect(() => {
@@ -9,7 +10,7 @@ const AddUsers = () => {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
-  const [email, setEmail] = useState(null);
+  const [id, setId] = useState(null);
   const [corporateTitle, setCorporateTitle] = useState(null);
   const [dateJoined, setDateJoined] = useState(Date.now());
   const [department, setDepartment] = useState(null);
@@ -19,8 +20,11 @@ const AddUsers = () => {
   const [errorShow, setErrorShow] = useState(false);
   const [err, setErr] = useState(null);
 
+  const formRef = useRef(null);
+
   const registerHandling = async (e) => {
     e.preventDefault();
+
     if (rePassword !== password) {
       setErr("Password not matched");
       setErrorShow(true);
@@ -28,36 +32,48 @@ const AddUsers = () => {
     }
 
     const response = await register({
-      email: email,
+      userId: id,
       corporateTitle: corporateTitle,
       dateJoined: dateJoined,
       department: department,
       employeeType: employeeType,
       password: password,
     });
+
+    if (response.status === 200) {
+      toast.success(response.data.message);
+      formRef.current.reset();
+    } else {
+      toast.error(response.response.data.message);
+    }
   };
   return (
     <>
       <div className=" bg-slate-50 w-[600px] p-5">
+        <ToastContainer />
         <div className=" w-[100%] my-1 text-[20px] text-slate-600">
           Add Employee
         </div>
-        <form className=" m-auto block w-[500px]" onSubmit={registerHandling}>
+        <form
+          ref={formRef}
+          className=" m-auto block w-[500px]"
+          onSubmit={registerHandling}
+        >
           <table>
             <tr>
               <td className=" w-[200px]">
                 <label htmlFor="" className=" text-slate-600 text-[14px]">
-                  Email<span className=" text-red-500">*</span>
+                  ID:<span className=" text-red-500">*</span>
                 </label>
               </td>
               <td className=" py-1">
                 <input
                   className=" border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[250px]"
-                  type="email"
+                  type="text"
                   name=""
                   id=""
                   onChange={(e) => {
-                    setEmail(e.target.value);
+                    setId(e.target.value);
                   }}
                   required
                 />
@@ -67,7 +83,7 @@ const AddUsers = () => {
             <tr className="">
               <td>
                 <label htmlFor="" className=" text-slate-600 text-[14px]">
-                  Cooperate title:{" "}
+                  Corporate title:{" "}
                 </label>
               </td>
               <td className=" py-1">
@@ -130,7 +146,7 @@ const AddUsers = () => {
               </td>
               <td className=" py-1">
                 <select
-                  className=" w-[250px] text-slate-500 text-[14px] outline-pink-400 border-[1px] border-slate-300 p-[5px]"
+                  className=" w-[250px] text-slate-600 text-[14px] outline-pink-400 border-[1px] border-slate-300 p-[5px]"
                   id="emType"
                   required
                   onChange={(e) => {
@@ -141,8 +157,6 @@ const AddUsers = () => {
                   <option value="permenant">Permenant</option>
                   <option value="temporary">Temporary</option>
                   <option value="training">Training</option>
-                  <option value="terminate">Terminate</option>
-                  <option value="resign">Resign</option>
                 </select>
               </td>
             </tr>
@@ -197,9 +211,16 @@ const AddUsers = () => {
 
           <div>
             <input
-              className=" bg-indigo-400 rounded-sm text-white px-2 py-1 text-[14px] ml-[400px] mt-5 cursor-pointer"
+              className={` bg-indigo-400 rounded-sm text-white px-2 py-1 text-[14px] ml-[400px] mt-5 ${
+                !id || !employeeType || !department || !password || !rePassword
+                  ? " cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
               type="submit"
               value="Create new user"
+              disabled={
+                !id || !department || !employeeType || !password || !rePassword
+              }
             />
           </div>
         </form>

@@ -8,14 +8,14 @@ import { Context } from "../App.jsx";
 const Login = () => {
   const navigate = useNavigate();
   const [, setIsLogin,] = useContext(Context);
-  const [username, setUsername] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [password, setPassword] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isError, setIsError] = useState(false);
   const loginHandle = async (e) => {
     e.preventDefault();
     try {
-      const response = await login(username, password);
+      const response = await login(userId, password);
       if (response.status === 200) {
         setIsLogin(true);
         navigate("/dashboard");
@@ -66,9 +66,9 @@ const Login = () => {
               <div>
                 <input
                   type="text"
-                  placeholder="Username"
+                  placeholder="User ID"
                   className=" bg-white sm:w-[400px] w-[350px] py-[3px] px-[10px] my-[5px] h-[40px] border-slate-200 border-[1px] outline-pink-600 rounded-sm"
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => setUserId(e.target.value)}
                 />
               </div>
               <div>

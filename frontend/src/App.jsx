@@ -16,9 +16,9 @@ function App() {
     const getUser = async () => {
       try {
         const response = await getData();
-        const { username, role } = response.data.message.user;
+        const { userId, role } = response.data.message.user;
         if (response.status === 200) {
-          setUser({ username: username, role: role });
+          setUser({ userId: userId, role: role });
           setIsLogin(true);
         } else {
           setIsLogin(false);

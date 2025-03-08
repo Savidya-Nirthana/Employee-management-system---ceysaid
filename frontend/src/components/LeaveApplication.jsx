@@ -1,16 +1,31 @@
 import { useState } from "react";
+import { leaveApply } from "../services/leaveService";
+import { useNavigate } from "react-router-dom";
 
 const LeaveApplication = () => {
-  const [leaveYear, setLeaveYear] = useState();
-  const [leaveType, setLeaveType] = useState();
-  const [leverFrom, setLeaveFrom] = useState();
-  const [leaveTo, setLeaveTo] = useState();
-  const [reason, setReason] = useState();
-  const [comment, setComment] = useState();
+  const navigate = useNavigate();
+  const [leaveYear, setLeaveYear] = useState(null);
+  const [leaveType, setLeaveType] = useState(null);
+  const [leaveFrom, setLeaveFrom] = useState(null);
+  const [leaveTo, setLeaveTo] = useState(null);
+  const [reason, setReason] = useState(null);
+  const [comment, setComment] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-  }
+    const response = await leaveApply({
+      leaveYear: leaveYear,
+      leaveType: leaveType,
+      leaveFrom: leaveFrom,
+      leaveTo: leaveTo,
+      reason: reason,
+      comment: comment,
+    });
+
+    if (response.status === 200) {
+      navigate("/dashboard/leave");
+    }
+  };
   return (
     <>
       <div className=" bg-slate-50 w-[600px] flex flex-col items-center pb-5">
@@ -33,6 +48,7 @@ const LeaveApplication = () => {
                   id=""
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                 >
+                  <option value="">Select year</option>
                   <option value="2025">2025</option>
                   <option value="2026">2026</option>
                   <option value="2027">2027</option>

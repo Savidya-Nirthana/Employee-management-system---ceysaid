@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import genarateToken from "../utils/genarateToken.js";
 import TempUser from "../models/temp_user.model.js";
 import tempEmployer from "../models/temp_emp.model.js";
+import PermenentUser from "../models/permenent_emp.model.js";
 
 export const test = (req, res) => {
   return res.status(200).json({ message: "hellow from test" });
@@ -14,7 +15,7 @@ export const test = (req, res) => {
 
 export const register = asyncHandler(async (req, res) => {
   const {
-    email,
+    userId,
     corporateTitle,
     dateJoined,
     department,
@@ -22,7 +23,7 @@ export const register = asyncHandler(async (req, res) => {
     password,
   } = await req.body.data;
 
-  const isExists = await tempEmployer.findOne({ email: email });
+  const isExists = await tempEmployer.findOne({ userId: userId });
 
   if (isExists) {
     res.status(400);
@@ -30,7 +31,7 @@ export const register = asyncHandler(async (req, res) => {
   }
 
   const user = await tempEmployer.create({
-    email: email,
+    userId: userId,
     corporateTitle: corporateTitle,
     dateJoined: dateJoined,
     department: department,
@@ -38,7 +39,7 @@ export const register = asyncHandler(async (req, res) => {
     password: password,
   });
   // console.log(corporateTitle);
-  return res.status(200).json({ message: user });
+  return res.status(200).json({ message: "User create successfull" });
 });
 
 // for : user login
@@ -47,24 +48,24 @@ export const register = asyncHandler(async (req, res) => {
 // method : POST
 
 export const login = asyncHandler(async (req, res) => {
-  const { username, password } = req.body;
-  const perUser = await TempUser.findOne({ username: username });
-  const tempUser = await tempEmployer.findOne({ email: username });
+  const { userId, password } = req.body;
+  const perUser = await TempUser.findOne({ userId: userId });
+  const tempUser = await tempEmployer.findOne({ userId: userId });
   if (perUser && (await perUser.matchPassword(password))) {
     const token = await genarateToken(res, {
-      username: username,
+      userId: userId,
       role: perUser.role,
     });
     return res.status(200).json({ message: "Login successfull" });
   } else if (tempUser && (await tempUser.matchPassword(password))) {
     const token = await genarateToken(res, {
-      username: username,
+      userId: userId,
       role: "temperary",
     });
     return res.status(200).json({ message: "Login successfull" });
   } else {
     res.status(401);
-    throw new Error("Username or password invalid");
+    throw new Error("UserId or password invalid");
   }
 });
 
@@ -91,10 +92,172 @@ export const getUser = asyncHandler(async (req, res) => {
 });
 
 export const regConfirm = asyncHandler(async (req, res) => {
-  console.log("regConfirm");
+  // console.log("regConfirm");
   const { formData } = await req.body;
   // console.log(formData.get("fullname"));
   // console.log(formData.get("profilePhoto").name);
-  console.log(formData.get("fullname"));
+  // console.log(formData.get("fullname"));
   return res.status(200).json({ message: "reg confimation" });
+});
+
+export const uploadImage = asyncHandler(async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "file not found" });
+    }
+    const filePath = req.file.path.replace(/\\/g, "/");
+    res.status(200).json({ path: filePath });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+export const permenentReg = asyncHandler(async (req, res) => {
+  const formData = req.body;
+  // console.log(formData)
+  const newUser = await PermenentUser.create({
+    userId: formData.userId,
+    fullName: formData.fullname,
+    address: {
+      houseNo: formData.houseNo,
+      street1: formData.street1,
+      street2: formData.street2,
+      city: formData.city,
+      district: formData.district,
+      postalCode: formData.postalCode,
+      gsDivision: formData.gsDivision,
+      gnDivision: formData.gnDivision,
+    },
+    telephone: formData.telephone,
+    mobile: formData.mobile,
+    email: formData.email,
+    dob: formData.dob,
+    gender: formData.gender,
+    nic: formData.nic,
+    nationality: formData.nationality,
+    religion: formData.religion,
+    corporateDetails: {
+      corporateTitle: formData.corporateTitle,
+      location: formData.location,
+      dateJoined: formData.dateJoined,
+      department: formData.department,
+      employeeType: formData.employeeType,
+    },
+    attachments: {
+      employeeImage: formData.profile,
+      nicImage: formData.nicFile,
+      gramaNiladhariCertificate: formData.gnFile,
+      letterOfAppointment: formData.laFile,
+    },
+    password: formData.password,
+  });
+
+  return res.status(200);
+});
+
+// for : temp user getDetails
+// access : loged temp user
+// uri : api/v1/users/getTempUser
+// method : GET
+
+export const getTempUser = asyncHandler(async (req, res) => {
+  const { userId, role } = res.user.user;
+  const getuser = await tempEmployer.findOne({ userId: userId });
+
+  if (getuser) {
+    res.status(200);
+    res.json({ user: getuser });
+  } else {
+    throw new Error("Error! unauthorized access");
+  }
+});
+
+// for : get pending approval data
+// access : admin
+// uri : api/v1/users/approvalData
+// method: post
+
+export const approvalUsers = asyncHandler(async (req, res) => {
+  try {
+    const response = await PermenentUser.find(
+      { profile_status: "pending" },
+      { password: 0 }
+    );
+    if (response.length > 0) {
+      res.status(200).json({ users: response , count: response.length});
+    }else if(response.length === 0){
+      res.status(200).json({ users: response , count: 0});
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+ 
+// for : get pending one approval data by ID
+// access : admin
+// uri : api/v1/users/getPermUser
+// mothod : post
+
+export const approvalUserById = asyncHandler(async (req, res) => {
+  const { userId } = await req.body;
+  try {
+    const user = await PermenentUser.findOne({ userId: userId });
+    if (user) {
+      res.status(200);
+      res.json({ user: user });
+    }
+  } catch (err) {
+    throw new Error("user id not found");
+  }
+});
+
+// for : register user permenantly
+// access : admin
+// uri : api/v1/users/registerPerm
+// method : post
+
+export const registerPerm = asyncHandler(async (req, res) => {
+  const { user } = await req.body;
+  try {
+    const userReg = await PermenentUser.findOneAndUpdate(
+      { userId: user.userId },
+      {
+        $set: {
+          "corporateDetails.corporateTitle":
+            user.corporateDetails.corporateTitle,
+          "corporateDetails.location": user.corporateDetails.location,
+          "corporateDetails.department": user.corporateDetails.department,
+          "corporateDetails.employeeType": user.corporateDetails.employeeType,
+          profile_status: "active",
+        },
+      }
+    );
+
+    if (userReg) {
+      res.status(200).json({ message: "register complete" });
+    } else {
+      throw new Error("Registration failed");
+    }
+  } catch (err) {
+    throw new Error("Registration failed");
+  }
+});
+
+// for : get all register users
+// access : admin
+// uri : api/v1/users/getPermUsers
+// method : post
+
+export const getAllRegUsers = asyncHandler(async (req, res) => {
+  try {
+    const data = await PermenentUser.find(
+      { profile_status: "active" },
+      { password: 0 }
+    );
+    if (data.length > 0) {
+      res.status(200).json({ users: data });
+    }
+  } catch (err) {
+    console.error(err);
+  }
 });

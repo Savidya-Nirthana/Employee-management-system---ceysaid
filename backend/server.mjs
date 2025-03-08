@@ -1,9 +1,9 @@
 import express from "express";
 import userRouter from "./routes/users.js";
+import leaveRouter from "./routes/leave.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import conn from "./config/connection.js";
 import databaseConnection from "./config/connection.js";
 
 const server = express();
@@ -14,17 +14,22 @@ server.use(
     credentials: true,
   })
 );
-
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
 server.use(cookieParser());
+
+// server.use((req, res) => {
+//   console.log(req.body);
+// })
+
+server.use("/api/v1/users", userRouter);
+server.use("/api/v1/leave", leaveRouter);
 
 server.get("/api/v1", (req, res) => {
   res
     .status(200)
     .json({ message: "testing", environment: process.env.NODE_ENV });
 });
-
-server.use("/api/v1/users", userRouter);
 
 server.use(notFound);
 server.use(errorHandler);

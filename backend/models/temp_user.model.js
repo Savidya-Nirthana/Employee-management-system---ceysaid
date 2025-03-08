@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 const tempuser = new mongoose.Schema({
-  username: {
+  userId: {
     type: String,
     required: true,
   },

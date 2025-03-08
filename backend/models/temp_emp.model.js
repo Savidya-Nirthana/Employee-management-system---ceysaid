@@ -3,13 +3,12 @@ import bcrypt from "bcrypt";
 
 const temp_employer_schema = mongoose.Schema(
   {
-    email: {
+    userId: {
       type: String,
       required: true,
     },
     corporateTitle: {
       type: String,
-      required: true,
     },
     dateJoined: {
       type: Date,
@@ -17,7 +16,6 @@ const temp_employer_schema = mongoose.Schema(
     },
     department: {
       type: String,
-      required: true,
     },
     employeeType: {
       type: String,

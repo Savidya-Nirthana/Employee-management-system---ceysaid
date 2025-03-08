@@ -7,7 +7,7 @@ const Leave = () => {
   return (
     <div className=" flex flex-row gap-2">
       <NavBar showNav={showNav} setShowNav={setShowNav}/>
-      <div className={` mt-[70px] flex flex-row w-[100%] ${showNav ? 'ml-[250px]' : 'ml-[60px]'} duration-500`}>
+      <div className={` mt-[70px] flex flex-row w-[100%] justify-around items-start ${showNav ? 'ml-[250px]' : 'ml-[60px]'} duration-500`}>
         <div>
           <LeaveApplication />
         </div>

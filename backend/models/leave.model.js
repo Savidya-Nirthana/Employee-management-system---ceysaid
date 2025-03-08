@@ -13,11 +13,11 @@ const leaveSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  from: {
+  startDate: {
     type: Date,
     required: true,
   },
-  to: {
+  endDate: {
     type: Date,
     required: true,
   },
@@ -26,7 +26,22 @@ const leaveSchema = mongoose.Schema({
   },
   comments : {
     type: String
+  },
+  status : {
+    type: String,
+    enum : ["pending", "approved", "rejected"],
+    default: "pending"
+  },
+  appliedAt : {
+    type: Date,
+    default: Date.now
+  }, 
+  approvedBy : {
+    type: String
   }
+},
+{
+  timestamps: true
 });
 
 
