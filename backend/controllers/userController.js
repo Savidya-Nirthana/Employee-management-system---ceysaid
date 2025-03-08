@@ -3,7 +3,11 @@ import genarateToken from "../utils/genarateToken.js";
 import TempUser from "../models/temp_user.model.js";
 import tempEmployer from "../models/temp_emp.model.js";
 import PermenentUser from "../models/permenent_emp.model.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 export const test = (req, res) => {
   return res.status(200).json({ message: "hellow from test" });
 };
@@ -49,7 +53,7 @@ export const register = asyncHandler(async (req, res) => {
 
 export const login = asyncHandler(async (req, res) => {
   const { userId, password } = req.body;
-  const perUser = await TempUser.findOne({ userId: userId });
+  const perUser = await PermenentUser.findOne({ userId: userId });
   const tempUser = await tempEmployer.findOne({ userId: userId });
   if (perUser && (await perUser.matchPassword(password))) {
     const token = await genarateToken(res, {
@@ -184,15 +188,15 @@ export const approvalUsers = asyncHandler(async (req, res) => {
       { password: 0 }
     );
     if (response.length > 0) {
-      res.status(200).json({ users: response , count: response.length});
-    }else if(response.length === 0){
-      res.status(200).json({ users: response , count: 0});
+      res.status(200).json({ users: response, count: response.length });
+    } else if (response.length === 0) {
+      res.status(200).json({ users: response, count: 0 });
     }
   } catch (err) {
     console.log(err);
   }
 });
- 
+
 // for : get pending one approval data by ID
 // access : admin
 // uri : api/v1/users/getPermUser
@@ -234,7 +238,10 @@ export const registerPerm = asyncHandler(async (req, res) => {
     );
 
     if (userReg) {
-      res.status(200).json({ message: "register complete" });
+      const res = await tempEmployer.deleteOne({ userId: user.userId });
+      if (res) {
+        res.status(200).json({ message: "register complete" });
+      }
     } else {
       throw new Error("Registration failed");
     }
@@ -259,5 +266,23 @@ export const getAllRegUsers = asyncHandler(async (req, res) => {
     }
   } catch (err) {
     console.error(err);
+  }
+});
+
+// for : get profile image
+// access : admin
+// uri : api/v1/users/getPermUsers
+// method : post
+
+export const getProfileImage = asyncHandler(async (req, res) => {
+  const { user } = await res.user;
+  try {
+    const userImage = await PermenentUser.findOne({ userId: user.userId });
+    res.status(200);
+    res.sendFile(
+      path.join(__dirname, "..", userImage.attachments.employeeImage)
+    );
+  } catch (err) {
+    console.log(err);
   }
 });

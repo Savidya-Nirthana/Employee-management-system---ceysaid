@@ -1,13 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getPermRegUser } from "../../services/authservice";
 import { Upload } from "lucide-react";
-
+import path from 'path'
 const EmployeeInfo = (props) => {
   const { userId, type, user, setUser } = props;
+  const [imageUrl, setImageUrl] = useState(null);
   useEffect(() => {
     const getUser = async () => {
       const data = await getPermRegUser(userId);
       setUser(data);
+      let url = user.attachments.employeeImage;
+      url = url.replace("uploads" , "");
+      setImageUrl(url);
+
     };
     getUser();
   }, []);
@@ -29,9 +34,8 @@ const EmployeeInfo = (props) => {
                   required
                 />
               </div>
-              <label className="border-2 border-slate-300 w-30 h-30 flex flex-col items-center justify-center rounded-xl relative cursor-pointer hover:border-blue-500 transition">
-                <Upload className="w-10 h-10 text-gray-400" />
-                
+              <label className="border-2 border-slate-300 w-30 h-30 flex flex-col items-center justify-center rounded-xl relative cursor-pointer hover:border-blue-500 transition">         
+                {imageUrl ? <img src={`http://localhost:4000${imageUrl}`} alt="img" />: <Upload className="w-10 h-10 text-gray-400" />} 
               </label>
             </div>
             <div className=" w-[100%] bg-[#262626] text-white pl-10 rounded-sm py-1 text-[14px]">

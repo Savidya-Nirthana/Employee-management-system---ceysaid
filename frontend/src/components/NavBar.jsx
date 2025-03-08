@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { logOut } from "../services/authservice";
+import { getProfileImage, logOut } from "../services/authservice";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,11 +19,17 @@ const NavBar = ({ showNav, setShowNav }) => {
   const navigate = useNavigate();
   const [winWidth, setWinWidth] = useState(window.innerWidth);
   const [navDrop, setNavDrop] = useState(false);
-
+  const [imageUrl, setImageUrl] = useState(null);
   useEffect(() => {
     const handleResize = () => setWinWidth(window.innerWidth);
 
+    const getImage = async() => {
+      const response = await getProfileImage();
+      console.log(response);
+      setImageUrl(response);
+    }
     window.addEventListener("resize", handleResize);
+    getImage();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -66,8 +72,9 @@ const NavBar = ({ showNav, setShowNav }) => {
               setNavDrop(!navDrop);
             }}
           >
-            <FontAwesomeIcon icon={faUser} />
-            <div>Test {user.userId}</div>
+            
+            {imageUrl ? <img src={imageUrl} alt="img" className="w-[35px] h-[35px] rounded-full"/>: <FontAwesomeIcon icon={faUser} />}
+            <div>{user.userId}</div>
             <FontAwesomeIcon icon={faSortDesc} />
           </div>
           {navDrop && (

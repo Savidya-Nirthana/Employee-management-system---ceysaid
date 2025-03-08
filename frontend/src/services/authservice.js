@@ -46,10 +46,10 @@ export const getTempUser = async () => {
       withCredentials: true,
     });
     return response;
-  }catch (err) {
+  } catch (err) {
     return err;
   }
-}
+};
 
 export const logOut = async () => {
   try {
@@ -106,62 +106,82 @@ export const permenentReg = async (formData) => {
         "Content-Type": "application/json",
       },
     });
-    
-    
   } catch (e) {
     console.error(e);
   }
 };
 
-
-export const getAppData = async() => {
+export const getAppData = async () => {
   try {
     const response = await API.post(`${BASE_URL}/approvalData`, {
-      withCredentials: true
+      withCredentials: true,
     });
-    return {data: response.data.users, count: response.data.count};
-  }catch(err){
+    return { data: response.data.users, count: response.data.count };
+  } catch (err) {
     console.error(err);
   }
-}
+};
 
 export const rejectSend = (userId) => {
   console.log("reject");
-}
+};
 
-
-export const getPermRegUser = async(userId) => {
+export const getPermRegUser = async (userId) => {
   try {
     console.log(userId);
-    const response = await API.post(`${BASE_URL}/getApprovalUser`,{userId: userId} , {
-      withCredentials: true
-    })
+    const response = await API.post(
+      `${BASE_URL}/getApprovalUser`,
+      { userId: userId },
+      {
+        withCredentials: true,
+      }
+    );
     return response.data.user;
-  }catch(err) {
+  } catch (err) {
     console.error(err);
   }
-}
+};
 
-
-export const registerPermenently = async(user) => {
-  try{
-    const response = await API.post(`${BASE_URL}/registerPerm`, {user: user}, {
-      withCredentials: true
-    })
+export const registerPermenently = async (user) => {
+  try {
+    const response = await API.post(
+      `${BASE_URL}/registerPerm`,
+      { user: user },
+      {
+        withCredentials: true,
+      }
+    );
     return response;
-  }catch(err){
-    console.error(err)
+  } catch (err) {
+    console.error(err);
   }
-}
+};
 
-
-export const getPermUsers = async() => {
-  try{
+export const getPermUsers = async () => {
+  try {
     const response = await API.post(`${BASE_URL}/getPermUsers`, {
-      withCredentials: true
-    })
+      withCredentials: true,
+    });
     return response.data.users;
-  }catch(err) {
+  } catch (err) {
     console.log(err);
   }
-}
+};
+
+export const getProfileImage = async () => {
+  try {
+    const response = await API.get(`${BASE_URL}/profileImage`, {
+      withCredentials: true,
+      responseType: "blob",
+    });
+    const imageBlob = new Blob([response.data], {
+      type: response.headers["content-type"],
+    });
+    const imageUrl = URL.createObjectURL(imageBlob);
+    console.log(imageUrl);
+    return imageUrl;
+  } catch (err) {
+    console.log(err);
+    return null
+  }
+};

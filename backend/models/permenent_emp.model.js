@@ -161,6 +161,9 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+}
 
 const PermenentUser = mongoose.model("permenent_user", userSchema);
 export default PermenentUser;

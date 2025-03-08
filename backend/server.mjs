@@ -17,6 +17,7 @@ server.use(
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(cookieParser());
+server.use(express.static('uploads'))
 
 // server.use((req, res) => {
 //   console.log(req.body);
@@ -24,7 +25,6 @@ server.use(cookieParser());
 
 server.use("/api/v1/users", userRouter);
 server.use("/api/v1/leave", leaveRouter);
-
 server.get("/api/v1", (req, res) => {
   res
     .status(200)
