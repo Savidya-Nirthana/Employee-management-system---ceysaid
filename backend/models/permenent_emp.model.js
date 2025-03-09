@@ -66,7 +66,6 @@ const userSchema = mongoose.Schema(
 
     email: {
       type: String,
-      required: true,
       unique: true,
     },
 
@@ -137,7 +136,6 @@ const userSchema = mongoose.Schema(
       letterOfAppointment: {
         type: String,
       },
-
     },
 
     profile_status: {
@@ -147,15 +145,15 @@ const userSchema = mongoose.Schema(
     },
 
     role: {
-        type: String,
-        default: "sales",
-        required: true
-    }, 
+      type: String,
+      default: "sales",
+      required: true,
+    },
 
     password: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -163,7 +161,7 @@ const userSchema = mongoose.Schema(
 );
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
-}
+};
 
 const PermenentUser = mongoose.model("permenent_user", userSchema);
 export default PermenentUser;

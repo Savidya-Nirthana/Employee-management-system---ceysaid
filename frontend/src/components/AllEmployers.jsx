@@ -5,7 +5,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import EmployeeInfo from "./Models/EmployeeInfo";
-import { getPermUsers } from "../services/authservice";
+import { applyChangesUser, getPermUsers, registerPermenently } from "../services/authservice";
+import { ToastContainer, toast } from "react-toastify";
 const items = Array.from({ length: 25 }, (_, i) => i);
 const AllEmployers = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -13,6 +14,18 @@ const AllEmployers = () => {
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState(null);
   const [user, setUser] = useState(null);
+  const [isEdit, setIsEdit] = useState(null);
+
+  const applyChanges = async () => {
+    const { message, error } = await applyChangesUser(user);
+    if (!error) {
+      toast.success(message);
+    } else {
+      toast.error("Update fail");
+    }
+    setOpen(false);
+  };
+
   useEffect(() => {
     const updateItemsPerPage = () => {
       const itemHeight = 85;
@@ -31,7 +44,7 @@ const AllEmployers = () => {
     updateItemsPerPage();
     window.addEventListener("resize", updateItemsPerPage);
     return () => window.removeEventListener("resize", updateItemsPerPage);
-  }, []);
+  }, [applyChanges, registerPermenently]);
 
   const nextPage = () => {
     if (startIndex + itemsPerPage < items.length) {
@@ -50,6 +63,7 @@ const AllEmployers = () => {
   };
   return (
     <>
+      <ToastContainer />
       <div className=" h-[760px] bg-slate-50 w-auto py-5 ">
         <div className="w-[100%] my-1 text-[20px] text-slate-600 mb-5 pl-5">
           Employers
@@ -117,14 +131,23 @@ const AllEmployers = () => {
               type="approval"
               user={user}
               setUser={setUser}
+              setIsEdit={setIsEdit}
             />
             <div className="mt-4 flex justify-end gap-10">
-              <button className="bg-gray-500 text-white px-4 py-2 rounded">
+              <button
+                className={` text-white px-4 py-2 rounded ${
+                  isEdit ? "bg-green-500" : "bg-slate-500 hidden"
+                }`}
+                onClick={applyChanges}
+              >
                 Edit
               </button>
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-black hover:font-white"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  setIsEdit(false);
+                }}
               >
                 Close
               </button>

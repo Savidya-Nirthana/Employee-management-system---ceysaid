@@ -119,44 +119,49 @@ export const uploadImage = asyncHandler(async (req, res) => {
 export const permenentReg = asyncHandler(async (req, res) => {
   const formData = req.body;
   // console.log(formData)
-  const newUser = await PermenentUser.create({
-    userId: formData.userId,
-    fullName: formData.fullname,
-    address: {
-      houseNo: formData.houseNo,
-      street1: formData.street1,
-      street2: formData.street2,
-      city: formData.city,
-      district: formData.district,
-      postalCode: formData.postalCode,
-      gsDivision: formData.gsDivision,
-      gnDivision: formData.gnDivision,
-    },
-    telephone: formData.telephone,
-    mobile: formData.mobile,
-    email: formData.email,
-    dob: formData.dob,
-    gender: formData.gender,
-    nic: formData.nic,
-    nationality: formData.nationality,
-    religion: formData.religion,
-    corporateDetails: {
-      corporateTitle: formData.corporateTitle,
-      location: formData.location,
-      dateJoined: formData.dateJoined,
-      department: formData.department,
-      employeeType: formData.employeeType,
-    },
-    attachments: {
-      employeeImage: formData.profile,
-      nicImage: formData.nicFile,
-      gramaNiladhariCertificate: formData.gnFile,
-      letterOfAppointment: formData.laFile,
-    },
-    password: formData.password,
-  });
-
-  return res.status(200);
+  try{
+    const newUser = await PermenentUser.create({
+      userId: formData.userId,
+      fullName: formData.fullname,
+      address: {
+        houseNo: formData.houseNo,
+        street1: formData.street1,
+        street2: formData.street2,
+        city: formData.city,
+        district: formData.district,
+        postalCode: formData.postalCode,
+        gsDivision: formData.gsDivision,
+        gnDivision: formData.gnDivision,
+      },
+      telephone: formData.telephone,
+      mobile: formData.mobile,
+      email: formData.email,
+      dob: formData.dob,
+      gender: formData.gender,
+      nic: formData.nic,
+      nationality: formData.nationality,
+      religion: formData.religion,
+      corporateDetails: {
+        corporateTitle: formData.corporateTitle,
+        location: formData.location,
+        dateJoined: formData.dateJoined,
+        department: formData.department,
+        employeeType: formData.employeeType,
+      },
+      attachments: {
+        employeeImage: formData.profile,
+        nicImage: formData.nicFile,
+        gramaNiladhariCertificate: formData.gnFile,
+        letterOfAppointment: formData.laFile,
+      },
+      password: formData.password,
+    });
+  
+    return res.status(200).json({message: "Details send for approval"});
+  }catch(err){
+    throw new Error("user registration fail");
+  }
+  
 });
 
 // for : temp user getDetails
@@ -232,6 +237,7 @@ export const registerPerm = asyncHandler(async (req, res) => {
           "corporateDetails.location": user.corporateDetails.location,
           "corporateDetails.department": user.corporateDetails.department,
           "corporateDetails.employeeType": user.corporateDetails.employeeType,
+          email: user.email,
           profile_status: "active",
         },
       }
@@ -240,7 +246,7 @@ export const registerPerm = asyncHandler(async (req, res) => {
     if (userReg) {
       const res = await tempEmployer.deleteOne({ userId: user.userId });
       if (res) {
-        res.status(200).json({ message: "register complete" });
+        res.status(200).json({ message: "Approved success!" });
       }
     } else {
       throw new Error("Registration failed");
@@ -284,5 +290,30 @@ export const getProfileImage = asyncHandler(async (req, res) => {
     );
   } catch (err) {
     console.log(err);
+  }
+});
+
+export const applyChanges = asyncHandler(async (req, res) => {
+  const { user } = await req.body;
+  try {
+    const userReg = await PermenentUser.findOneAndUpdate(
+      { userId: user.userId },
+      {
+        $set: {
+          "corporateDetails.corporateTitle":
+            user.corporateDetails.corporateTitle,
+          "corporateDetails.location": user.corporateDetails.location,
+          "corporateDetails.department": user.corporateDetails.department,
+          "corporateDetails.employeeType": user.corporateDetails.employeeType,
+          email: user.email,
+          profile_status: "active",
+        },
+      }
+    );
+    if (userReg) {
+      res.status(200).json({ message: "User update successfull" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "User update fail" });
   }
 });

@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  applyChanges,
   approvalUserById,
   approvalUsers,
   getAllRegUsers,
@@ -34,4 +35,5 @@ router.post('/getApprovalUser', protect ,approvalUserById);
 router.post('/registerPerm', protect, registerPerm);
 router.post('/getPermUsers', getAllRegUsers);
 router.get('/profileImage', protect, getProfileImage);
+router.post('/applyChanges', protect, applyChanges)
 export default router;

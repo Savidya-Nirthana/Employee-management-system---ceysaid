@@ -106,8 +106,9 @@ export const permenentReg = async (formData) => {
         "Content-Type": "application/json",
       },
     });
+    return {message: response.data.message, error: false};
   } catch (e) {
-    console.error(e);
+    return {message: "user registration fail" , error : true};
   }
 };
 
@@ -151,9 +152,9 @@ export const registerPermenently = async (user) => {
         withCredentials: true,
       }
     );
-    return response;
+    return {message: response.data.message, error: false};
   } catch (err) {
-    console.error(err);
+    return {message: "Approval fail" , error: true};
   }
 };
 
@@ -182,6 +183,21 @@ export const getProfileImage = async () => {
     return imageUrl;
   } catch (err) {
     console.log(err);
-    return null
+    return null;
+  }
+};
+
+export const applyChangesUser = async (user) => {
+  try {
+    const response = await API.post(
+      `${BASE_URL}/applyChanges`,
+      { user: user },
+      {
+        withCredentials: true,
+      }
+    );
+    return {message : response.data.message , error: false};
+  } catch (err) {
+    console.error(err);
   }
 };

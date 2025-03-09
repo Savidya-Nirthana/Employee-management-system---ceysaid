@@ -7,12 +7,23 @@ import {
 import PulseLoader from "react-spinners/PulseLoader";
 import EmployeeInfo from "./Models/EmployeeInfo";
 import zeroData from "../assets/images/messages/emptyData.png";
+import { ToastContainer, toast } from "react-toastify";
 const EmpAppCon = () => {
   const [approvalUsers, setApprovalUsers] = useState(null);
   const [rejectConfirmation, setRejectConfirmation] = useState(false);
   const [selectUser, setSelectUser] = useState(null);
   const [viewDeatails, setViewDetails] = useState(null);
   const [user, setUser] = useState(null);
+  const acceptHandler = async () => {
+    setViewDetails(false);
+    const {message, error} = await registerPermenently(user);
+    if(!error) {
+      toast.success(message);
+    }else{
+      toast.error(message);
+    }
+
+  };
   useEffect(() => {
     const getApprovalUsers = async () => {
       const { data, count } = await getAppData();
@@ -22,7 +33,7 @@ const EmpAppCon = () => {
       setApprovalUsers(data);
     };
     getApprovalUsers();
-  }, []);
+  }, [acceptHandler]);
 
   const rejectHandler = async (id) => {
     setRejectConfirmation(true);
@@ -40,13 +51,10 @@ const EmpAppCon = () => {
     setRejectConfirmation(false);
   };
 
-  const acceptHandler = async () => {
-    console.log(user);
-    setViewDetails(false);
-    const response = await registerPermenently(user);
-  };
+  
   return (
     <div className="bg-slate-50 w-[600px] p-5 my-2 h-[350px]">
+      <ToastContainer />
       <div className="w-[100%] my-1 text-[20px] text-slate-600 mb-5">
         New employee details approval
       </div>
@@ -54,7 +62,7 @@ const EmpAppCon = () => {
         {approvalUsers ? (
           approvalUsers == 0 ? (
             <div className=" flex flex-col justify-center items-center h-full w-full gap-[0]">
-              <img src={zeroData} alt="" className=" w-[200px] h-[200px]"/>
+              <img src={zeroData} alt="" className=" w-[200px] h-[200px]" />
               <div className=" font-bold text-slate-400">0 new requests</div>
             </div>
           ) : (

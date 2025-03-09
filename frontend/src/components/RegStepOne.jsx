@@ -7,6 +7,7 @@ import {
 } from "../services/authservice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
 
 const RegStepOne = () => {
   const [dob, setDob] = useState("");
@@ -134,11 +135,18 @@ const RegStepOne = () => {
       formData.append("gnFile", uploadGn);
     }
 
-    permenentReg(formData);
+    const {message, error} = await permenentReg(formData);
+    if(!error) {
+      toast.success(message);
+    }else {
+      toast.error(message);
+    }
+
   };
 
   return (
     <>
+    <ToastContainer />
       <div className="w-[100%] my-1 pl-[30px] text-[20px] text-slate-600">
         Register new employee
       </div>

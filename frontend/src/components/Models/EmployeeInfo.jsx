@@ -1,18 +1,37 @@
 import { useEffect, useState } from "react";
 import { getPermRegUser } from "../../services/authservice";
 import { Upload } from "lucide-react";
-import path from 'path'
+import PulseLoader from "react-spinners/PulseLoader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import ImageZoomModel from "./ImageZoomModel";
 const EmployeeInfo = (props) => {
-  const { userId, type, user, setUser } = props;
+  const { userId, type, user, setUser,setIsEdit} = props;
   const [imageUrl, setImageUrl] = useState(null);
+  const [nicImageUrl, setNicImageUrl] = useState(null);
+  const [gsImageUrl, setGsImageUrl] = useState(null);
+  const [letterApptUrl, setLetterApptUrl] = useState(null);
+  const [profileHover, setProfileHover] = useState(null);
+  const [selectImageUrl, setSelectImageUrl] = useState(null);
+  
+  const baseUrl = "http://localhost:4000";
   useEffect(() => {
     const getUser = async () => {
       const data = await getPermRegUser(userId);
       setUser(data);
-      let url = user.attachments.employeeImage;
-      url = url.replace("uploads" , "");
-      setImageUrl(url);
+      let profile = user.attachments.employeeImage;
+      let nic = user.attachments.nicImage;
+      let gs = user.attachments.gramaNiladhariCertificate;
+      let la = user.attachments.letterOfAppointment;
+      profile = profile.replace("uploads", "");
+      nic = nic.replace("uploads", "");
+      gs = gs.replace("uploads", "");
+      la = la.replace("uploads", "");
 
+      setImageUrl(profile);
+      setNicImageUrl(nic);
+      setGsImageUrl(gs);
+      setLetterApptUrl(la);
     };
     getUser();
   }, []);
@@ -23,7 +42,7 @@ const EmployeeInfo = (props) => {
           <div>
             <div className=" flex flex-row gap-5 items-end mb-5">
               <div className="my-5 flex flex-col">
-                <label htmlFor="fullname">Full name:</label>
+                <label htmlFor="fullname" className="text-[12px] text-slate-800">Full name:</label>
                 <input
                   className="placeholder:text-slate-600 text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[400px] h-[30px]"
                   type="text"
@@ -34,8 +53,27 @@ const EmployeeInfo = (props) => {
                   required
                 />
               </div>
-              <label className="border-2 border-slate-300 w-30 h-30 flex flex-col items-center justify-center rounded-xl relative cursor-pointer hover:border-blue-500 transition">         
-                {imageUrl ? <img src={`http://localhost:4000${imageUrl}`} alt="img" />: <Upload className="w-10 h-10 text-gray-400" />} 
+              <label
+                className="border-2 border-slate-300 w-30 h-30 flex flex-col items-center justify-center rounded-xl relative cursor-pointer hover:border-blue-500 transition"
+                onClick={() => setSelectImageUrl(`${baseUrl}${imageUrl}`)}
+              >
+                {imageUrl ? (
+                  <img
+                    src={`${baseUrl}${imageUrl}`}
+                    alt="img"
+                    className={`${profileHover ? "opacity-45" : ""}`}
+                    onMouseEnter={() => setProfileHover(true)}
+                    onMouseOut={() => setProfileHover(false)}
+                  />
+                ) : (
+                  <Upload className="w-10 h-10 text-gray-400" />
+                )}
+                {/* <FontAwesomeIcon
+                  icon={faEye}
+                  className={`text-green-500 duration-200 ${
+                    profileHover ? "text-3xl" : "text-[0px]"
+                  }`}
+                /> */}
               </label>
             </div>
             <div className=" w-[100%] bg-[#262626] text-white pl-10 rounded-sm py-1 text-[14px]">
@@ -43,7 +81,7 @@ const EmployeeInfo = (props) => {
             </div>
             <div className=" my-5">
               <div className=" flex flex-col">
-                <label htmlFor="house_no">House no.:</label>
+                <label htmlFor="house_no" className="text-[12px] text-slate-800">House no.:</label>
                 <input
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                   type="text"
@@ -56,7 +94,7 @@ const EmployeeInfo = (props) => {
               </div>
               <div className=" flex flex-row gap-[20px] my-5">
                 <div className=" flex flex-col">
-                  <label htmlFor="street1">Street 1:</label>
+                  <label htmlFor="street1" className="text-[12px] text-slate-800">Street 1:</label>
                   <input
                     className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     type="text"
@@ -68,7 +106,7 @@ const EmployeeInfo = (props) => {
                   />
                 </div>
                 <div className=" flex flex-col">
-                  <label htmlFor="Street 2">Street 2:</label>
+                  <label htmlFor="Street 2" className="text-[12px] text-slate-800">Street 2:</label>
                   <input
                     className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     type="text"
@@ -82,7 +120,7 @@ const EmployeeInfo = (props) => {
               </div>
               <div className=" flex flex-row gap-[20px] my-5">
                 <div>
-                  <label htmlFor="city-town">City/Town:</label>
+                  <label htmlFor="city-town" className="text-[12px] text-slate-800">City/Town:</label>
                   <input
                     className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     type="text"
@@ -94,7 +132,7 @@ const EmployeeInfo = (props) => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="district">District</label>
+                  <label htmlFor="district" className="text-[12px] text-slate-800">District</label>
                   <input
                     className="  text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600]"
                     id="district"
@@ -104,7 +142,7 @@ const EmployeeInfo = (props) => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="postal-code">Postal code:</label>
+                  <label htmlFor="postal-code" className="text-[12px] text-slate-800">Postal code:</label>
                   <input
                     className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[100px] placeholder:text-slate-600"
                     type="text"
@@ -120,7 +158,7 @@ const EmployeeInfo = (props) => {
               </div>
               <div className=" flex flex-row my-5 gap-[20px]">
                 <div className=" flex flex-col">
-                  <label htmlFor="gs_division">Gs division:</label>
+                  <label htmlFor="gs_division" className="text-[12px] text-slate-800">Gs division:</label>
                   <input
                     className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     type="text"
@@ -134,7 +172,7 @@ const EmployeeInfo = (props) => {
                   />
                 </div>
                 <div className=" flex flex-col">
-                  <label htmlFor="gn-division">Gn division:</label>
+                  <label htmlFor="gn-division" className="text-[12px] text-slate-800">Gn division:</label>
                   <input
                     className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     type="text"
@@ -154,7 +192,7 @@ const EmployeeInfo = (props) => {
 
               <div className=" flex flex-row m-5 gap-[20px]">
                 <div className=" flex flex-col">
-                  <label>Telephone</label>
+                  <label className="text-[12px] text-slate-800">Telephone</label>
                   <input
                     className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     type="text"
@@ -167,7 +205,7 @@ const EmployeeInfo = (props) => {
                 </div>
 
                 <div className=" flex flex-col">
-                  <label htmlFor="">Mobile</label>
+                  <label htmlFor="" className="text-[12px] text-slate-800">Mobile</label>
                   <input
                     className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     type="text"
@@ -181,7 +219,7 @@ const EmployeeInfo = (props) => {
               </div>
               <div className=" mx-5">
                 <div className=" flex flex-col">
-                  <label htmlFor="">Email</label>
+                  <label htmlFor="" className="text-[12px] text-slate-800">Email</label>
                   <input
                     className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     type="text"
@@ -190,10 +228,10 @@ const EmployeeInfo = (props) => {
                     placeholder="Email"
                     value={user.email ? user.email : ""}
                     onChange={(e) =>
-                      setUser((prevUser) => ({
+                      {setUser((prevUser) => ({
                         ...prevUser,
                         email: e.target.value,
-                      }))
+                      }));setIsEdit(true)}
                     }
                   />
                 </div>
@@ -206,7 +244,7 @@ const EmployeeInfo = (props) => {
             </div>
             <div className=" flex flex-row gap-[20px] m-5">
               <div className="flex flex-col">
-                <label htmlFor="">Date of Birth</label>
+                <label htmlFor="" className="text-[12px] text-slate-800">Date of Birth</label>
                 <input
                   placeholder="Select Dob"
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
@@ -216,7 +254,7 @@ const EmployeeInfo = (props) => {
                 />
               </div>
               <div className=" flex flex-col">
-                <label htmlFor="gender">Gender:</label>
+                <label htmlFor="gender" className="text-[12px] text-slate-800">Gender:</label>
                 <input
                   name="gender"
                   id=""
@@ -227,7 +265,7 @@ const EmployeeInfo = (props) => {
               </div>
             </div>
             <div className=" ml-5 flex flex-col">
-              <label htmlFor="">NIC:</label>
+              <label htmlFor="" className="text-[12px] text-slate-800">NIC:</label>
               <input
                 className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                 type="text"
@@ -240,7 +278,7 @@ const EmployeeInfo = (props) => {
             </div>
             <div className=" flex flex-row gap-[20px] m-5">
               <div className="flex flex-col">
-                <label htmlFor="">Nationality:</label>
+                <label htmlFor="" className="text-[12px] text-slate-800">Nationality:</label>
                 <input
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                   placeholder="Nationality"
@@ -249,7 +287,7 @@ const EmployeeInfo = (props) => {
                 />
               </div>
               <div className=" flex flex-col">
-                <label htmlFor="">Religion:</label>
+                <label htmlFor="" className="text-[12px] text-slate-800">Religion:</label>
                 <input
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                   name="religion"
@@ -278,13 +316,13 @@ const EmployeeInfo = (props) => {
                         : ""
                     }
                     onChange={(e) =>
-                      setUser((prevUser) => ({
+                      {setUser((prevUser) => ({
                         ...prevUser,
                         corporateDetails: {
                           ...prevUser.corporateDetails,
                           corporateTitle: e.target.value,
                         },
-                      }))
+                      })); setIsEdit(true)}
                     }
                   />
                 </div>
@@ -301,13 +339,13 @@ const EmployeeInfo = (props) => {
                         : ""
                     }
                     onChange={(e) =>
-                      setUser((prevUser) => ({
+                      {setUser((prevUser) => ({
                         ...prevUser,
                         corporateDetails: {
                           ...prevUser.corporateDetails,
                           location: e.target.value,
                         },
-                      }))
+                      })); setIsEdit(true)}
                     }
                   />
                 </div>
@@ -324,13 +362,13 @@ const EmployeeInfo = (props) => {
                         : ""
                     }
                     onChange={(e) =>
-                      setUser((prevUser) => ({
+                      {setUser((prevUser) => ({
                         ...prevUser,
                         corporateDetails: {
                           ...prevUser.corporateDetails,
                           department: e.target.value,
                         },
-                      }))
+                      })); setIsEdit(true)}
                     }
                   >
                     <option value="">Select department</option>
@@ -350,13 +388,13 @@ const EmployeeInfo = (props) => {
                         : ""
                     }
                     onChange={(e) =>
-                      setUser((prevUser) => ({
+                      {setUser((prevUser) => ({
                         ...prevUser,
                         corporateDetails: {
                           ...prevUser.corporateDetails,
                           employeeType: e.target.value,
                         },
-                      }))
+                      })); setIsEdit(true)}
                     }
                   >
                     <option value="">Select employee type</option>
@@ -374,29 +412,59 @@ const EmployeeInfo = (props) => {
             </div>
             <div className=" flex flex-row flex-wrap gap-[20px] mx-5 my-10">
               <div className="flex flex-col items-center">
-                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-indigo-400 text-white text-[12px] rounded-lg cursor-pointer hover:bg-indigo-500 transition">
-                  <span>Upload NIC image</span>
-                  <input type="file" className="hidden" name="nic" />
+                <label className="flex items-center justify-center w-[100px] h-[100px]  border-2  text-white text-[12px] rounded-lg cursor-pointer hover:border-blue-500 transition" onClick={() => setSelectImageUrl(`${baseUrl}${nicImageUrl}`)}>
+                  {nicImageUrl ? (
+                    <img
+                      className=" rounded-md"
+                      src={`${baseUrl}${nicImageUrl}`}
+                      alt="NIC image"
+                    />
+                  ) : (
+                    <PulseLoader color="oklch(0.673 0.182 276.935)" size={12} />
+                  )}
                 </label>
-                <p className="mt-2 text-gray-600 text-sm"></p>
+                <p className="mt-2 text-gray-600 text-sm">NIC</p>
               </div>
               <div className="flex flex-col items-center">
-                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-indigo-400 text-white text-[12px] rounded-lg cursor-pointer hover:bg-indigo-500 transition">
-                  <span>Upload Gn certificate</span>
-                  <input type="file" className="hidden" name="gn_certificate" />
+                <label className="flex items-center justify-center w-[100px] h-[100px] text-white text-[12px] rounded-lg cursor-pointer border-2 hover:border-blue-500 transition" onClick={() => setSelectImageUrl(`${baseUrl}${gsImageUrl}`)}>
+                  {gsImageUrl ? (
+                    <img
+                      className=" rounded-md"
+                      src={`${baseUrl}${gsImageUrl}`}
+                      alt="gs certificate"
+                    />
+                  ) : (
+                    <PulseLoader color="oklch(0.673 0.182 276.935)" size={12} />
+                  )}
                 </label>
-                <p className="mt-2 text-gray-600 text-sm"></p>
+                <p className="mt-2 text-gray-600 text-sm">Gs certificate</p>
               </div>
               <div className="flex flex-col items-center">
-                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-indigo-400 text-white text-[12px] rounded-lg cursor-pointer hover:bg-indigo-500 transition">
-                  <span>Upload Letter of appt.</span>
-                  <input type="file" className="hidden" name="letterAppt" />
+                <label className="flex items-center justify-center w-[100px] h-[100px]  text-white text-[12px] rounded-lg cursor-pointer border-2 hover:border-blue-500 transition" onClick={() => setSelectImageUrl(`${baseUrl}${letterApptUrl}`)}>
+                  {letterApptUrl ? (
+                    <img
+                      className=" rounded-md"
+                      src={`${baseUrl}${letterApptUrl}`}
+                      alt="letter_of_appointment"
+                    />
+                  ) : (
+                    <PulseLoader color="oklch(0.673 0.182 276.935)" size={12} />
+                  )}
                 </label>
-                <p className="mt-2 text-gray-600 text-sm"></p>
+                <p className="mt-2 text-gray-600 text-sm">
+                  Letter of appointment
+                </p>
               </div>
             </div>
           </div>
         </form>
+        {selectImageUrl && (
+          <ImageZoomModel
+            imageUrl={selectImageUrl}
+            isOpen={selectImageUrl}
+            setIsOpen={setSelectImageUrl}
+          />
+        )}
       </>
     ) : (
       <>loading</>
