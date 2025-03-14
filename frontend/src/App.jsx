@@ -1,11 +1,12 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
-// import UserRegistration from "./pages/userRegistration.jsx";
 import React, { useEffect, useState } from "react";
 import { getData } from "./services/authservice.js";
 import Employers from "./pages/Employers.jsx";
 import Home from "./pages/Home.jsx";
 import Leave from "./pages/Leave.jsx";
+import Passwords from "./pages/Passwords.jsx";
+import Profile from "./pages/Profile.jsx";
 
 export const Context = React.createContext();
 
@@ -33,26 +34,35 @@ function App() {
   if (isLogin === null && user === null) return <>Loading ...</>;
   return (
     <Context.Provider value={[isLogin, setIsLogin, user, setUser]}>
-      <BrowserRouter>
-        <Routes>
+      <Routes>
+        <Route
+          path="/login"
+          element={isLogin ? <Navigate to="/dashboard" /> : <Login />}
+        />
+
+        <Route path="/dashboard">
           <Route
-            path="/login"
-            element={isLogin ? <Navigate to="/dashboard" /> : <Login />}
-          />
-          <Route
-            path="/dashboard/employers"
-            element={isLogin ? <Employers /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="/dashboard"
+            index
             element={isLogin ? <Home /> : <Navigate to="/login" />}
           />
           <Route
-            path="/dashboard/leave"
+            path="employers"
+            element={isLogin ? <Employers /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="leave"
             element={isLogin ? <Leave /> : <Navigate to="/login" />}
           />
-        </Routes>
-      </BrowserRouter>
+          <Route
+            path="password-reset"
+            element={isLogin ? <Passwords /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="profile"
+            element={isLogin ? <Profile /> : <Navigate to="/login" />}
+          />
+        </Route>
+      </Routes>
     </Context.Provider>
   );
 }

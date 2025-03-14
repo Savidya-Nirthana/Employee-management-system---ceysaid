@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import genarateToken from "../utils/genarateToken.js";
-import TempUser from "../models/temp_user.model.js";
 import tempEmployer from "../models/temp_emp.model.js";
 import PermenentUser from "../models/permenent_emp.model.js";
 import path from "path";
@@ -95,12 +94,16 @@ export const getUser = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: res.user });
 });
 
+
+export const getPermUser = asyncHandler(async(req, res) => {
+  console.log(res.user);
+  res.status(200);
+  res.json(res.user);
+  return res.user
+})
+
 export const regConfirm = asyncHandler(async (req, res) => {
-  // console.log("regConfirm");
   const { formData } = await req.body;
-  // console.log(formData.get("fullname"));
-  // console.log(formData.get("profilePhoto").name);
-  // console.log(formData.get("fullname"));
   return res.status(200).json({ message: "reg confimation" });
 });
 
@@ -118,8 +121,11 @@ export const uploadImage = asyncHandler(async (req, res) => {
 
 export const permenentReg = asyncHandler(async (req, res) => {
   const formData = req.body;
-  // console.log(formData)
-  try{
+  try {
+    const changeData = await tempEmployer.findOneAndUpdate(
+      { userId: formData.userId },
+      { profile_status: "waiting" }
+    );
     const newUser = await PermenentUser.create({
       userId: formData.userId,
       fullName: formData.fullname,
@@ -156,12 +162,11 @@ export const permenentReg = asyncHandler(async (req, res) => {
       },
       password: formData.password,
     });
-  
-    return res.status(200).json({message: "Details send for approval"});
-  }catch(err){
+
+    return res.status(200).json({ message: "Details send for approval" });
+  } catch (err) {
     throw new Error("user registration fail");
   }
-  
 });
 
 // for : temp user getDetails
@@ -200,12 +205,12 @@ export const approvalUsers = asyncHandler(async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-});
+}); 
 
 // for : get pending one approval data by ID
 // access : admin
 // uri : api/v1/users/getPermUser
-// mothod : post
+// mothod : post 
 
 export const approvalUserById = asyncHandler(async (req, res) => {
   const { userId } = await req.body;
@@ -239,12 +244,12 @@ export const registerPerm = asyncHandler(async (req, res) => {
           "corporateDetails.employeeType": user.corporateDetails.employeeType,
           email: user.email,
           profile_status: "active",
+          role: user.role
         },
       }
     );
-
     if (userReg) {
-      const res = await tempEmployer.deleteOne({ userId: user.userId });
+      const result = await tempEmployer.deleteOne({ userId: user.userId });
       if (res) {
         res.status(200).json({ message: "Approved success!" });
       }
@@ -315,5 +320,36 @@ export const applyChanges = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: "User update fail" });
+  }
+});
+
+// for : change password
+// access : authorized users
+// uri : api/v1/users/changePassword
+// method : post
+
+export const changePassword = asyncHandler(async (req, res) => {
+  const { previousPassword, newPassword } = await req.body;
+  const { userId } = res.user.user;
+  let error;
+  try {
+    const user = await PermenentUser.findOne({ userId: userId });
+    if (user) {
+      if (await user.matchPassword(previousPassword)) {
+        const result = await PermenentUser.findOneAndUpdate(
+          { userId: userId },
+          { password: newPassword }
+        );
+        if (result) {
+          res.status(200);
+          res.json({ message: "Passsword update successfully" });
+        }
+        error = "Password update fail try again later";
+      }
+      error = "Previous password is not martch";
+      res.status(400).json({ message: error });
+    }
+  } catch (err) {
+    throw new Error("Password change failed");
   }
 });

@@ -3,7 +3,9 @@ import {
   applyChanges,
   approvalUserById,
   approvalUsers,
+  changePassword,
   getAllRegUsers,
+  getPermUser,
   getProfileImage,
   getTempUser,
   getUser,
@@ -32,8 +34,10 @@ router.post("/upload", upload.single("file"),uploadImage);
 router.get('/getTempUser', protect, getTempUser);
 router.post('/approvalData', approvalUsers);
 router.post('/getApprovalUser', protect ,approvalUserById);
-router.post('/registerPerm', protect, registerPerm);
+router.post('/registerPerm', protect, registerPerm); 
 router.post('/getPermUsers', getAllRegUsers);
 router.get('/profileImage', protect, getProfileImage);
-router.post('/applyChanges', protect, applyChanges)
+router.post('/applyChanges', protect, applyChanges);
+router.post('/changePassword', protect, changePassword);
+router.post('/getPermUser', protect, getPermUser);
 export default router;

@@ -201,3 +201,27 @@ export const applyChangesUser = async (user) => {
     console.error(err);
   }
 };
+
+export const changePassword = async(previousPassword , newPassword) => {
+  try {
+    const response = await API.post(
+      `${BASE_URL}/changePassword`, {previousPassword, newPassword}, {withCredentials: true}
+    )
+    return {message: response.data.message, error: false};
+  }catch(err) {
+    
+    return {message: err.response.data.message, error: true};
+  }
+}
+
+
+export const getPermUser = async() => {
+  try {
+    const response = await API.post(
+      `${BASE_URL}/getPermUser`, {withCredentials: true}
+    )
+    return response;
+  }catch(err) {
+    console.log(err);
+  }
+}

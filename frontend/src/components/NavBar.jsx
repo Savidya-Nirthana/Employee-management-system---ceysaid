@@ -14,7 +14,7 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
-const NavBar = ({ showNav, setShowNav }) => {
+const NavBar = ({showNav, setShowNav}) => {
   const [, setIsLogin, user, setUser] = useContext(Context);
   const navigate = useNavigate();
   const [winWidth, setWinWidth] = useState(window.innerWidth);
@@ -23,11 +23,11 @@ const NavBar = ({ showNav, setShowNav }) => {
   useEffect(() => {
     const handleResize = () => setWinWidth(window.innerWidth);
 
-    const getImage = async() => {
+    const getImage = async () => {
       const response = await getProfileImage();
       console.log(response);
       setImageUrl(response);
-    }
+    };
     window.addEventListener("resize", handleResize);
     getImage();
     return () => window.removeEventListener("resize", handleResize);
@@ -47,7 +47,7 @@ const NavBar = ({ showNav, setShowNav }) => {
     <div className=" ">
       {/* horizontal */}
       <div
-        className={` absolute top-[10px] flex flex-row items-center justify-between bg-white ${
+        className={` absolute top-[0px] flex flex-row items-center justify-between bg-white p-2 mb-2 ${
           showNav ? "left-[210px]" : "left-[60px] duration-500"
         }`}
         style={
@@ -60,7 +60,7 @@ const NavBar = ({ showNav, setShowNav }) => {
           <FontAwesomeIcon
             icon={faBars}
             size="1x"
-            className=" text-slate-50  bg-[#262626] py-2 px-3 rounded-sm cursor-pointer"
+            className=" text-slate-50  bg-[#023047] py-2 px-3 rounded-sm cursor-pointer"
             onClick={() => setShowNav(!showNav)}
           />
           <div className=" text-[13px]">HOME / EMPLOYERS</div>
@@ -72,24 +72,31 @@ const NavBar = ({ showNav, setShowNav }) => {
               setNavDrop(!navDrop);
             }}
           >
-            
-            {imageUrl ? <img src={imageUrl} alt="img" className="w-[35px] h-[35px] rounded-full"/>: <FontAwesomeIcon icon={faUser} />}
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt="img"
+                className="w-[35px] h-[35px] rounded-full"
+              />
+            ) : (
+              <FontAwesomeIcon icon={faUser} />
+            )}
             <div>{user.userId}</div>
             <FontAwesomeIcon icon={faSortDesc} />
           </div>
-          {navDrop && (
+          {navDrop && user?.role !== "temperary" && (
             <div className=" absolute right-0 bg-white rounded-sm w-[200px] flex flex-col items-center justify-center animate-fade-in z-1">
               <ul>
                 <div className=" flex flex-row   mt-3 items-center gap-2 text-[14px] text-slate-600 hover:bg-slate-100 p-2 cursor-pointer">
                   <FontAwesomeIcon icon={faUser} />
-                  <li className="">Your profile</li>
+                  <Link to={"/dashboard/profile"}>Your profile</Link>
                 </div>
                 <div className=" flex flex-row   items-center gap-2 text-[14px] text-slate-600 hover:bg-slate-100 p-2 cursor-pointer">
                   <FontAwesomeIcon icon={faUnlock} />
-                  <li className="">Change password</li>
+                  <Link to={"/dashboard/password-reset"}>Change password</Link>
                 </div>
                 <button
-                  className=" cursor-pointer px-2 mb-3 w-[200px] bg-indigo-400 text-white py-2 rounded-b-md hover:bg-indigo-500"
+                  className=" cursor-pointer px-2 mb-3 w-[200px] bg-[#219ebc] text-white py-2 rounded-b-md hover:bg-indigo-500"
                   onClick={() => logOutHandler()}
                 >
                   Logout
@@ -103,11 +110,11 @@ const NavBar = ({ showNav, setShowNav }) => {
       {/* vertical */}
       <div
         className={` h-[100vh] absolute ${
-          showNav ? "w-[200px]" : "w-[50px]"
-        } bg-[#262626] text-slate-50 duration-500`}
+          showNav ? "xl:w-[200px] w-[150px]" : "w-[50px]"
+        } bg-[#023047] text-slate-50 duration-500`}
       >
-        <ul className=" flex flex-col items-center gap-5 my-10">
-          <Link to={"/dashboard"}>
+        <ul className=" flex flex-col items-center gap-5 my-10 ">
+          <Link to={"/dashboard"} className="">
             <div
               className={`flex flex-row ${
                 showNav ? "w-[100px]" : "w-[20px]"
@@ -132,32 +139,33 @@ const NavBar = ({ showNav, setShowNav }) => {
             </Link>
           )}
 
-          <Link to={"/dashboard/leave"}>
-            <div
-              className={` flex flex-row ${
-                showNav ? "w-[100px]" : "w-[20px]"
-              } justify-start items-center gap-2 duration-500`}
-            >
-              <FontAwesomeIcon icon={faPlane} />
-              {showNav && <div className=" animate-fade-in">Leave</div>}
-            </div>
-          </Link>
+          {user?.role === "temperary" ? null : (
+            <Link to={"/dashboard/leave"}>
+              <div
+                className={` flex flex-row ${
+                  showNav ? "w-[100px]" : "w-[20px]"
+                } justify-start items-center gap-2 duration-500`}
+              >
+                <FontAwesomeIcon icon={faPlane} />
+                {showNav && <div className=" animate-fade-in">Leave</div>}
+              </div>
+            </Link>
+          )}
 
           <li
-            className={` text-blue-500 cursor-pointer flex flex-row  justify-start items-center gap-2 duration-500 ${
-              showNav ? "w-[100px]" : "w-[20px]"
+            className={` text-white  py-2  bg-[#023047] cursor-pointer flex flex-row   items-center gap-2 duration-500 absolute bottom-10 ${
+              showNav
+                ? "xl:w-[200px] w-[150px] px-2 justify-center "
+                : "w-[50px] justify-center"
             }`}
+            onClick={logOutHandler}
           >
             <FontAwesomeIcon
               icon={faSignOut}
               onClick={logOutHandler}
               className=" py-1"
             />
-            {showNav && (
-              <button onClick={logOutHandler} className=" animate-fade-in">
-                Logout
-              </button>
-            )}
+            {showNav && <button className=" animate-fade-in">Logout</button>}
           </li>
         </ul>
       </div>

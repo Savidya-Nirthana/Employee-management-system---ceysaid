@@ -8,21 +8,22 @@ import PulseLoader from "react-spinners/PulseLoader";
 import EmployeeInfo from "./Models/EmployeeInfo";
 import zeroData from "../assets/images/messages/emptyData.png";
 import { ToastContainer, toast } from "react-toastify";
-const EmpAppCon = () => {
+const EmpAppCon = ({ refresh, setRefresh }) => {
   const [approvalUsers, setApprovalUsers] = useState(null);
   const [rejectConfirmation, setRejectConfirmation] = useState(false);
   const [selectUser, setSelectUser] = useState(null);
   const [viewDeatails, setViewDetails] = useState(null);
   const [user, setUser] = useState(null);
+  const [isEdit, setIsEdit] = useState(null);
   const acceptHandler = async () => {
     setViewDetails(false);
-    const {message, error} = await registerPermenently(user);
-    if(!error) {
+    const { message, error } = await registerPermenently(user);
+    if (!error) {
       toast.success(message);
-    }else{
+      setRefresh((prev) => !prev);
+    } else {
       toast.error(message);
     }
-
   };
   useEffect(() => {
     const getApprovalUsers = async () => {
@@ -33,7 +34,7 @@ const EmpAppCon = () => {
       setApprovalUsers(data);
     };
     getApprovalUsers();
-  }, [acceptHandler]);
+  }, [refresh]);
 
   const rejectHandler = async (id) => {
     setRejectConfirmation(true);
@@ -51,14 +52,16 @@ const EmpAppCon = () => {
     setRejectConfirmation(false);
   };
 
-  
   return (
-    <div className="bg-slate-50 w-[600px] p-5 my-2 h-[350px]">
+    <div
+      className="bg-slate-50 w-[500px] xl:w-[550px]  p-2 my-2  rounded-[10px]  shadow-lg shadow-black/25
+"
+    >
       <ToastContainer />
-      <div className="w-[100%] my-1 text-[20px] text-slate-600 mb-5">
+      <div className="w-[100%] my-1 mx-5 text-[20px] text-[#023047] font-semibold mb-5">
         New employee details approval
       </div>
-      <div className=" h-[230px] scroll-auto overflow-y-scroll">
+      <div className=" h-[260px] scroll-auto overflow-y-scroll">
         {approvalUsers ? (
           approvalUsers == 0 ? (
             <div className=" flex flex-col justify-center items-center h-full w-full gap-[0]">
@@ -69,7 +72,7 @@ const EmpAppCon = () => {
             approvalUsers.map((item, i) => (
               <>
                 <div
-                  className=" flex flex-row w-[500px] m-auto justify-between border-b-[1px] border-slate-300 py-5 px-5"
+                  className=" flex flex-row w-[400px] xl:w-[500px] m-auto justify-between border-b-[1px] border-slate-300 py-5 px-5"
                   key={i}
                 >
                   <div>
@@ -88,7 +91,7 @@ const EmpAppCon = () => {
                       View
                     </button>
                     <button
-                      className=" text-[14px] bg-indigo-400 text-white w-[100px]  rounded-sm cursor-pointer hover:bg-indigo-500 px-4 py-2"
+                      className=" text-[14px] bg-red-400 text-white w-[100px]  rounded-sm cursor-pointer hover:bg-red-500 px-4 py-2"
                       onClick={() => rejectHandler(item.userId)}
                     >
                       Reject
@@ -140,6 +143,7 @@ const EmpAppCon = () => {
                 type="approval"
                 user={user}
                 setUser={setUser}
+                setIsEdit={setIsEdit}
               />
               <div className="mt-4 flex justify-end gap-10">
                 <button

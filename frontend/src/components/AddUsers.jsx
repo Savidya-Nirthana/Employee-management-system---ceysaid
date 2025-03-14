@@ -49,9 +49,12 @@ const AddUsers = () => {
   };
   return (
     <>
-      <div className=" bg-slate-50 w-[600px] p-5">
+      <div
+        className=" bg-slate-50  w-[500px] xl:w-[550px] p-5 rounded-[10px] my-2 shadow-lg shadow-black/25]
+"
+      >
         <ToastContainer />
-        <div className=" w-[100%] my-1 text-[20px] text-slate-600">
+        <div className=" w-[100%] my-1 text-[20px] text-[#023047] font-semibold">
           Add Employee
         </div>
         <form
@@ -61,7 +64,7 @@ const AddUsers = () => {
         >
           <table>
             <tr>
-              <td className=" w-[200px]">
+              <td className=" w-[150px] xl:w-[150px]">
                 <label htmlFor="" className=" text-slate-600 text-[14px]">
                   ID:<span className=" text-red-500">*</span>
                 </label>
@@ -209,9 +212,9 @@ const AddUsers = () => {
             </tr>
           </table>
 
-          <div>
+          <div className=" float-end mr-10">
             <input
-              className={` bg-indigo-400 rounded-sm text-white px-2 py-1 text-[14px] ml-[400px] mt-5 ${
+              className={` bg-[#219ebc] rounded-sm text-white px-2 py-2 text-[14px] mt-5 ${
                 !id || !employeeType || !department || !password || !rePassword
                   ? " cursor-not-allowed"
                   : "cursor-pointer"

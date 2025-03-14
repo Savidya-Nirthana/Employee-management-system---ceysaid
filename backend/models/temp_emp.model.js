@@ -21,6 +21,11 @@ const temp_employer_schema = mongoose.Schema(
       type: String,
       required: false,
     },
+    profile_status: {
+      type: String,
+      default: "init",
+      required: true,
+    }, 
     password: {
       type: String,
       requirde: true,
