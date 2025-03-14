@@ -1,0 +1,54 @@
+.tour-box {
+    position: fixed;
+    bottom: 200px;
+    right: 20px;
+    background-color:#90bac0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+    font-family: Arial, sans-serif;
+    width: 350px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+  
+  .tour-box h4 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 6px;
+    font-size: 14px;
+  }
+  
+  th {
+    background-color: #C4DFE6;
+  }
+  
+  .booked {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .available {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .full {
+    color: rgb(35, 26, 212);
+    font-weight: bold;
+  }
+  td{
+    background-color: aliceblue;
+  }
+  
