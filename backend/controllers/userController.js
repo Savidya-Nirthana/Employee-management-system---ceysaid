@@ -94,13 +94,12 @@ export const getUser = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: res.user });
 });
 
-
-export const getPermUser = asyncHandler(async(req, res) => {
+export const getPermUser = asyncHandler(async (req, res) => {
   console.log(res.user);
   res.status(200);
   res.json(res.user);
-  return res.user
-})
+  return res.user;
+});
 
 export const regConfirm = asyncHandler(async (req, res) => {
   const { formData } = await req.body;
@@ -121,6 +120,7 @@ export const uploadImage = asyncHandler(async (req, res) => {
 
 export const permenentReg = asyncHandler(async (req, res) => {
   const formData = req.body;
+
   try {
     const changeData = await tempEmployer.findOneAndUpdate(
       { userId: formData.userId },
@@ -161,6 +161,7 @@ export const permenentReg = asyncHandler(async (req, res) => {
         letterOfAppointment: formData.laFile,
       },
       password: formData.password,
+      role: "temperary",
     });
 
     return res.status(200).json({ message: "Details send for approval" });
@@ -205,12 +206,12 @@ export const approvalUsers = asyncHandler(async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-}); 
+});
 
 // for : get pending one approval data by ID
 // access : admin
 // uri : api/v1/users/getPermUser
-// mothod : post 
+// mothod : post
 
 export const approvalUserById = asyncHandler(async (req, res) => {
   const { userId } = await req.body;
@@ -244,7 +245,7 @@ export const registerPerm = asyncHandler(async (req, res) => {
           "corporateDetails.employeeType": user.corporateDetails.employeeType,
           email: user.email,
           profile_status: "active",
-          role: user.role
+          role: user.corporateDetails.corporateTitle,
         },
       }
     );

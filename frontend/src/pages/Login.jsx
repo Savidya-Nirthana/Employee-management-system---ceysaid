@@ -1,28 +1,43 @@
 import logo from "../assets/images/logo/company_logo.png";
 import travel_img from "../assets/images/login/travel_girl.jpg";
 import { useContext, useState } from "react";
-import { login } from "../services/authservice.js";
+import {
+  getData,
+  getPermRegUser,
+  getTempUser,
+  login,
+} from "../services/authservice.js";
 import { useNavigate } from "react-router-dom";
-import { Context } from "../App.jsx";
 import { ToastContainer, toast } from "react-toastify";
+import { AuthContext } from "../contexts/AuthContext.jsx";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [, setIsLogin] = useContext(Context);
+  const { setUser, setIsLogin } = useContext(AuthContext);
   const [userId, setUserId] = useState(null);
   const [password, setPassword] = useState(null);
 
   const loginHandle = async (e) => {
     e.preventDefault();
     try {
-      const response = await login(userId, password); 
+      const response = await login(userId, password);
       if (response.status === 200) {
+        let response2 = await getData();
+        response2 = response2.data.message.user;
+        if (response2.role !== "temperary") {
+          const response3 = await getPermRegUser(response2.userId);
+          setUser(response3);
+        } else {
+          const response3 = await getTempUser(response2.userId);
+          setUser(response3.data.user);
+        }
         setIsLogin(true);
         navigate("/dashboard");
       } else {
         toast.error(response.message);
       }
     } catch (err) {
+      console.error(err);
       toast.error("Login failed. Please try again.");
     }
   };

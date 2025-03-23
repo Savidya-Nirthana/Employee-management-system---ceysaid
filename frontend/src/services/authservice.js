@@ -129,7 +129,6 @@ export const rejectSend = (userId) => {
 
 export const getPermRegUser = async (userId) => {
   try {
-    console.log(userId);
     const response = await API.post(
       `${BASE_URL}/getApprovalUser`,
       { userId: userId },
@@ -179,7 +178,6 @@ export const getProfileImage = async () => {
       type: response.headers["content-type"],
     });
     const imageUrl = URL.createObjectURL(imageBlob);
-    console.log(imageUrl);
     return imageUrl;
   } catch (err) {
     console.log(err);

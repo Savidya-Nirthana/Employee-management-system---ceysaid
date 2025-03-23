@@ -25,7 +25,12 @@ const temp_employer_schema = mongoose.Schema(
       type: String,
       default: "init",
       required: true,
-    }, 
+    },
+    role: {
+      type: String,
+      default: "temperary",
+      required: true,
+    },
     password: {
       type: String,
       requirde: true,
@@ -46,8 +51,8 @@ temp_employer_schema.pre("save", async function (next) {
 });
 
 temp_employer_schema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password)
-}
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 const tempEmployer = mongoose.model("TempEmployee", temp_employer_schema);
 export default tempEmployer;

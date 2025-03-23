@@ -1,3 +1,5 @@
+import { logEvents } from "./logger.js";
+
 const notFound = (req, res, next) => {
   const error = new Error(`not found ${req.originalUrl}`);
   res.status(404);
@@ -11,6 +13,8 @@ const errorHandler = (err, req, res, next) => {
     statusCode = 404;
     message = "Resource not found";
   }
+
+  logEvents(message, "erorLog.log");
   res.status(statusCode).json({
     message: message,
     stack: process.env.NODE_ENV === "production" ? null : err.stack,

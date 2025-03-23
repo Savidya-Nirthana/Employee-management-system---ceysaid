@@ -1,59 +1,47 @@
-import NavBar from "../components/NavBar";
 import UserRegistration from "./UserRegistration";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
-import { Context } from "../App";
 import PasswordReset from "../components/PasswordReset";
 import { getTempUser } from "../services/authservice";
 import PendingApproval from "./PendingApproval";
 import SalesTeamForm from "../components/SalesTeamForm";
+import GroupTour from "../components/Home/GroupTour";
+import UserDetails from "../components/Home/UserDetails";
+import { UIContext } from "../contexts/UIContext";
+import ProtectedComponents from "../routes/ProtectedComponents";
 const Home = () => {
-  const [, , user] = useContext(Context);
-  const [showNav, setShowNav] = useState(false);
-  const [passwordReset, setPasswordReset] = useState(null);
-  const [profileStatus, setProfileStatus] = useState(null);
-  useEffect(() => {
-    console.log("User updated:", user);
-  }, [user]);
+  const { showNav } = useContext(UIContext);
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await getTempUser();
-      if (response.data.user) {
-        setProfileStatus(response.data.user.profile_status);
-      }
-    };
-    getData();
-  }, []);
-
-  if (user === null) return (window.location.href = "/dashboard");
   return (
     <div className=" flex flex-row gap-2  ">
-      <NavBar
-        showNav={showNav}
-        setShowNav={setShowNav}
-        setPasswordReset={setPasswordReset}
-      />
-      {/* <RegStepOne/> */}
       <div
         className={`duration-500 mt-[70px] w-[100%] ${
           showNav ? "ml-[250px]" : "ml-[60px]"
         }`}
       >
-        {user?.role === "temperary" && profileStatus === "init" ? (
+        <ProtectedComponents
+          allowedRoles={["temperary"]}
+          profileStatus={["init"]}
+        >
           <UserRegistration />
-        ) : passwordReset ? (
-          <PasswordReset />
-        ) : (
-          ""
-        )}
+        </ProtectedComponents>
 
-        {profileStatus === "waiting" ? <><PendingApproval /></> : 
-          <>
+        <ProtectedComponents
+          allowedRoles={["temperary"]}
+          profileStatus={["waiting"]}
+        >
+          <PendingApproval />
+        </ProtectedComponents>
+
+        <ProtectedComponents allowedRoles={["admin", "sales"]}>
+          <div>
+            <UserDetails />
+          </div>
+          <div className=" flex flex-row justify-between">
             <SalesTeamForm />
-          </>
-        
-        };
+            <GroupTour />
+          </div>
+        </ProtectedComponents>
       </div>
     </div>
   );

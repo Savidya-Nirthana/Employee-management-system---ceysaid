@@ -1,16 +1,14 @@
 import AddUsers from "../components/AddUsers";
 import EmpAppCon from "../components/EmpAppCon";
 import AllEmployers from "../components/AllEmployers";
-import { useState } from "react";
-import NavBar from "../components/NavBar";
+import { useContext, useState } from "react";
+import { UIContext } from "../contexts/UIContext";
 
 const Employers = () => {
   const [refresh, setRefresh] = useState(false);
-  const [showNav, setShowNav] = useState(false);
-  console.log(showNav);
+  const { showNav } = useContext(UIContext);
   return (
     <div className=" flex flex-row gap-2  ">
-      <NavBar showNav={showNav} setShowNav={setShowNav} />
       {/* admin -> employers */}
       <div
         className={` flex ${

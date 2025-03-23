@@ -1,25 +1,35 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/login";
-import React, { useEffect, useState } from "react";
-import { getData } from "./services/authservice.js";
+import { useContext, useEffect } from "react";
+import {
+  getData,
+  getPermRegUser,
+  getTempUser,
+} from "./services/authservice.js";
 import Employers from "./pages/Employers.jsx";
 import Home from "./pages/Home.jsx";
 import Leave from "./pages/Leave.jsx";
 import Passwords from "./pages/Passwords.jsx";
 import Profile from "./pages/Profile.jsx";
-
-export const Context = React.createContext();
+import DashLayout from "./layouts/DashLayout.jsx";
+import { AuthContext } from "./contexts/AuthContext.jsx";
+import ProtectedRoutes from "./routes/ProtectedRoutes.jsx";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(null);
-  const [user, setUser] = useState(null);
+  const { user, setUser, isLogin, setIsLogin } = useContext(AuthContext);
   useEffect(() => {
     const getUser = async () => {
       try {
         const response = await getData();
         const { userId, role } = response.data.message.user;
         if (response.status === 200) {
-          setUser({ userId: userId, role: role });
+          if (role !== "temperary") {
+            const response2 = await getPermRegUser(userId);
+            setUser(response2);
+          } else {
+            const response2 = await getTempUser(userId);
+            setUser(response2.data.user);
+          }
           setIsLogin(true);
         } else {
           setIsLogin(false);
@@ -33,37 +43,34 @@ function App() {
   }, []);
   if (isLogin === null && user === null) return <>Loading ...</>;
   return (
-    <Context.Provider value={[isLogin, setIsLogin, user, setUser]}>
-      <Routes>
-        <Route
-          path="/login"
-          element={isLogin ? <Navigate to="/dashboard" /> : <Login />}
-        />
+    <Routes>
+      <Route path="/">
+        <Route index element={<Login />} />
+      </Route>
+      <Route
+        path="/login"
+        element={isLogin ? <Navigate to="/dashboard" /> : <Login />}
+      />
 
-        <Route path="/dashboard">
-          <Route
-            index
-            element={isLogin ? <Home /> : <Navigate to="/login" />}
-          />
+      {isLogin ? (
+        <Route path="/dashboard" element={<DashLayout />}>
+          <Route index element={<Home />} />
           <Route
             path="employers"
-            element={isLogin ? <Employers /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoutes allowedRoles={["admin"]}>
+                <Employers />
+              </ProtectedRoutes>
+            }
           />
-          <Route
-            path="leave"
-            element={isLogin ? <Leave /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="password-reset"
-            element={isLogin ? <Passwords /> : <Navigate to="/login" />}
-          />
-          <Route
-            path="profile"
-            element={isLogin ? <Profile /> : <Navigate to="/login" />}
-          />
+          <Route path="leave" element={<Leave />} />
+          <Route path="password-reset" element={<Passwords />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
-      </Routes>
-    </Context.Provider>
+      ) : (
+        <Route path="*" element={<Navigate to="/login" />} />
+      )}
+    </Routes>
   );
 }
 

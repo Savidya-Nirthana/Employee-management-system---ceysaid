@@ -1,25 +1,14 @@
-import { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
-import { getData, getPermRegUser } from "../services/authservice";
+import { useContext } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
+import { AuthContext } from "../contexts/AuthContext";
+import { UIContext } from "../contexts/UIContext";
 
 const Profile = () => {
-  const [showNav, setShowNav] = useState(true);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const data = async () => {
-      const response = await getData();
-      const { userId } = response.data.message.user;
-      const userDetails = await getPermRegUser(userId);
-      setUser(userDetails);
-    };
-    data();
-  }, []);
+  const { showNav } = useContext(UIContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <div className=" flex flex-row gap-2">
-      <NavBar showNav={showNav} setShowNav={setShowNav} />
       {!user ? (
         <div
           className={`flex items-center min-h-[calc(100vh-70px)] justify-center font duration-500 mt-[70px] w-[100%] ${

@@ -8,6 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
+import { Navigate } from "react-router";
 
 const RegStepOne = () => {
   const [dob, setDob] = useState("");
@@ -135,18 +136,18 @@ const RegStepOne = () => {
       formData.append("gnFile", uploadGn);
     }
 
-    const {message, error} = await permenentReg(formData);
-    if(!error) {
+    const { message, error } = await permenentReg(formData);
+    if (!error) {
       toast.success(message);
-    }else {
+      <Navigate to="/dashboard" />;
+    } else {
       toast.error(message);
     }
-
   };
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="w-[100%] my-1 pl-[30px] text-[20px] text-slate-600">
         Register new employee
       </div>
@@ -479,7 +480,10 @@ const RegStepOne = () => {
                     onChange={(e) => setDepartment(e.target.value)}
                     disabled
                   >
-                    <option value="">{department.substring(0,1).toUpperCase() + department.substring(1)}</option>
+                    <option value="">
+                      {department.substring(0, 1).toUpperCase() +
+                        department.substring(1)}
+                    </option>
                     <option value="accounts">Accounts</option>
                     <option value="sales">Sales</option>
                     <option value="operation">Operation</option>

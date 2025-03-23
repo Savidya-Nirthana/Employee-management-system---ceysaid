@@ -5,25 +5,23 @@ import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import databaseConnection from "./config/connection.js";
-
+import { logger } from "./middlewares/logger.js";
+import corsOptions from "./config/corsOptions.js";
 const server = express();
 
-server.use(
-  cors({
-    origin: "http://localhost:5173",
-    // origin: "http://192.168.236.24:5173",
-    credentials: true,
-  })
-);
+server.use(logger);
+server.use(cors(corsOptions));
+
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(cookieParser());
+
 server.use(express.static("uploads"));
 
 // server.use((req, res) => {
 //   console.log(req.body);
 // })
-
+ 
 server.use("/api/v1/users", userRouter);
 server.use("/api/v1/leave", leaveRouter);
 server.get("/api/v1", (req, res) => {

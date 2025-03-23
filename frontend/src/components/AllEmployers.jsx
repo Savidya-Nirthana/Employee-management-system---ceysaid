@@ -110,14 +110,19 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
             </thead>
             {!filterUser ? (
               <div className="">
-                <BeatLoader color="#50c5ff" loading={true} size={20} className=" text-center"/>
+                <BeatLoader
+                  color="#50c5ff"
+                  loading={true}
+                  size={20}
+                  className=" text-center"
+                />
               </div>
             ) : (
               <tbody className=" text-[14px] text-slate-600">
                 {filterUser
                   .slice(startIndex, startIndex + itemsPerPage)
                   .map((item, i) => (
-                    <>
+                    <div key={i}>
                       <tr
                         className=" hover:bg-[#ffb80338] cursor-pointer "
                         onClick={() => showHandle(item.userId)}
@@ -140,7 +145,7 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
                           </div>
                         </td>
                       </tr>
-                    </>
+                    </div>
                   ))}
               </tbody>
             )}
