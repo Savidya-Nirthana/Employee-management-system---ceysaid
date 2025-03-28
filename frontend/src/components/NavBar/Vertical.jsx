@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
+  faPeopleGroup,
   faPlane,
   faSignOut,
   faUsers,
@@ -25,7 +26,7 @@ const Vertical = () => {
           <Link to={"/dashboard"} className="">
             <div
               className={`flex flex-row ${
-                showNav ? "w-[100px]" : "w-[20px]"
+                showNav ? "w-[150px]" : "w-[20px]"
               } justify-start items-center gap-2 duration-500`}
             >
               <FontAwesomeIcon icon={faHouse} size="1x" className=" py-1" />
@@ -38,7 +39,7 @@ const Vertical = () => {
             <Link to={"/dashboard/employers"}>
               <div
                 className={` flex flex-row ${
-                  showNav ? "w-[100px]" : "w-[20px]"
+                  showNav ? "w-[150px]" : "w-[20px]"
                 } justify-start items-center gap-2 duration-500`}
               >
                 <FontAwesomeIcon icon={faUsers} size="1x" className=" py-1" />
@@ -47,11 +48,28 @@ const Vertical = () => {
             </Link>
           )}
 
+          {user?.role === "admin" && (
+            <Link to={"/dashboard/group"}>
+              <div
+                className={` flex flex-row ${
+                  showNav ? "w-[150px]" : "w-[20px]"
+                } justify-start items-center gap-2 duration-500`}
+              >
+                <FontAwesomeIcon
+                  icon={faPeopleGroup}
+                  size="1x"
+                  className=" py-1"
+                />
+                {showNav && <div className=" animate-fade-in">Group tours</div>}
+              </div>
+            </Link>
+          )}
+
           {user?.role === "temperary" ? null : (
             <Link to={"/dashboard/leave"}>
               <div
                 className={` flex flex-row ${
-                  showNav ? "w-[100px]" : "w-[20px]"
+                  showNav ? "w-[150px]" : "w-[20px]"
                 } justify-start items-center gap-2 duration-500`}
               >
                 <FontAwesomeIcon icon={faPlane} />

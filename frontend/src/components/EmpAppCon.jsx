@@ -54,8 +54,8 @@ const EmpAppCon = ({ refresh, setRefresh }) => {
 
   return (
     <div
-      className="bg-slate-50 w-[500px] xl:w-[550px]  p-2 my-2  rounded-[10px]  shadow-lg shadow-black/25
-"
+      className={`bg-slate-50 w-[500px] xl:w-[550px]  p-2 my-2  rounded-[10px]  shadow-lg shadow-black/25 ${viewDeatails ? '' : ''}
+`}
     >
       <ToastContainer />
       <div className="w-[100%] my-1 mx-5 text-[20px] text-[#023047] font-semibold mb-5">
@@ -135,7 +135,7 @@ const EmpAppCon = ({ refresh, setRefresh }) => {
 
       {viewDeatails && (
         <>
-          <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center">
+          <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center z-[10] scroll-auto overflow-scroll">
             <div className="bg-white p-5 rounded-lg shadow-lg w-[80%]">
               <h2 className="text-xl font-bold">{`test user `} </h2>
               <EmployeeInfo

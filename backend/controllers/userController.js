@@ -120,7 +120,6 @@ export const uploadImage = asyncHandler(async (req, res) => {
 
 export const permenentReg = asyncHandler(async (req, res) => {
   const formData = req.body;
-
   try {
     const changeData = await tempEmployer.findOneAndUpdate(
       { userId: formData.userId },

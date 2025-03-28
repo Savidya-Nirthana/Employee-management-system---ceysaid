@@ -14,6 +14,7 @@ import Profile from "./pages/Profile.jsx";
 import DashLayout from "./layouts/DashLayout.jsx";
 import { AuthContext } from "./contexts/AuthContext.jsx";
 import ProtectedRoutes from "./routes/ProtectedRoutes.jsx";
+import GroupTours from "./pages/GroupTours.jsx";
 
 function App() {
   const { user, setUser, isLogin, setIsLogin } = useContext(AuthContext);
@@ -60,6 +61,14 @@ function App() {
             element={
               <ProtectedRoutes allowedRoles={["admin"]}>
                 <Employers />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="group"
+            element={
+              <ProtectedRoutes allowedRoles={["admin"]}>
+                <GroupTours/>
               </ProtectedRoutes>
             }
           />

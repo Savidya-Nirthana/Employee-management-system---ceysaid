@@ -1,6 +1,7 @@
 import express from "express";
 import userRouter from "./routes/users.js";
 import leaveRouter from "./routes/leave.js";
+import salesRouter from "./routes/sales.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -21,9 +22,10 @@ server.use(express.static("uploads"));
 // server.use((req, res) => {
 //   console.log(req.body);
 // })
- 
+
 server.use("/api/v1/users", userRouter);
 server.use("/api/v1/leave", leaveRouter);
+server.use("/api/v1/sales", salesRouter);
 server.get("/api/v1", (req, res) => {
   res
     .status(200)
@@ -37,3 +39,4 @@ server.listen(process.env.PORT, () => {
   databaseConnection();
   console.log("server is running " + process.env.PORT);
 });
+  

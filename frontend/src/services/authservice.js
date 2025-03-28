@@ -106,9 +106,10 @@ export const permenentReg = async (formData) => {
         "Content-Type": "application/json",
       },
     });
-    return {message: response.data.message, error: false};
+    return { message: response.data.message, error: false };
   } catch (e) {
-    return {message: "user registration fail" , error : true};
+    console.log(e);
+    return { message: "user registration fail", error: true };
   }
 };
 
@@ -151,9 +152,9 @@ export const registerPermenently = async (user) => {
         withCredentials: true,
       }
     );
-    return {message: response.data.message, error: false};
+    return { message: response.data.message, error: false };
   } catch (err) {
-    return {message: "Approval fail" , error: true};
+    return { message: "Approval fail", error: true };
   }
 };
 
@@ -194,32 +195,32 @@ export const applyChangesUser = async (user) => {
         withCredentials: true,
       }
     );
-    return {message : response.data.message , error: false};
+    return { message: response.data.message, error: false };
   } catch (err) {
     console.error(err);
   }
 };
 
-export const changePassword = async(previousPassword , newPassword) => {
+export const changePassword = async (previousPassword, newPassword) => {
   try {
     const response = await API.post(
-      `${BASE_URL}/changePassword`, {previousPassword, newPassword}, {withCredentials: true}
-    )
-    return {message: response.data.message, error: false};
-  }catch(err) {
-    
-    return {message: err.response.data.message, error: true};
+      `${BASE_URL}/changePassword`,
+      { previousPassword, newPassword },
+      { withCredentials: true }
+    );
+    return { message: response.data.message, error: false };
+  } catch (err) {
+    return { message: err.response.data.message, error: true };
   }
-}
+};
 
-
-export const getPermUser = async() => {
+export const getPermUser = async () => {
   try {
-    const response = await API.post(
-      `${BASE_URL}/getPermUser`, {withCredentials: true}
-    )
+    const response = await API.post(`${BASE_URL}/getPermUser`, {
+      withCredentials: true,
+    });
     return response;
-  }catch(err) {
+  } catch (err) {
     console.log(err);
   }
-}
+};

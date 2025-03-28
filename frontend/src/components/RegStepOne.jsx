@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Upload } from "lucide-react";
+import { Upload } from "lucide-react"; 
 import {
   getTempUser,
   permenentReg,

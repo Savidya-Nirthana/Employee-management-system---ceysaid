@@ -9,6 +9,7 @@ import GroupTour from "../components/Home/GroupTour";
 import UserDetails from "../components/Home/UserDetails";
 import { UIContext } from "../contexts/UIContext";
 import ProtectedComponents from "../routes/ProtectedComponents";
+import AllSales from "../components/Home/AllSales";
 const Home = () => {
   const { showNav } = useContext(UIContext);
 
@@ -40,6 +41,9 @@ const Home = () => {
           <div className=" flex flex-row justify-between">
             <SalesTeamForm />
             <GroupTour />
+          </div>
+          <div>
+            <AllSales />
           </div>
         </ProtectedComponents>
       </div>

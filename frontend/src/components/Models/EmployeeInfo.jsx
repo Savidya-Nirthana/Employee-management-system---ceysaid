@@ -37,7 +37,7 @@ const EmployeeInfo = (props) => {
   return type === "approval" ? (
     user ? (
       <>
-        <form className=" flex flex-row gap-10">
+        <form className=" flex flex-row gap-10 scroll-auto overflow-y-auto">
           <div>
             <div className=" flex flex-row gap-5 items-end mb-5">
               <div className="my-5 flex flex-col">
@@ -302,7 +302,7 @@ const EmployeeInfo = (props) => {
                   placeholder="Select Dob"
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                   name="dob"
-                  value={user.dob ? user.dob : ""}
+                  value={user.dob ? user.dob.split("T")[0] : ""}
                   disabled
                 />
               </div>
@@ -536,7 +536,9 @@ const EmployeeInfo = (props) => {
         )}
       </>
     ) : (
-      <>loading</>
+      <div className=" flex items-center justify-center w-[500px] h-[500px]">
+        <PulseLoader color="oklch(0.673 0.182 276.935)" size={12} />
+      </div>
     )
   ) : (
     <></>

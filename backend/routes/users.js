@@ -23,7 +23,6 @@ import { upload } from "../middlewares/uploadMiddleware.js";
 
 const router = express.Router();
 
-// router.get("/getUser", test);
 router.post("/login", login);
 router.post("/register", register);
 router.get("/logout", logout);

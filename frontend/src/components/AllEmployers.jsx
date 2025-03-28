@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import BeatLoader from "react-spinners/BeatLoader";
 const items = Array.from({ length: 25 }, (_, i) => i);
 const AllEmployers = ({ refresh, setRefresh, showNav }) => {
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(11);
   const [startIndex, setStartIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState(null);
@@ -34,23 +34,24 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
       const data = await getPermUsers();
       setUsers(data);
       setFilterUser(data);
+      // setFilterUser(null);
     };
 
     getData();
   }, [refresh]);
 
-  useEffect(() => {
-    const updateItemsPerPage = () => {
-      const itemHeight = 85;
-      const availableHeight = window.innerHeight;
-      const newItemsPerPage = Math.floor(availableHeight / itemHeight);
-      setItemsPerPage(newItemsPerPage);
-    };
+  // useEffect(() => {
+  //   const updateItemsPerPage = () => {
+  //     const itemHeight = 85;
+  //     const availableHeight = window.innerHeight;
+  //     const newItemsPerPage = Math.floor(availableHeight / itemHeight);
+  //     setItemsPerPage(newItemsPerPage);
+  //   };
 
-    updateItemsPerPage();
-    window.addEventListener("resize", updateItemsPerPage);
-    return () => window.removeEventListener("resize", updateItemsPerPage);
-  }, []);
+  //   updateItemsPerPage();
+  //   window.addEventListener("resize", updateItemsPerPage);
+  //   return () => window.removeEventListener("resize", updateItemsPerPage);
+  // }, []);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -81,7 +82,7 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
       <div
         className={` ${
           showNav ? "xl:w-[95%] w-[100%]" : "xl:w-auto w-[90%]"
-        } h-[760px] bg-slate-50  py-5  rounded-[10px] my-2  shadow-lg shadow-black/25`}
+        } min-w-[700px] h-[760px] bg-slate-50  py-5  rounded-[10px] my-2  shadow-lg shadow-black/25`}
       >
         <div className="flex flex-row items-center justify-between w-[90%]  m-auto my-2">
           <div className="text-[20px] text-[#023047] font-semibold">
@@ -98,75 +99,81 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
             />
           </div>
         </div>
-        <div className=" h-[630px]">
-          <table className=" xl:mx-10 mx-5 w-[90%]">
-            <thead className="  text-slate-700 text-[14px]">
-              <tr>
-                <th className=" py-2">User id</th>
-                <th className="w-[200px]">Name</th>
-                <th className="">Email</th>
-                <th className="">Department</th>
-              </tr>
-            </thead>
-            {!filterUser ? (
-              <div className="">
-                <BeatLoader
-                  color="#50c5ff"
-                  loading={true}
-                  size={20}
-                  className=" text-center"
+        {!filterUser ? (
+          <div className=" flex items-center justify-center h-[700px]">
+            <BeatLoader
+              color="#50c5ff"
+              loading={true}
+              size={20}
+              className=" text-center"
+            />
+          </div>
+        ) : (
+          <div className=" flex flex-col justify-between h-[650px] mt-5">
+            <div className=" flex-grow">
+              <table className=" xl:mx-10 mx-5 w-[90%]">
+                <thead className="  text-slate-700 text-[14px]">
+                  <tr>
+                    <th className=" py-2">User id</th>
+                    <th className="w-[200px]">Name</th>
+                    <th className="">Email</th>
+                    <th className="">Department</th>
+                  </tr>
+                </thead>
+
+                <tbody className=" text-[14px] text-slate-600">
+                  {filterUser
+                    .slice(startIndex, startIndex + itemsPerPage)
+                    .map((item, i) => (
+                      <>
+                        <tr
+                          className=" hover:bg-[#ffb80338] cursor-pointer "
+                          onClick={() => showHandle(item.userId)}
+                          key={i}
+                        >
+                          <td className=" text-center">{item.userId}</td>
+                          <td className=" text-center">{item.fullName}</td>
+                          <td className=" text-center p-3">{item.email}</td>
+                          <td className=" flex flex-col items-center  justify-center p-2">
+                            <div
+                              className={` ${
+                                item.corporateDetails.department === "accounts"
+                                  ? "bg-[#2e8b563c] text-[#2E8B57] font-semibold"
+                                  : item.corporateDetails.department === "sales"
+                                  ? "bg-[#e67d224c] text-[#E67E22] font-semibold"
+                                  : "bg-[#3498db44] text-[#3498DB] font-semibold"
+                              } rounded-2xl  w-[100px] text-center py-[8px]`}
+                            >
+                              {item.corporateDetails.department}
+                            </div>
+                          </td>
+                        </tr>
+                      </>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+            <div className=" flex m-auto w-[70px] justify-around text-[#219ebc] z-[0]">
+              <button disabled={startIndex === 0} className=" disabled:opacity-50">
+                <FontAwesomeIcon
+                  icon={faChevronCircleLeft}
+                  onClick={prevPage}
+                  className="cursor-pointer text-2xl"
                 />
-              </div>
-            ) : (
-              <tbody className=" text-[14px] text-slate-600">
-                {filterUser
-                  .slice(startIndex, startIndex + itemsPerPage)
-                  .map((item, i) => (
-                    <div key={i}>
-                      <tr
-                        className=" hover:bg-[#ffb80338] cursor-pointer "
-                        onClick={() => showHandle(item.userId)}
-                        key={item.userId}
-                      >
-                        <td className=" text-center">{item.userId}</td>
-                        <td className=" text-center">{item.fullName}</td>
-                        <td className=" text-center p-3">{item.email}</td>
-                        <td className=" flex flex-col items-center  justify-center p-2">
-                          <div
-                            className={` ${
-                              item.corporateDetails.department === "accounts"
-                                ? "bg-[#2e8b563c] text-[#2E8B57] font-semibold"
-                                : item.corporateDetails.department === "sales"
-                                ? "bg-[#e67d224c] text-[#E67E22] font-semibold"
-                                : "bg-[#3498db44] text-[#3498DB] font-semibold"
-                            } rounded-2xl  w-[100px] text-center py-[8px]`}
-                          >
-                            {item.corporateDetails.department}
-                          </div>
-                        </td>
-                      </tr>
-                    </div>
-                  ))}
-              </tbody>
-            )}
-          </table>
-        </div>
-        <div className=" flex m-auto w-[70px] justify-around text-[#219ebc]">
-          <div>
-            <FontAwesomeIcon
-              icon={faChevronCircleLeft}
-              onClick={prevPage}
-              className="cursor-pointer text-2xl"
-            />
+              </button>
+              <button
+                className="disabled:opacity-50"
+                disabled={startIndex + itemsPerPage >= filterUser.length}
+              >
+                <FontAwesomeIcon
+                  icon={faChevronCircleRight}
+                  className=" cursor-pointer text-2xl"
+                  onClick={nextPage}
+                />
+              </button>
+            </div>
           </div>
-          <div>
-            <FontAwesomeIcon
-              icon={faChevronCircleRight}
-              className=" cursor-pointer text-2xl"
-              onClick={nextPage}
-            />
-          </div>
-        </div>
+        )}
       </div>
 
       {open && (
@@ -186,6 +193,7 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
                   isEdit ? "bg-green-500" : "bg-slate-500 hidden"
                 }`}
                 onClick={applyChanges}
+                disabled={startIndex === 0} 
               >
                 Edit
               </button>
