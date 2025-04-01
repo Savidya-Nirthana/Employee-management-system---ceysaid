@@ -316,7 +316,7 @@ const AddGroupTours = () => {
         <div className=" relative left-[80%]">
           <input
             type="submit"
-            className=" bg-[#219ebc] text-white px-4 py-2 text-[14px] rounded-sm cursor-pointer"
+            className=" bg-[#219ebc] hover:bg-black text-white px-4 py-2 text-[14px] rounded-sm cursor-pointer"
             value="Submit"
           />
         </div>

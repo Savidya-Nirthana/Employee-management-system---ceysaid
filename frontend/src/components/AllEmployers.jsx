@@ -9,10 +9,9 @@ import { applyChangesUser, getPermUsers } from "../services/authservice";
 import { ToastContainer, toast } from "react-toastify";
 import BeatLoader from "react-spinners/BeatLoader";
 const items = Array.from({ length: 25 }, (_, i) => i);
-const AllEmployers = ({ refresh, setRefresh, showNav }) => {
+const AllEmployers = ({ refresh, setRefresh, showNav, open, setOpen }) => {
   const [itemsPerPage, setItemsPerPage] = useState(11);
   const [startIndex, setStartIndex] = useState(0);
-  const [open, setOpen] = useState(false);
   const [users, setUsers] = useState(null);
   const [user, setUser] = useState(null);
   const [isEdit, setIsEdit] = useState(null);
@@ -82,7 +81,9 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
       <div
         className={` ${
           showNav ? "xl:w-[95%] w-[100%]" : "xl:w-auto w-[90%]"
-        } min-w-[700px] h-[760px] bg-slate-50  py-5  rounded-[10px] my-2  shadow-lg shadow-black/25`}
+        } min-w-[700px] 
+          ${open? 'h-[0px]' : 'h-[760px]'}
+         bg-slate-50  py-5  rounded-[10px] my-2  shadow-lg shadow-black/25`}
       >
         <div className="flex flex-row items-center justify-between w-[90%]  m-auto my-2">
           <div className="text-[20px] text-[#023047] font-semibold">
@@ -109,7 +110,7 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
             />
           </div>
         ) : (
-          <div className=" flex flex-col justify-between h-[650px] mt-5">
+          <div className={` flex flex-col justify-between h-[650px] mt-5`}>
             <div className=" flex-grow">
               <table className=" xl:mx-10 mx-5 w-[90%]">
                 <thead className="  text-slate-700 text-[14px]">
@@ -154,7 +155,10 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
               </table>
             </div>
             <div className=" flex m-auto w-[70px] justify-around text-[#219ebc] z-[0]">
-              <button disabled={startIndex === 0} className=" disabled:opacity-50">
+              <button
+                disabled={startIndex === 0}
+                className=" disabled:opacity-50"
+              >
                 <FontAwesomeIcon
                   icon={faChevronCircleLeft}
                   onClick={prevPage}
@@ -177,8 +181,8 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
       </div>
 
       {open && (
-        <div className="fixed inset-0  flex justify-center bg-[#ffffffd2] items-center">
-          <div className="bg-white p-5 rounded-lg shadow-lg  max-w-[1200px]">
+        <div className="fixed inset-0  flex justify-center bg-[#ffffffd2] py-20 overflow-y-scroll scroll-auto">
+          <div className="bg-white p-5 rounded-lg shadow-lg  max-w-[1200px] min-h-[768px]">
             <h2 className="text-md font-bold">{`${open}`} </h2>
             <EmployeeInfo
               userId={open}
@@ -193,7 +197,7 @@ const AllEmployers = ({ refresh, setRefresh, showNav }) => {
                   isEdit ? "bg-green-500" : "bg-slate-500 hidden"
                 }`}
                 onClick={applyChanges}
-                disabled={startIndex === 0} 
+                disabled={startIndex === 0}
               >
                 Edit
               </button>

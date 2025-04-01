@@ -1,8 +1,5 @@
 import UserRegistration from "./UserRegistration";
-import { useState, useEffect } from "react";
 import { useContext } from "react";
-import PasswordReset from "../components/PasswordReset";
-import { getTempUser } from "../services/authservice";
 import PendingApproval from "./PendingApproval";
 import SalesTeamForm from "../components/SalesTeamForm";
 import GroupTour from "../components/Home/GroupTour";
@@ -17,8 +14,8 @@ const Home = () => {
     <div className=" flex flex-row gap-2  ">
       <div
         className={`duration-500 mt-[70px] w-[100%] ${
-          showNav ? "ml-[250px]" : "ml-[60px]"
-        }`}
+          showNav ? "ml-[230px]" : "ml-[60px]"
+        }`} 
       >
         <ProtectedComponents
           allowedRoles={["temperary"]}
@@ -38,7 +35,7 @@ const Home = () => {
           <div>
             <UserDetails />
           </div>
-          <div className=" flex flex-row justify-between">
+          <div className=" flex flex-row justify-between w-[90%] items-center m-auto">
             <SalesTeamForm />
             <GroupTour />
           </div>

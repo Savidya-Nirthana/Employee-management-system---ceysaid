@@ -214,7 +214,7 @@ const AddUsers = () => {
 
           <div className=" float-end mr-10">
             <input
-              className={` bg-[#219ebc] rounded-sm text-white px-2 py-2 text-[14px] mt-5 ${
+              className={` bg-[#219ebc] rounded-sm text-white px-2 py-2 text-[14px] mt-5 hover:bg-black ${
                 !id || !employeeType || !department || !password || !rePassword
                   ? " cursor-not-allowed"
                   : "cursor-pointer"

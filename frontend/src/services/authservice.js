@@ -79,9 +79,9 @@ export const regConfirm = async (formData) => {
   }
 };
 
-export const uploadImage = async (email, type, file) => {
+export const uploadImage = async (userId, type, file) => {
   const formData = new FormData();
-  formData.append("email", email);
+  formData.append("userId", userId);
   formData.append("type", type);
   formData.append("file", file);
 
@@ -109,7 +109,7 @@ export const permenentReg = async (formData) => {
     return { message: response.data.message, error: false };
   } catch (e) {
     console.log(e);
-    return { message: "user registration fail", error: true };
+    return { message: e.response.data.message, error: true };
   }
 };
 
@@ -124,8 +124,10 @@ export const getAppData = async () => {
   }
 };
 
-export const rejectSend = (userId) => {
-  console.log("reject");
+export const rejectSend = async (userId) => {
+  const response = await API.get(`${BASE_URL}/reject`, { userId: userId } );
+
+  console.log(response);
 };
 
 export const getPermRegUser = async (userId) => {

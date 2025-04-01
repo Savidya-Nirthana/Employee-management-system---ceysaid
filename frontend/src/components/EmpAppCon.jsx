@@ -8,11 +8,11 @@ import PulseLoader from "react-spinners/PulseLoader";
 import EmployeeInfo from "./Models/EmployeeInfo";
 import zeroData from "../assets/images/messages/emptyData.png";
 import { ToastContainer, toast } from "react-toastify";
-const EmpAppCon = ({ refresh, setRefresh }) => {
+const EmpAppCon = ({ refresh, setRefresh, viewDeatails, setViewDetails }) => {
   const [approvalUsers, setApprovalUsers] = useState(null);
   const [rejectConfirmation, setRejectConfirmation] = useState(false);
   const [selectUser, setSelectUser] = useState(null);
-  const [viewDeatails, setViewDetails] = useState(null);
+  
   const [user, setUser] = useState(null);
   const [isEdit, setIsEdit] = useState(null);
   const acceptHandler = async () => {
@@ -54,7 +54,9 @@ const EmpAppCon = ({ refresh, setRefresh }) => {
 
   return (
     <div
-      className={`bg-slate-50 w-[500px] xl:w-[550px]  p-2 my-2  rounded-[10px]  shadow-lg shadow-black/25 ${viewDeatails ? '' : ''}
+      className={`bg-slate-50 w-[500px] xl:w-[550px] z-[0]  py-5 my-2  rounded-[10px]  shadow-lg shadow-black/25 ${
+        viewDeatails ? "" : ""
+      }
 `}
     >
       <ToastContainer />
@@ -109,7 +111,7 @@ const EmpAppCon = ({ refresh, setRefresh }) => {
       </div>
 
       {rejectConfirmation && (
-        <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0   bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-5 rounded-lg shadow-lg w-[400px] text-center">
             <h2 className="text-xl font-bold text-slate-600">
               Are you sure to remove {selectUser}?
@@ -135,8 +137,8 @@ const EmpAppCon = ({ refresh, setRefresh }) => {
 
       {viewDeatails && (
         <>
-          <div className="fixed inset-0  bg-opacity-50 flex justify-center items-center z-[10] scroll-auto overflow-scroll">
-            <div className="bg-white p-5 rounded-lg shadow-lg w-[80%]">
+          <div className="fixed inset-0  flex justify-center bg-[#ffffffd2] py-20 overflow-y-scroll scroll-auto">
+            <div className="bg-white p-5 rounded-lg shadow-lg max-w-[1200px] min-h-[768px]">
               <h2 className="text-xl font-bold">{`test user `} </h2>
               <EmployeeInfo
                 userId={selectUser}

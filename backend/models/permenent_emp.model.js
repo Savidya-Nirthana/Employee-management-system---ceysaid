@@ -56,7 +56,6 @@ const userSchema = mongoose.Schema(
 
     telephone: {
       type: String,
-      required: true,
     },
 
     mobile: {
@@ -67,6 +66,7 @@ const userSchema = mongoose.Schema(
     email: {
       type: String,
       unique: true,
+      sparse: true,
     },
 
     dob: {
@@ -115,7 +115,7 @@ const userSchema = mongoose.Schema(
 
       employeeType: {
         type: String,
-        enum: ["permenant", "temporary"],
+        enum: ["permenant", "temporary", "training"],
         required: true,
       },
     },
@@ -165,6 +165,13 @@ userSchema.pre("findOneAndUpdate", async function (next) {
   if (update.password) {
     const salt = await bcrypt.genSalt(10);
     update.password = await bcrypt.hash(update.password, salt);
+  }
+  next();
+});
+
+userSchema.pre("save", function (next) {
+  if (this.email === "") {
+    this.emai = null;
   }
   next();
 });

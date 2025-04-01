@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Upload } from "lucide-react"; 
+import { Upload } from "lucide-react";
 import {
   getTempUser,
   permenentReg,
@@ -9,9 +9,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import { Navigate } from "react-router";
-
+import { UIContext } from "../contexts/UIContext";
+import { useContext } from "react";
 const RegStepOne = () => {
   const [dob, setDob] = useState("");
+  const { showNav } = useContext(UIContext);
   const [isFocused, setIsFocused] = useState(false);
   const [nicFileName, setNicFileName] = useState("No file selected");
   const [LAFileName, setLAFileName] = useState("No file selected");
@@ -120,19 +122,19 @@ const RegStepOne = () => {
     formData.append("password", password);
 
     if (profile) {
-      const uploadProfile = await uploadImage(email, "profile", profile);
+      const uploadProfile = await uploadImage(userId, "profile", profile);
       formData.append("profile", uploadProfile);
     }
     if (nicFileName !== "No file selected") {
-      const uploadNIC = await uploadImage(email, "nic", nicFileName);
+      const uploadNIC = await uploadImage(userId, "nic", nicFileName);
       formData.append("nicFile", uploadNIC);
     }
     if (LAFileName !== "No file selected") {
-      const uploadLA = await uploadImage(email, "la", LAFileName);
+      const uploadLA = await uploadImage(userId, "la", LAFileName);
       formData.append("laFile", uploadLA);
     }
     if (GnFileName !== "No file selected") {
-      const uploadGn = await uploadImage(email, "Gn", GnFileName);
+      const uploadGn = await uploadImage(userId, "Gn", GnFileName);
       formData.append("gnFile", uploadGn);
     }
 
@@ -148,15 +150,19 @@ const RegStepOne = () => {
   return (
     <>
       <ToastContainer />
-      <div className="w-[100%] my-1 pl-[30px] text-[20px] text-slate-600">
+      <div className="w-[100%] my-1 pl-[30px] text-[20px]  text-slate-600">
         Register new employee
       </div>
 
-      <form className="  m-auto" onSubmit={regHandler}>
-        <div className=" flex flex-row justify-around">
+      <form className="   m-auto" onSubmit={regHandler}>
+        <div
+          className={` flex flex-col  ${
+            showNav ? "2xl:flex-row 2xl:w-full" : "xl:flex-row xl:w-full"
+          } w-[600px] m-auto  justify-around`}
+        >
           <div>
             <div className=" gap-3 flex flex-row m-5 items-end">
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2 z-[0]">
                 <label className="border-2 border-slate-300 w-30 h-30 flex flex-col items-center justify-center rounded-xl relative cursor-pointer hover:border-blue-500 transition">
                   {!profileImage ? (
                     <>
@@ -514,7 +520,7 @@ const RegStepOne = () => {
             </div>
             <div className=" flex flex-row flex-wrap gap-[20px] mx-5 my-10">
               <div className="flex flex-col items-center">
-                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-indigo-400 text-white text-[12px] rounded-lg cursor-pointer hover:bg-indigo-500 transition">
+                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-[#219ebc] hover:bg-black text-white text-[12px] rounded-lg cursor-pointer  transition">
                   <span>Upload NIC image</span>
                   <input
                     type="file"
@@ -530,7 +536,7 @@ const RegStepOne = () => {
                 </p>
               </div>
               <div className="flex flex-col items-center">
-                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-indigo-400 text-white text-[12px] rounded-lg cursor-pointer hover:bg-indigo-500 transition">
+                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-[#219ebc] hover:bg-black text-white text-[12px] rounded-lg cursor-pointer  transition">
                   <span>Upload Gn certificate</span>
                   <input
                     type="file"
@@ -546,7 +552,7 @@ const RegStepOne = () => {
                 </p>
               </div>
               <div className="flex flex-col items-center">
-                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-indigo-400 text-white text-[12px] rounded-lg cursor-pointer hover:bg-indigo-500 transition">
+                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-[#219ebc] hover:bg-black text-white text-[12px] rounded-lg cursor-pointer  transition">
                   <span>Upload Letter of appt.</span>
                   <input
                     type="file"
@@ -566,7 +572,7 @@ const RegStepOne = () => {
               <input
                 type="submit"
                 value="Complete"
-                className=" bg-indigo-400 hover:bg-indigo-500 text-white text-[14px] px-5 py-1 rounded-sm cursor-pointer"
+                className=" bg-[#219ebc] hover:bg-black text-white text-[14px] px-5 py-1 rounded-sm cursor-pointer"
               />
             </div>
           </div>

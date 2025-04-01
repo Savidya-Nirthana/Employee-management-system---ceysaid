@@ -85,6 +85,16 @@ export const logout = asyncHandler((req, res) => {
   return res.status(200).json({ message: `logout succesfull` });
 });
 
+//for: user approval rejection
+// access : admin
+// uro : api/v1/usets/rejectUser
+// method: GET
+
+export const rejectApp = asyncHandler(async (req, res) => {
+  const { userId } = await req.body;
+  console.log(userId);  
+});
+
 // for : user getDetails
 // access : loged user
 // uri : api/v1/users/getUser
@@ -121,10 +131,6 @@ export const uploadImage = asyncHandler(async (req, res) => {
 export const permenentReg = asyncHandler(async (req, res) => {
   const formData = req.body;
   try {
-    const changeData = await tempEmployer.findOneAndUpdate(
-      { userId: formData.userId },
-      { profile_status: "waiting" }
-    );
     const newUser = await PermenentUser.create({
       userId: formData.userId,
       fullName: formData.fullname,
@@ -162,10 +168,25 @@ export const permenentReg = asyncHandler(async (req, res) => {
       password: formData.password,
       role: "temperary",
     });
-
+    const changeData = await tempEmployer.findOneAndUpdate(
+      { userId: formData.userId },
+      { profile_status: "waiting" }
+    );
     return res.status(200).json({ message: "Details send for approval" });
   } catch (err) {
-    throw new Error("user registration fail");
+    if (err.errorResponse) {
+      const code = err.errorResponse.code;
+      if (code === 11000) {
+        const duplicate_value = Object.keys(err.errorResponse.keyPattern)[0];
+        throw new Error(
+          `${duplicate_value.toUpperCase()[0]}${duplicate_value.substring(
+            1
+          )} is already used`
+        );
+      }
+    }
+    console.log(err.errorResponse.code);
+    throw new Error("user registration fail123");
   }
 });
 

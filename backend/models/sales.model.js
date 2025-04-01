@@ -62,6 +62,11 @@ const salesSchema = mongoose.Schema(
       type: String,
       default: "pending",
     },
+    urgent: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -70,6 +75,3 @@ const salesSchema = mongoose.Schema(
 
 const SalesModel = mongoose.model("sales_data", salesSchema);
 export default SalesModel;
-
-
-

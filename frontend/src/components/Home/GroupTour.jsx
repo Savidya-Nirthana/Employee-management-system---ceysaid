@@ -7,21 +7,21 @@ export default function Group_Tour() {
   ];
 
   return (
-    <div className="bg-[#FAF8FC] p-4 rounded-lg shadow-lg w-80 max-h-64 overflow-y-auto">
+    <div className="p-4 rounded-lg shadow-lg w-80 max-h-64 overflow-y-auto">
       <h4 className="text-lg font-bold text-center text-gray-700 mb-2">Group Tour Status</h4>
       <table className="w-full border-collapse">
         <thead>
-          <tr className="bg-blue-300">
+          <tr className="">
             <th className="text-left p-2 text-sm">Tour Name</th>
             <th className="text-left p-2 text-sm">Booked</th>
-            <th className="text-left p-2 text-sm">Available</th>
+            <th className="text-left p-2 text-sm">Available</th> 
           </tr>
         </thead>
         <tbody>
           {tours.map((tour, index) => {
             const available = tour.total - tour.booked;
             return (
-              <tr key={index} className="bg-blue-50 border-b">
+              <tr key={index} className=" hover:bg-gray-50 border-t border-gray-300 cursor-pointer ">
                 <td className="p-2 text-sm">{tour.name}</td>
                 <td className="p-2 text-sm font-bold text-red-600">{tour.booked}</td>
                 <td className={`p-2 text-sm font-bold ${available === 0 ? "text-blue-700" : "text-green-600"}`}>

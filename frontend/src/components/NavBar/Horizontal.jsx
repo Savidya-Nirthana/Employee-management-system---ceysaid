@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
@@ -15,18 +15,30 @@ const Horizontal = () => {
   const [winWidth, setWinWidth] = useState(window.innerWidth);
   const [navDrop, setNavDrop] = useState(false);
   const { showNav, setShowNav } = useContext(UIContext);
+  const navRef = useRef(null);
   useEffect(() => {
     const handleResize = () => setWinWidth(window.innerWidth);
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setNavDrop(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   return (
     <>
       <div
-        className={` fixed top-[0px] flex flex-row items-center justify-between bg-white p-2 mb-2 ${
-          showNav ? "left-[210px]" : "left-[60px] duration-500"
+        className={` fixed top-[0px] flex flex-row items-center justify-between  bg-white p-2 mb-2 ${
+          showNav ? "left-[200px]" : "left-[50px] duration-500"
         }`}
         style={
           showNav
@@ -65,19 +77,25 @@ const Horizontal = () => {
             <div>{user.userId}</div>
             <FontAwesomeIcon icon={faSortDesc} />
           </div>
-          {navDrop && user?.role !== "temperary" && (
-            <div className=" absolute right-0 bg-white rounded-sm w-[200px] flex flex-col items-center justify-center animate-fade-in z-1">
+          {navDrop && (
+            <div ref={navRef} className=" absolute right-0 bg-white rounded-sm w-[200px] flex flex-col items-center justify-center animate-fade-in z-1">
               <ul>
-                <div className=" flex flex-row   mt-3 items-center gap-2 text-[14px] text-slate-600 hover:bg-slate-100 p-2 cursor-pointer">
-                  <FontAwesomeIcon icon={faUser} />
-                  <Link to={"/dashboard/profile"}>Your profile</Link>
-                </div>
-                <div className=" flex flex-row   items-center gap-2 text-[14px] text-slate-600 hover:bg-slate-100 p-2 cursor-pointer">
-                  <FontAwesomeIcon icon={faUnlock} />
-                  <Link to={"/dashboard/password-reset"}>Change password</Link>
-                </div>
+                {user?.role !== "temperary" && (
+                  <>
+                    <div className=" flex flex-row   mt-3 items-center gap-2 text-[14px] text-slate-600 hover:bg-slate-100 p-2 cursor-pointer">
+                      <FontAwesomeIcon icon={faUser} />
+                      <Link to={"/dashboard/profile"}>Your profile</Link>
+                    </div>
+                    <div className=" flex flex-row   items-center gap-2 text-[14px] text-slate-600 hover:bg-slate-100 p-2 cursor-pointer">
+                      <FontAwesomeIcon icon={faUnlock} />
+                      <Link to={"/dashboard/password-reset"}>
+                        Change password
+                      </Link>
+                    </div>
+                  </>
+                )}
                 <button
-                  className=" cursor-pointer px-2 mb-3 w-[200px] bg-[#219ebc] text-white py-2 rounded-b-md hover:bg-indigo-500"
+                  className={` ${navDrop? 'mt-5': ''} cursor-pointer px-2  w-[200px] bg-[#219ebc] hover:bg-black text-white py-2 rounded-b-md `}
                   onClick={() => logOutHandler(setIsLogin, setUser)}
                 >
                   Logout

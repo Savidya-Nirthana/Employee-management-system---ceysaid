@@ -22,7 +22,6 @@ server.use(express.static("uploads"));
 // server.use((req, res) => {
 //   console.log(req.body);
 // })
-
 server.use("/api/v1/users", userRouter);
 server.use("/api/v1/leave", leaveRouter);
 server.use("/api/v1/sales", salesRouter);
@@ -39,4 +38,4 @@ server.listen(process.env.PORT, () => {
   databaseConnection();
   console.log("server is running " + process.env.PORT);
 });
-  
+   

@@ -5,10 +5,12 @@ import { useContext, useState } from "react";
 import { UIContext } from "../contexts/UIContext";
 
 const Employers = () => {
+  const [viewDeatails, setViewDetails] = useState(null);
+  const [open, setOpen] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const { showNav } = useContext(UIContext);
   return (
-    <div className=" flex flex-row gap-2  ">
+    <div className="flex flex-row gap-2 overflow-auto $">
       {/* admin -> employers */}
       <div
         className={` flex ${
@@ -24,18 +26,23 @@ const Employers = () => {
               : "xl:flex-col flex-row "
           } justify-between  `}
         >
-          <AddUsers />
-          <EmpAppCon
+          {!viewDeatails &&  !open ? <AddUsers /> : ""}
+          {!open? <EmpAppCon
             refresh={refresh}
             setRefresh={setRefresh}
             showNav={showNav}
-          />
+            viewDeatails={viewDeatails}
+            setViewDetails={setViewDetails}
+          />: ''}
         </div>
+        {!viewDeatails?
         <AllEmployers
           refresh={refresh}
           setRefresh={setRefresh}
           showNav={showNav}
-        />
+          open={open}
+          setOpen={setOpen}
+        /> : '' }
       </div>
     </div>
   );
