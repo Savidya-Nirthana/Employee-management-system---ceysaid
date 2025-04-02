@@ -11,7 +11,7 @@ import corsOptions from "./config/corsOptions.js";
 const server = express();
 
 server.use(logger);
-server.use(cors({origin: "*"}));
+server.use(cors(corsOptions));
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));

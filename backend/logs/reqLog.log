@@ -63,3 +63,5 @@
 20250403	01:00:14	c125a94e-1270-45e1-900b-87d62ac3394f	GET	/api/v1/users/getUser	http://localhost:5173
 20250403	01:00:14	4e8ea3f5-84fe-41f5-91ed-fbc5f0aee3d9	OPTIONS	/api/v1/users/getApprovalUser	http://localhost:5173
 20250403	01:00:14	890d5584-3661-4043-bdc3-d12907418a1b	POST	/api/v1/users/getApprovalUser	http://localhost:5173
+20250403	01:58:38	ae1ee7ae-83c8-4938-992f-a34842fddc3c	GET	/api/v1/users/getUser	http://localhost:5173
+20250403	01:58:38	19e6b2b4-56ab-4c38-b3ca-52e9b917c023	GET	/api/v1/users/getUser	http://localhost:5173
