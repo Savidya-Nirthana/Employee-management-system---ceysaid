@@ -15,7 +15,7 @@ const salesSchema = mongoose.Schema(
       required: true,
     },
     mainCities: {
-      type: String,
+      type: [String],
       required: true,
     },
     no_pax: {
@@ -49,7 +49,11 @@ const salesSchema = mongoose.Schema(
         type: String,
         required: true,
       },
-      contactDetail: {
+      contactMethod: {
+        type: String,
+        required: true,
+      },
+      contactDetails: {
         type: String,
         required: true,
       },

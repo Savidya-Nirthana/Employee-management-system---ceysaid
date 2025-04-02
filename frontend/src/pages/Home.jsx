@@ -1,7 +1,7 @@
 import UserRegistration from "./UserRegistration";
 import { useContext } from "react";
 import PendingApproval from "./PendingApproval";
-import SalesTeamForm from "../components/SalesTeamForm";
+import SalesTeamForm from "../components/Home/SalesTeamForm";
 import GroupTour from "../components/Home/GroupTour";
 import UserDetails from "../components/Home/UserDetails";
 import { UIContext } from "../contexts/UIContext";
@@ -35,7 +35,7 @@ const Home = () => {
           <div>
             <UserDetails />
           </div>
-          <div className=" flex flex-row justify-between w-[90%] items-center m-auto">
+          <div className=" flex flex-row justify-between  items-stretch m-auto">
             <SalesTeamForm />
             <GroupTour />
           </div>

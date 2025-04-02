@@ -14,10 +14,10 @@ const CustomerDetailsModal = ({ setOpen, selectSale }) => {
               <tr className="border-t border-gray-300">
                 <td className="p-2 w-[40%]">Contact Details</td>
                 <td className="p-2">
-                  {selectSale.customerDetails.contactDetail}
+                  {selectSale.customerDetails.contactDetails}
                 </td>
               </tr>
-              
+
               <tr className="border-t border-gray-300">
                 <td className="p-2">Lead</td>
                 <td className="p-2">{selectSale.customerDetails.lead}</td>
@@ -32,7 +32,7 @@ const CustomerDetailsModal = ({ setOpen, selectSale }) => {
               </tr>
               <tr className="border-t border-gray-300">
                 <td className="p-2">Main Cities</td>
-                <td className="p-2">{selectSale.mainCities}</td>
+                <td className="p-2">{selectSale.mainCities.join(", ")}</td>
               </tr>
               <tr className="border-t border-gray-300">
                 <td className="pl-2 pt-2">Number of:</td>

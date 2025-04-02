@@ -38,7 +38,7 @@ router.post("/registerPerm", protect, registerPerm);
 router.post("/getPermUsers", getAllRegUsers);
 router.get("/profileImage", protect, getProfileImage);
 router.post("/applyChanges", protect, applyChanges);
-router.post("/changePassword", protect, changePassword);
+router.post("/changePassword", protect, changePassword);  
 router.post("/getPermUser", protect, getPermUser);
 router.get("/reject",  rejectApp);
 export default router;

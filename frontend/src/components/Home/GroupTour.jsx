@@ -7,8 +7,8 @@ export default function Group_Tour() {
   ];
 
   return (
-    <div className="p-4 rounded-lg shadow-lg w-80 max-h-64 overflow-y-auto">
-      <h4 className="text-lg font-bold text-center text-gray-700 mb-2">Group Tour Status</h4>
+    <div className="p-4 rounded-lg shadow-lg flex-1 overflow-y-auto m-5 bg-slate-50">
+      <h4 className="text-xl font-semibold  text-slate-600 m-2">Group Tour Status</h4>
       <table className="w-full border-collapse">
         <thead>
           <tr className="">

@@ -14,3 +14,14 @@ export const getSalesById = async (userId) => {
     console.error(err);
   }
 };
+
+
+export const addSales = async(salesDetails) => {
+  try{
+    const data = await API.post(`${BASE_URL}/addsales` , salesDetails, {
+      withCredentials: true
+    })
+  }catch(e){
+    console.error(e);
+  }
+}

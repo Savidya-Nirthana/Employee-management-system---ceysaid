@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Countries } from "../data/countries";
+import { Countries } from "../../data/countries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { addSales } from "../../services/salesservices";
 
 
 const SalesTeamForm = () => {
@@ -71,7 +72,12 @@ const SalesTeamForm = () => {
         e.preventDefault();
         const salesDetails = {
             subject,
+            customername,
+            contactMethod,
+            contactValue,
+            lead,
             country,
+            cities,
             adults,
             children,
             infants,
@@ -81,10 +87,10 @@ const SalesTeamForm = () => {
             additionalDetails,
         };
         console.log("Sales Details Submitted:", salesDetails);
-
+        addSales(salesDetails);
     };
     return (
-        <div className="w-[800px] bg-slate-50  px-10 py-4  rounded-[10px]  shadow-lg shadow-black/25 m-5">
+        <div className="w-[800px]  bg-slate-50  px-10 py-4  rounded-[10px]  shadow-lg shadow-black/25 m-5">
         <h2 className=" text-xl font-semibold  text-slate-600 m-2">Add sales details</h2>
         <hr className="border-t border-gray-300 my-4"></hr>
 
