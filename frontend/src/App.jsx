@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Login from "./pages/login";
+// import Login from "./pages/login";
 import { useContext, useEffect } from "react";
 import {
   getData,
@@ -15,6 +15,7 @@ import DashLayout from "./layouts/DashLayout.jsx";
 import { AuthContext } from "./contexts/AuthContext.jsx";
 import ProtectedRoutes from "./routes/ProtectedRoutes.jsx";
 import GroupTours from "./pages/GroupTours.jsx";
+import Login from "./pages/Login.jsx";
 
 function App() {
   const { user, setUser, isLogin, setIsLogin } = useContext(AuthContext);
@@ -68,7 +69,7 @@ function App() {
             path="group"
             element={
               <ProtectedRoutes allowedRoles={["admin"]}>
-                <GroupTours/>
+                <GroupTours />
               </ProtectedRoutes>
             }
           />
