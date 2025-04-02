@@ -7,12 +7,26 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import databaseConnection from "./config/connection.js";
 import { logger } from "./middlewares/logger.js";
-import corsOptions from "./config/corsOptions.js";
+// import corsOptions from "./config/corsOptions.js";
 const server = express();
+
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests from localhost in development
+    if (origin === "http://localhost:5173" || origin === "https://employee-management-system-ceysaid.vercel.app") {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"], // Add any other methods you need
+  allowedHeaders: ["Content-Type", "Authorization"], // Add any headers your app needs
+};
 
 server.use(logger);
 server.use(
-  cors({ origin: "https://employee-management-system-ceysaid.vercel.app" })
+  cors(corsOptions)
 );
 
 server.use(express.json());
