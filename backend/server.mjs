@@ -11,13 +11,14 @@ import { logger } from "./middlewares/logger.js";
 const server = express();
 
 const corsOptions = {
-  origin: 'http://localhost:5173',  // Allow all origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
+  origin: [
+    "http://localhost:5173", // Your frontend URL
+    "https://employee-management-system-ceysaid.vercel.app", // Your backend URL
+  ],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // If using cookies/sessions
+  optionsSuccessStatus: 204,
 };
-
-
 
 server.use(logger);
 server.use(cors(corsOptions));
