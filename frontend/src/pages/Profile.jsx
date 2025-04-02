@@ -27,7 +27,7 @@ const Profile = () => {
             <div className="p-6 ">
               <div className="w-48 h-48 overflow-hidden">
                 <img
-                  src={`http://localhost:4000/${user.attachments.employeeImage.replace(
+                  src={`${import.meta.env.VITE_BASE_URL}${user.attachments.employeeImage.replace(
                     "uploads",
                     ""
                   )}`}

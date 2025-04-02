@@ -13,7 +13,7 @@ const EmployeeInfo = (props) => {
   const [profileHover, setProfileHover] = useState(null);
   const [selectImageUrl, setSelectImageUrl] = useState(null);
 
-  const baseUrl = "http://localhost:4000";
+  const baseUrl = `${import.meta.env.VITE_BASE_URL}`;
   useEffect(() => {
     const getUser = async () => {
       const data = await getPermRegUser(userId);

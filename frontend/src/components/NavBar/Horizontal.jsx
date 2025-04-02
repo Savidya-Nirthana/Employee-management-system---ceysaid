@@ -64,10 +64,9 @@ const Horizontal = () => {
           >
             {user.attachments?.employeeImage ? (
               <img
-                src={`http://localhost:4000/${user.attachments.employeeImage.replace(
-                  "uploads",
-                  ""
-                )}`}
+                src={`${
+                  import.meta.env.VITE_BASE_URL
+                }${user.attachments.employeeImage.replace("uploads", "")}`}
                 alt="img"
                 className="w-[35px] h-[35px] rounded-full"
               />
@@ -78,7 +77,10 @@ const Horizontal = () => {
             <FontAwesomeIcon icon={faSortDesc} />
           </div>
           {navDrop && (
-            <div ref={navRef} className=" absolute right-0 bg-white rounded-sm w-[200px] flex flex-col items-center justify-center animate-fade-in z-1">
+            <div
+              ref={navRef}
+              className=" absolute right-0 bg-white rounded-sm w-[200px] flex flex-col items-center justify-center animate-fade-in z-1"
+            >
               <ul>
                 {user?.role !== "temperary" && (
                   <>
@@ -95,7 +97,9 @@ const Horizontal = () => {
                   </>
                 )}
                 <button
-                  className={` ${navDrop? 'mt-5': ''} cursor-pointer px-2  w-[200px] bg-[#219ebc] hover:bg-black text-white py-2 rounded-b-md `}
+                  className={` ${
+                    navDrop ? "mt-5" : ""
+                  } cursor-pointer px-2  w-[200px] bg-[#219ebc] hover:bg-black text-white py-2 rounded-b-md `}
                   onClick={() => logOutHandler(setIsLogin, setUser)}
                 >
                   Logout
