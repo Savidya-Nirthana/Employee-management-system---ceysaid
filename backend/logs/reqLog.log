@@ -33,3 +33,12 @@
 20250402	23:30:02	84267d84-33e1-4b8d-8d9e-38e79ca59d9c	OPTIONS	/api/v1/users/approvalData	http://localhost:5173
 20250402	23:30:02	c915fc37-68df-4561-bee5-16679db80583	POST	/api/v1/users/approvalData	http://localhost:5173
 20250402	23:30:02	d9f46d27-2f25-4900-97e4-944420437d36	POST	/api/v1/users/approvalData	http://localhost:5173
+20250403	00:13:00	22f3b446-2ee2-4e2a-b02b-d81c83bcdbcc	GET	/api/v1/users/getUser	http://localhost:5173
+20250403	00:13:00	1ef07b51-cb2a-446f-804f-a890660be9a9	GET	/api/v1/users/getUser	http://localhost:5173
+20250403	00:13:00	a001bfcc-2de8-4ca9-924e-714d37a91800	OPTIONS	/api/v1/users/getApprovalUser	http://localhost:5173
+20250403	00:13:00	86d49bd2-db91-410d-b595-fcb3781d69e5	OPTIONS	/api/v1/users/getApprovalUser	http://localhost:5173
+20250403	00:13:00	178629a4-1b56-4edc-b220-9b17950e40c8	POST	/api/v1/users/getApprovalUser	http://localhost:5173
+20250403	00:13:00	19f5e1ed-fa40-49f1-82a4-949223fca52e	POST	/api/v1/users/getApprovalUser	http://localhost:5173
+20250403	00:13:03	c26a19bc-c4f9-4d8d-b5c8-ac464157b582	GET	//ceysaid01@gmail.com/profile/1741455097667.jpg	undefined
+20250403	00:13:03	fdf63c81-7122-4682-8f40-54de58b7427a	GET	/api/v1/sales/getSalesById?userId=ceysaid01	http://localhost:5173
+20250403	00:13:03	b86d2f47-3f0f-468a-a27f-b4f45fdd4605	GET	/api/v1/sales/getSalesById?userId=ceysaid01	http://localhost:5173
