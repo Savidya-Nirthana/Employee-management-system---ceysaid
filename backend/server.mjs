@@ -11,7 +11,9 @@ import corsOptions from "./config/corsOptions.js";
 const server = express();
 
 server.use(logger);
-server.use(cors(corsOptions));
+server.use(
+  cors({ origin: "https://employee-management-system-ceysaid.vercel.app" })
+);
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
@@ -31,8 +33,6 @@ server.get("/api/v1", (req, res) => {
     .json({ message: "testing", environment: process.env.NODE_ENV });
 });
 
-
-
 server.use(notFound);
 server.use(errorHandler);
 
@@ -40,4 +40,3 @@ server.listen(process.env.PORT, () => {
   databaseConnection();
   console.log("server is running " + process.env.PORT);
 });
-   
