@@ -11,7 +11,7 @@ import corsOptions from "./config/corsOptions.js";
 const server = express();
 
 server.use(logger);
-server.use(cors(corsOptions));
+server.use(cors({origin: "*"}));
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
@@ -30,6 +30,8 @@ server.get("/api/v1", (req, res) => {
     .status(200)
     .json({ message: "testing", environment: process.env.NODE_ENV });
 });
+
+
 
 server.use(notFound);
 server.use(errorHandler);
