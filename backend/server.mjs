@@ -10,11 +10,13 @@ import { logger } from "./middlewares/logger.js";
 // import corsOptions from "./config/corsOptions.js";
 const server = express();
 
-
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests from localhost in development
-    if (origin === "http://localhost:5173" || origin === "https://employee-management-system-ceysaid.vercel.app") {
+    if (
+      origin === "http://localhost:5173" ||
+      origin === "https://employee-management-system-ceysaid-want.vercel.app"
+    ) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -25,9 +27,7 @@ const corsOptions = {
 };
 
 server.use(logger);
-server.use(
-  cors(corsOptions)
-);
+server.use(cors(corsOptions));
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
