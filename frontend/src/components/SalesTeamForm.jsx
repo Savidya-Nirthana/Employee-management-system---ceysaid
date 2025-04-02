@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Countries } from "../data/countries";
+import { Countries } from "../../data/countries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { addSales } from "../../services/salesservices";
 
 
 const SalesTeamForm = () => {
@@ -23,7 +24,7 @@ const SalesTeamForm = () => {
     const [children, setChildren] = useState("");
     const [infants, setInfants] = useState("");
     const [numofdays, setNumofdays] = useState("");
-    const [urgent, setUrgent] = useState("");
+    const [priority, setPriority] = useState("");
     const [travelStartDate, setTravelStartDate] = useState("");
     const [additionalDetails, setAdditionalDetails] = useState("");
 
@@ -71,20 +72,25 @@ const SalesTeamForm = () => {
         e.preventDefault();
         const salesDetails = {
             subject,
+            customername,
+            contactMethod,
+            contactValue,
+            lead,
             country,
+            cities,
             adults,
             children,
             infants,
             numofdays,
-            urgent,
+            priority,
             travelStartDate,
             additionalDetails,
         };
         console.log("Sales Details Submitted:", salesDetails);
-
+        addSales(salesDetails);
     };
     return (
-        <div className="w-[800px] bg-slate-50  px-10 py-4  rounded-[10px]  shadow-lg shadow-black/25 m-5">
+        <div className="w-[800px]  bg-slate-50  px-10 py-4  rounded-[10px]  shadow-lg shadow-black/25 m-5">
         <h2 className=" text-xl font-semibold  text-slate-600 m-2">Add sales details</h2>
         <hr className="border-t border-gray-300 my-4"></hr>
 
@@ -340,30 +346,21 @@ const SalesTeamForm = () => {
                 </div>
             </div>
             <div className="mb-4 flex items-center gap-3">
-                <label className="text-[14px]  text-slate-600 ml-2">Urgent request : </label>
+                <label className="text-[14px]  text-slate-600 ml-2">Priority : </label>
                 <div className="flex item-center gap-4">
-                    <label className="text-[14px]  text-slate-600">
-                        <input
-                            type="radio"
-                            name="urgent"
-                            id=""
-                            value="Yes"
-                            onChange={(e) => setUrgent(e.target.value)}
-                            checked={urgent === "Yes"}
-                        />
-                        Yes
-                    </label>
-                    <label className="text-[14px]  text-slate-600">
-                        <input
-                            type="radio"
-                            name="urgent"
-                            id=""
-                            value="No"
-                            onChange={(e) => setUrgent(e.target.value)}
-                            checked={urgent === "No"}
-                        />
-                        No
-                    </label>
+                    <select
+                        name="priority"
+                        id=""
+                        value={priority}
+                        onChange={(e) => setPriority(e.target.value)}
+                        className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[150px]"
+                        required
+                    >
+                        <option value="">Select priority</option>
+                        <option value="high">High</option>
+                        <option value="normal">Normal</option>
+                        <option value="low">Low</option>    
+                    </select>
                 </div>
             </div>
             <div className="mb-4 flex items-center gap-4">
