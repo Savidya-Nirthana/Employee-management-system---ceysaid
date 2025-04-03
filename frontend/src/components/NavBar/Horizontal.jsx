@@ -64,9 +64,7 @@ const Horizontal = () => {
           >
             {user.attachments?.employeeImage ? (
               <img
-                src={`${
-                  import.meta.env.VITE_BASE_URL
-                }${user.attachments.employeeImage.replace("uploads", "")}`}
+                src={user.attachments.employeeImage}
                 alt="img"
                 className="w-[35px] h-[35px] rounded-full"
               />

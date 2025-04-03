@@ -27,10 +27,7 @@ const Profile = () => {
             <div className="p-6 ">
               <div className="w-48 h-48 overflow-hidden">
                 <img
-                  src={`${import.meta.env.VITE_BASE_URL}${user.attachments.employeeImage.replace(
-                    "uploads",
-                    ""
-                  )}`}
+                  src={user.attachments.employeeImage}
                   alt="testp"
                   className="object-cover w-full h-full:"
                 />

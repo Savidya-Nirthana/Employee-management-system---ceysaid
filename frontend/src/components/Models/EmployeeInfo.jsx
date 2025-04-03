@@ -59,11 +59,11 @@ const EmployeeInfo = (props) => {
               </div>
               <label
                 className="border-2 border-slate-300 w-30 h-30 flex flex-col items-center justify-center rounded-xl relative cursor-pointer hover:border-blue-500 transition"
-                onClick={() => setSelectImageUrl(`${baseUrl}${imageUrl}`)}
+                onClick={() => setSelectImageUrl(`${imageUrl}`)}
               >
                 {imageUrl ? (
                   <img
-                    src={`${baseUrl}${imageUrl}`}
+                    src={`${imageUrl}`}
                     alt="img"
                     className={`${profileHover ? "opacity-45" : ""}`}
                     onMouseEnter={() => setProfileHover(true)}
@@ -472,12 +472,12 @@ const EmployeeInfo = (props) => {
               <div className="flex flex-col items-center">
                 <label
                   className="flex items-center justify-center w-[100px] h-[100px]  border-2  text-white text-[12px] rounded-lg cursor-pointer hover:border-blue-500 transition"
-                  onClick={() => setSelectImageUrl(`${baseUrl}${nicImageUrl}`)}
+                  onClick={() => setSelectImageUrl(`${nicImageUrl}`)}
                 >
                   {nicImageUrl ? (
                     <img
                       className=" rounded-md"
-                      src={`${baseUrl}${nicImageUrl}`}
+                      src={`${nicImageUrl}`}
                       alt="NIC image"
                     />
                   ) : (
@@ -489,12 +489,12 @@ const EmployeeInfo = (props) => {
               <div className="flex flex-col items-center">
                 <label
                   className="flex items-center justify-center w-[100px] h-[100px] text-white text-[12px] rounded-lg cursor-pointer border-2 hover:border-blue-500 transition"
-                  onClick={() => setSelectImageUrl(`${baseUrl}${gsImageUrl}`)}
+                  onClick={() => setSelectImageUrl(`${gsImageUrl}`)}
                 >
                   {gsImageUrl ? (
                     <img
                       className=" rounded-md"
-                      src={`${baseUrl}${gsImageUrl}`}
+                      src={`${gsImageUrl}`}
                       alt="gs certificate"
                     />
                   ) : (
@@ -507,13 +507,13 @@ const EmployeeInfo = (props) => {
                 <label
                   className="flex items-center justify-center w-[100px] h-[100px]  text-white text-[12px] rounded-lg cursor-pointer border-2 hover:border-blue-500 transition"
                   onClick={() =>
-                    setSelectImageUrl(`${baseUrl}${letterApptUrl}`)
+                    setSelectImageUrl(`${letterApptUrl}`)
                   }
                 >
                   {letterApptUrl ? (
                     <img
                       className=" rounded-md"
-                      src={`${baseUrl}${letterApptUrl}`}
+                      src={`${letterApptUrl}`}
                       alt="letter_of_appointment"
                     />
                   ) : (

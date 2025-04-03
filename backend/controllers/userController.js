@@ -4,6 +4,7 @@ import tempEmployer from "../models/temp_emp.model.js";
 import PermenentUser from "../models/permenent_emp.model.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import { uploadToCloudinary } from "../middlewares/uploadMiddleware.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -92,7 +93,7 @@ export const logout = asyncHandler((req, res) => {
 
 export const rejectApp = asyncHandler(async (req, res) => {
   const { userId } = await req.body;
-  console.log(userId);  
+  console.log(userId);
 });
 
 // for : user getDetails
@@ -121,8 +122,12 @@ export const uploadImage = asyncHandler(async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "file not found" });
     }
-    const filePath = req.file.path.replace(/\\/g, "/");
-    res.status(200).json({ path: filePath });
+    const { userId, type } = req.body;
+    const folder = `users/${userId}/${type}`;
+
+    const result = await uploadToCloudinary(req.file.buffer, folder);
+
+    res.status(200).json({ path: result.secure_url });
   } catch (e) {
     console.log(e);
   }
