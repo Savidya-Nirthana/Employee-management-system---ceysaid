@@ -50,7 +50,7 @@ const AddUsers = () => {
   return (
     <>
       <div
-        className=" bg-slate-50  w-[500px] xl:w-[550px] p-5 rounded-[10px] my-2 shadow-lg shadow-black/25]
+        className=" bg-slate-50  flex-1 xl:w-[550px] p-5 rounded-[10px] my-2 shadow-lg shadow-black/25]
 "
       >
         <ToastContainer />
@@ -62,7 +62,7 @@ const AddUsers = () => {
           className=" m-auto block w-[500px]"
           onSubmit={registerHandling}
         >
-          <table>
+          <table className=" m-auto">
             <tr>
               <td className=" w-[150px] xl:w-[150px]">
                 <label htmlFor="" className=" text-slate-600 text-[14px]">

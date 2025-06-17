@@ -33,7 +33,6 @@ const AllEmployers = ({ refresh, setRefresh, showNav, open, setOpen }) => {
       const data = await getPermUsers();
       setUsers(data);
       setFilterUser(data);
-      // setFilterUser(null);
     };
 
     getData();
@@ -56,7 +55,7 @@ const AllEmployers = ({ refresh, setRefresh, showNav, open, setOpen }) => {
     e.preventDefault();
     const value = e.target.value.trim();
     const result = await users.filter((u) => String(u.userId).includes(value));
-    setFilterUser(result);
+    setFilterUser(result); 
     console.log(result);
   };
 
@@ -79,11 +78,11 @@ const AllEmployers = ({ refresh, setRefresh, showNav, open, setOpen }) => {
     <>
       <ToastContainer />
       <div
-        className={` ${
-          showNav ? "xl:w-[95%] w-[100%]" : "xl:w-auto w-[90%]"
+        className={` flex-1 w-[100%] ${
+          showNav ? "" : "xl:w-auto "
         } min-w-[700px] 
-          ${open? 'h-[0px]' : 'h-[760px]'}
-         bg-slate-50  py-5  rounded-[10px] my-2  shadow-lg shadow-black/25`}
+          ${open? 'h-[0px]' : 'h-[800px]'}
+         bg-slate-50  py-5  rounded-[10px]  shadow-lg shadow-black/25`}
       >
         <div className="flex flex-row items-center justify-between w-[90%]  m-auto my-2">
           <div className="text-[20px] text-[#023047] font-semibold">
@@ -96,7 +95,7 @@ const AllEmployers = ({ refresh, setRefresh, showNav, open, setOpen }) => {
               name=""
               id=""
               className=" border-[#023047] border-[1.5px] outline-none px-2 py-1 rounded-md text-[13px]"
-              onChange={handleSearch}
+              onChange={handleSearch} 
             />
           </div>
         </div>

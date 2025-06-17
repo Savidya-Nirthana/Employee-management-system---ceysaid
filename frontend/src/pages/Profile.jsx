@@ -41,15 +41,24 @@ const Profile = () => {
               <table className="w-full my-4">
                 <tr className="bg-gray-100">
                   <td className="p-2">Department:</td>
-                  <td className="p-2">{user.corporateDetails.department}</td>
+                  <td className="p-2">
+                    {user.corporateDetails.department[0].toUpperCase() +
+                      user.corporateDetails.department.substring(1)}
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-2">Location:</td>
-                  <td className="p-2">{user.corporateDetails.location}</td>
+                  <td className="p-2">
+                    {user.corporateDetails.location[0]?.toUpperCase() +
+                      user.corporateDetails.location.substring(1)}
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-2">Employee Type:</td>
-                  <td className="p-2">{user.corporateDetails.employeeType}</td>
+                  <td className="p-2">
+                    {user.corporateDetails.employeeType[0].toUpperCase() +
+                      user.corporateDetails.employeeType.substring(1)}
+                  </td>
                 </tr>
                 <tr className="bg-gray-100">
                   <td className="p-2">Date Joined:</td>
@@ -76,19 +85,27 @@ const Profile = () => {
                 </tr>
                 <tr>
                   <td className="p-2 w-[40%]">Gender:</td>
-                  <td className="p-2">{user.gender}</td>
+                  <td className="p-2">
+                    {user.gender[0].toUpperCase() + user.gender.substring(1)}
+                  </td>
                 </tr>
                 <tr className="bg-gray-100">
                   <td className="p-2">Date of Birth:</td>
-                  <td className="p-2">{user.dob}</td>
+                  <td className="p-2">{user.dob.split("T")[0]}</td>
                 </tr>
                 <tr>
                   <td className="p-2">Nationality:</td>
-                  <td className="p-2">{user.nationality}</td>
+                  <td className="p-2">
+                    {user.nationality[0].toUpperCase() +
+                      user.nationality.substring(1)}
+                  </td>
                 </tr>
                 <tr className="bg-gray-100">
                   <td className="p-2">Religion</td>
-                  <td className="p-2">{user.religion}</td>
+                  <td className="p-2">
+                    {user.religion[0].toUpperCase() +
+                      user.religion.substring(1)}
+                  </td>
                 </tr>
               </table>
             </div>

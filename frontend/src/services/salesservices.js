@@ -15,13 +15,24 @@ export const getSalesById = async (userId) => {
   }
 };
 
+export const addSales = async (salesDetails) => {
+  try {
+    const data = await API.post(`${BASE_URL}/addsales`, salesDetails, {
+      withCredentials: true,
+    });
+    return { err: false, message: data.data.message };
+  } catch (e) {
+    return { err: true, message: e };
+  }
+};
 
-export const addSales = async(salesDetails) => {
-  try{
-    const data = await API.post(`${BASE_URL}/addsales` , salesDetails, {
-      withCredentials: true
-    })
-  }catch(e){
+export const getAllData = async () => {
+  try {
+    const data = await API.get(`${BASE_URL}/getAllData`, {
+      withCredentials: true,
+    });
+    return data.data.data;
+  } catch (e) {
     console.error(e);
   }
-}
+};

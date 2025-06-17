@@ -10,21 +10,19 @@ const Employers = () => {
   const [refresh, setRefresh] = useState(false);
   const { showNav } = useContext(UIContext);
   return (
-    <div className="flex flex-row gap-2 overflow-auto $">
+    <div className="flex flex-row gap-2 mx-5 ">
       {/* admin -> employers */}
       <div
-        className={` flex ${
-          showNav ? "2xl:flex-row flex-col " : "flex-col xl:flex-row"
-        } justify-evenly  w-[100%] mt-[50px] items-center  duration-500 mr-4 ${
-          showNav ? "xl:ml-[218px] ml-[160px]" : "ml-[60px]"
-        }`}
-      >
+  className={`flex gap-5 items-center duration-500 mt-12 w-[100%] ${
+    showNav ? "2xl:flex-row flex-col xl:ml-[200px] ml-[160px]" : "flex-col xl:flex-row ml-[50px]"
+  }`}
+>
         <div
-          className={` flex ${
+          className={`w-[100%] flex gap-5 ${
             showNav
-              ? "2xl:flex-col flex-row justify-between w-[95%]"
+              ? "2xl:flex-col flex-row  "
               : "xl:flex-col flex-row "
-          } justify-between  `}
+          }  `}
         >
           {!viewDeatails &&  !open ? <AddUsers /> : ""}
           {!open? <EmpAppCon

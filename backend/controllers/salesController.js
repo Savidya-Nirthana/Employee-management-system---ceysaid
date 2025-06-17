@@ -5,8 +5,6 @@ export const addSales = asyncHandler(async (req, res) => {
   try {
     const data = req.body;
     const userId = res.user.user.userId;
-    console.log(res.user);
-    console.log(req.body);
     const sale = await SalesModel.create({
       userId: userId,
       subject: data.subject,
@@ -27,11 +25,11 @@ export const addSales = asyncHandler(async (req, res) => {
         lead: "YouTube Ads",
       },
       status: "pending",
-      urgent: data.urgent === "Yes" ? true : false,
+      priority: data.priority,
     });
-    res.json(sale).status(200);
+    res.status(200).json({ message: "Add sales successfully" });
   } catch (err) {
-    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -42,5 +40,14 @@ export const getDataById = asyncHandler(async (req, res) => {
     res.json({ data: data }).status(200);
   } catch (err) {
     console.error(err);
+  }
+});
+
+export const getAllData = asyncHandler(async (req, res) => {
+  try {
+    const data = await SalesModel.find({});
+    res.status(200).json({ data: data });
+  } catch (e) {
+    res.status(500).json({ message: "Internal server error" });
   }
 });

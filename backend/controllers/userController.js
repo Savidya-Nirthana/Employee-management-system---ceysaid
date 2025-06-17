@@ -89,11 +89,21 @@ export const logout = asyncHandler((req, res) => {
 //for: user approval rejection
 // access : admin
 // uro : api/v1/usets/rejectUser
-// method: GET
+// method: POST
 
 export const rejectApp = asyncHandler(async (req, res) => {
   const { userId } = await req.body;
-  console.log(userId);
+  if (userId) {
+    try {
+      const result = await tempEmployer.deleteOne({ userId: userId });
+      const result2 = await PermenentUser.deleteOne({ userId: userId });
+      return res.status(200).json({ message: "User removed successfully" });
+    } catch (err) {
+      return res.status(500).json({ message: "Server error" });
+    }
+  } else {
+    return res.status(500).json({ message: "Server error" });
+  }
 });
 
 // for : user getDetails

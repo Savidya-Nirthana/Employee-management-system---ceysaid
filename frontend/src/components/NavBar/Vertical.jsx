@@ -19,7 +19,7 @@ const Vertical = () => {
     <>
       <div
         className={` h-[100vh] fixed ${
-          showNav ? "xl:w-[200px] w-[150px]" : "w-[50px]"
+          showNav ? "w-[200px]" : "w-[50px]"
         } bg-[#023047] text-slate-50 duration-500`}
       >
         <ul className=" flex flex-col items-center gap-5 my-10 ">

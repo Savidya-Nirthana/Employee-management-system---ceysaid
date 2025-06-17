@@ -1,9 +1,14 @@
-const CustomerDetailsModal = ({ setOpen, selectSale }) => {
-  console.log(selectSale);
+import { useContext, useState } from "react";
+import OperationResponseModel from "./OperationResponseModel";
+import { AuthContext } from "../../contexts/AuthContext";
+
+const CustomerDetailsModal = ({ setOpen, selectSale, view }) => {
+  const [openResponse, setOpenResponse] = useState(null);
+  const { user } = useContext(AuthContext);
+  const { role } = user;
   return (
-    <div className="fixed inset-0 flex justify-center bg-[#ffffffd2] items-center">
+    <div className=" w-[400px] h-[570px] ">
       <div className="bg-white p-5 rounded-lg shadow-lg max-w-[600px]">
-        <h2 className="text-md font-bold pb-2">Customer Details</h2>
         <div>
           <table className="w-full">
             <tbody>
@@ -65,14 +70,27 @@ const CustomerDetailsModal = ({ setOpen, selectSale }) => {
           </table>
         </div>
         <div className="flex justify-end gap-10 pt-2">
+          {role != "sales" ? (
+            <button
+              className="bg-[#2fa4c2] text-white px-2.5 py-1.5 rounded cursor-pointer hover:bg-black"
+              onClick={() => setOpenResponse(true)}
+            >
+              Proceed
+            </button>
+          ) : (
+            ""
+          )}
           <button
-            className="bg-[#2fa4c2] text-white px-2.5 py-1.5 rounded cursor-pointer hover:bg-black"
+            className="bg-[#c80000] text-white px-2.5 py-1.5 rounded cursor-pointer hover:bg-black"
             onClick={() => setOpen(false)}
           >
             Close
           </button>
         </div>
       </div>
+      {openResponse && (
+        <OperationResponseModel setOpenResponse={setOpenResponse} />
+      )}
     </div>
   );
 };

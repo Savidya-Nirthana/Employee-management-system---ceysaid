@@ -17,7 +17,7 @@ import ProtectedRoutes from "./routes/ProtectedRoutes.jsx";
 import GroupTours from "./pages/GroupTours.jsx";
 
 function App() {
-  const { user, setUser, isLogin, setIsLogin } = useContext(AuthContext);
+  const { user, setUser, isLogin, setIsLogin, refresh } = useContext(AuthContext); 
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -41,7 +41,7 @@ function App() {
       }
     };
     getUser();
-  }, []);
+  }, [refresh]);
   if (isLogin === null && user === null) return <>Loading ...</>;
   return (
     <Routes>

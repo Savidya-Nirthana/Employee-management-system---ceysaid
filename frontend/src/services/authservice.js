@@ -16,15 +16,17 @@ export const register = async (data) => {
 };
 
 export const login = async (userId, password) => {
+  console.log(userId);
   try {
     const response = await API.post(
       `${BASE_URL}/login`,
       { userId, password },
       { withCredentials: true }
     );
-
+    console.log(response);
     return { message: response.data.message, status: response.status };
   } catch (error) {
+    // console.log(error);
     return { message: error.response.data.message, status: error.status };
   }
 };
@@ -36,6 +38,7 @@ export const getData = async () => {
     });
     return response;
   } catch (err) {
+    console.log(err);
     return err;
   }
 };
@@ -125,9 +128,17 @@ export const getAppData = async () => {
 };
 
 export const rejectSend = async (userId) => {
-  const response = await API.get(`${BASE_URL}/reject`, { userId: userId } );
-
-  console.log(response);
+  try {
+    const response = await API.post(
+      `${BASE_URL}/reject`,
+      { userId: userId },
+      { withCredentials: true }
+    );
+    console.log(response);
+    return { err: false, message: response.data.message };
+  } catch (err) {
+    return { err: true, message: err.data.message };
+  }
 };
 
 export const getPermRegUser = async (userId) => {

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UserDetails = () => {
   return (
-    <div className=" w-[100%]">
+    <div className=" w-[100%] border-b-[1px] border-slate-200 pb-5">
       <div className=" flex flex-row justify-evenly">
         <div className=" w-[200px] h-[100px] bg-[#FAF8FC] p-5 rounded-[10px]">
           <div className=" flex items-center justify-between">

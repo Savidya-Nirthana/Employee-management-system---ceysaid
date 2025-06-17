@@ -12,7 +12,6 @@ const EmpAppCon = ({ refresh, setRefresh, viewDeatails, setViewDetails }) => {
   const [approvalUsers, setApprovalUsers] = useState(null);
   const [rejectConfirmation, setRejectConfirmation] = useState(false);
   const [selectUser, setSelectUser] = useState(null);
-  
   const [user, setUser] = useState(null);
   const [isEdit, setIsEdit] = useState(null);
   const acceptHandler = async () => {
@@ -39,7 +38,7 @@ const EmpAppCon = ({ refresh, setRefresh, viewDeatails, setViewDetails }) => {
   const rejectHandler = async (id) => {
     setRejectConfirmation(true);
     setSelectUser(id);
-    console.log(id);
+    // console.log(id);
   };
 
   const viewHandles = (id) => {
@@ -47,14 +46,21 @@ const EmpAppCon = ({ refresh, setRefresh, viewDeatails, setViewDetails }) => {
     setViewDetails(true);
   };
 
-  const reject = () => {
-    const data = rejectSend(selectUser);
+  const reject = async () => {
+    const { err, message } = await rejectSend(selectUser);
+    console.log(err);
+    if (!err) {
+      toast.success(message);
+      setRefresh((prev) => !prev);
+    } else {
+      toast.error(message);
+    }
     setRejectConfirmation(false);
   };
 
   return (
     <div
-      className={`bg-slate-50 w-[500px] xl:w-[550px] z-[0]  py-5 my-2  rounded-[10px]  shadow-lg shadow-black/25 ${
+      className={`bg-slate-50 flex-1 xl:w-[550px] z-[0]  py-5 my-2  rounded-[10px]  shadow-lg shadow-black/25  ${
         viewDeatails ? "" : ""
       }
 `}
@@ -139,7 +145,7 @@ const EmpAppCon = ({ refresh, setRefresh, viewDeatails, setViewDetails }) => {
         <>
           <div className="fixed inset-0  flex justify-center bg-[#ffffffd2] py-20 overflow-y-scroll scroll-auto">
             <div className="bg-white p-5 rounded-lg shadow-lg max-w-[1200px] min-h-[768px]">
-              <h2 className="text-xl font-bold">{`test user `} </h2>
+              <h2 className="text-xl font-bold">{selectUser} </h2>
               <EmployeeInfo
                 userId={selectUser}
                 type="approval"

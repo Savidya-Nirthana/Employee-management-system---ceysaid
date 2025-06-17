@@ -66,9 +66,9 @@ const salesSchema = mongoose.Schema(
       type: String,
       default: "pending",
     },
-    urgent: {
-      type: Boolean,
-      default: false,
+    priority: {
+      type: String,
+      default: "Low",
       required: true,
     },
   },

@@ -8,12 +8,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
-import { Navigate } from "react-router";
 import { UIContext } from "../contexts/UIContext";
 import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import LoadingModal from "./Models/LoadingModel";
 const RegStepOne = () => {
   const [dob, setDob] = useState("");
   const { showNav } = useContext(UIContext);
+  const {setRefresh} = useContext(AuthContext);
   const [isFocused, setIsFocused] = useState(false);
   const [nicFileName, setNicFileName] = useState("No file selected");
   const [LAFileName, setLAFileName] = useState("No file selected");
@@ -46,6 +48,7 @@ const RegStepOne = () => {
   const [dateJoined, setDateJoined] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const fileInputRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const getData = async () => {
       const response = await getTempUser();
@@ -94,6 +97,7 @@ const RegStepOne = () => {
   };
 
   const regHandler = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const formData = new FormData();
     formData.append("userId", userId);
@@ -141,9 +145,11 @@ const RegStepOne = () => {
     const { message, error } = await permenentReg(formData);
     if (!error) {
       toast.success(message);
-      <Navigate to="/dashboard" />;
+      setRefresh((prev) => !prev);
+      setLoading(false);
     } else {
       toast.error(message);
+      setLoading(false);
     }
   };
 
@@ -578,6 +584,16 @@ const RegStepOne = () => {
           </div>
         </div>
       </form>
+
+      {loading && (
+        <>
+          <div className="fixed inset-0  flex justify-center bg-[#ffffffd2]">
+            <div className=" p-5 ">
+              <LoadingModal />
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
