@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Passenger Info Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+
+    .search-box {
+      width: 400px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 20px;
+      border: 1.5px solid #ccc;
+      font-size: 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="search-box">
+    <input type="text" placeholder="Search for a name" id="searchInput" onkeyup="searchTable()">
+  </div>
+
+  <table id="infoTable">
+    <thead>
+      <tr>
+        <th>UserID</th>
+        <th>Country</th>
+        <th>Days</th>
+        <th>Passengers</th>
+        <th>Priority</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ceysaid01</td>
+        <td>Brunei</td>
+        <td>3</td>
+        <td>A1C1I1</td>
+        <td>normal</td>
+        <td>pending</td>
+      </tr>
+      <tr>
+        <td>ceysaid02</td>
+        <td>China</td>
+        <td>9</td>
+        <td>A4C1I0</td>
+        <td>normal</td>
+        <td>approved</td>
+      </tr>
+      <tr>
+        <td>ceysaid02</td>
+        <td>Vietnam</td>
+        <td>5</td>
+        <td>A3C4I0</td>
+        <td>low</td>
+        <td>approved</td>
+      </tr>
+      <tr>
+        <td>ceysaid02</td>
+        <td>Philippines</td>
+        <td>12</td>
+        <td>A12C0I0</td>
+        <td>high</td>
+        <td>approved</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    function searchTable() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.toLowerCase();
+      const table = document.getElementById("infoTable");
+      const tr = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < tr.length; i++) {
+        tr[i].style.display = "none";
+        const tdList = tr[i].getElementsByTagName("td");
+        for (let j = 0; j < tdList.length; j++) {
+          if (tdList[j] && tdList[j].innerText.toLowerCase().includes(filter)) {
+            tr[i].style.display = "";
+            break;
+          }
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
