@@ -1,22 +1,35 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Upload } from "lucide-react";
-import { regConfirm } from "../services/authservice";
-
+import {
+  getTempUser,
+  permenentReg,
+  uploadImage,
+} from "../services/authservice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faTrash,
+  faFile,
+  faCircleXmark as faCircleXmarkSolid, 
+} from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import { UIContext } from "../contexts/UIContext";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import LoadingModal from "./Models/LoadingModel";
+import { useDropzone } from "react-dropzone";
+import axios from "axios";
 
 const RegStepOne = () => {
-  const [date, setDate] = useState("");
+  const [dob, setDob] = useState("");
+  const { showNav } = useContext(UIContext);
+  const {setRefresh} = useContext(AuthContext);
   const [isFocused, setIsFocused] = useState(false);
   const [nicFileName, setNicFileName] = useState("No file selected");
   const [LAFileName, setLAFileName] = useState("No file selected");
   const [GnFileName, setGnFileName] = useState("No file selected");
 
-  const regHandler = async(e) => {
-
-    
-  };
-
-
   const [profile, setProfile] = useState("");
+  const [profileBlur, setProfileBlur] = useState(false);
   const [fullname, setFullname] = useState("");
   const [houseNo, setHouseNo] = useState("");
   const [street1, setStreet1] = useState("");
@@ -33,59 +46,189 @@ const RegStepOne = () => {
   const [nic, setNic] = useState("");
   const [nationality, setNationality] = useState("");
   const [religion, setReligion] = useState("");
-  const [cooperateTitle, setCooperateTitle] = useState("");
+  const [corporateTitle, setCorporateTitle] = useState("");
   const [location, setLocation] = useState("");
   const [department, setDepartment] = useState("");
   const [employeeType, setEmployeeType] = useState("");
+  const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState("");
+  const [dateJoined, setDateJoined] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
+  const fileInputRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const getData = async () => {
+      const response = await getTempUser();
+      if (response.data.user) {
+        const tempUser = response.data.user;
+        setUserId(tempUser.userId);
+        setCorporateTitle(tempUser.corporateTitle);
+        setEmployeeType(tempUser.employeeType);
+        setPassword(tempUser.password);
+        setDepartment(tempUser.department);
+        setDateJoined(tempUser.dateJoined);
+      }
+    };
 
-
+    getData();
+  }, []);
 
   const handleProfileChange = (event) => {
     const file = event.target.files[0];
-    setProfile(file ? file.name : "");
+    setProfile(file ? file : "");
+    setProfileImage(URL.createObjectURL(file ? file : ""));
   };
+
+  const handleRemoveProfile = (e) => {
+    e.preventDefault();
+    setProfile(null);
+    setProfileImage(null);
+    setProfileBlur(false);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleRemoveNIC = () => {
+    setNicFileName("No file selected");
+  }
+
+  const handleRemoveLA = () => {
+    setLAFileName("No file selected");
+  }
+
+  const handleRemoveGn = () => {
+    setGnFileName("No file selected");
+  }
 
   const NicHandleFileChange = (event) => {
     const file = event.target.files[0];
-    setNicFileName(file ? file.name : "No file selected");
+    setNicFileName(file ? file : "No file selected");
   };
   const GnHandleFileChange = (event) => {
     const file = event.target.files[0];
-    setGnFileName(file ? file.name : "No file selected");
+    setGnFileName(file ? file : "No file selected");
   };
   const LAHandleFileChange = (event) => {
     const file = event.target.files[0];
-    setLAFileName(file ? file.name : "No file selected");
+    setLAFileName(file ? file : "No file selected");
+  };
+
+  const regHandler = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("userId", userId);
+    formData.append("dateJoined", dateJoined);
+    formData.append("fullname", fullname);
+    formData.append("houseNo", houseNo);
+    formData.append("street1", street1);
+    formData.append("street2", street2);
+    formData.append("city", city);
+    formData.append("district", district);
+    formData.append("postalCode", postalCode);
+    formData.append("gsDivision", gsDivision);
+    formData.append("gnDivision", gnDivision);
+    formData.append("telephone", telephone);
+    formData.append("mobile", mobile);
+    formData.append("email", email);
+    formData.append("gender", gender);
+    formData.append("dob", dob);
+    formData.append("nic", nic);
+    formData.append("nationality", nationality);
+    formData.append("religion", religion);
+    formData.append("corporateTitle", corporateTitle);
+    formData.append("location", location);
+    formData.append("department", department);
+    formData.append("employeeType", employeeType);
+    formData.append("password", password);
+
+    if (profile) {
+      const uploadProfile = await uploadImage(userId, "profile", profile);
+      formData.append("profile", uploadProfile);
+    }
+    if (nicFileName !== "No file selected") {
+      const uploadNIC = await uploadImage(userId, "nic", nicFileName);
+      formData.append("nicFile", uploadNIC);
+    }
+    if (LAFileName !== "No file selected") {
+      const uploadLA = await uploadImage(userId, "la", LAFileName);
+      formData.append("laFile", uploadLA);
+    }
+    if (GnFileName !== "No file selected") {
+      const uploadGn = await uploadImeage(userId, "Gn", GnFileName);
+      formData.append("gnFile", uploadGn);
+    }
+
+    const { message, error } = await permenentReg(formData);
+    if (!error) {
+      toast.success(message);
+      setRefresh((prev) => !prev);
+      setLoading(false);
+    } else {
+      toast.error(message);
+      setLoading(false);
+    }
+
   };
 
   return (
     <>
-      <div className="w-[100%] my-1 pl-[30px] text-[20px] text-slate-600">
+      <ToastContainer />
+      <div className="w-[100%] my-1 pl-[30px] text-[20px]  text-slate-600">
         Register new employee
       </div>
 
-      <form className="  m-auto" onSubmit={regHandler}>
-        <div className=" flex flex-row justify-around">
+      <form className="   m-auto" onSubmit={regHandler}>
+        <div
+          className={` flex flex-col  ${
+            showNav ? "2xl:flex-row 2xl:w-full" : "xl:flex-row xl:w-full"
+          } w-[600px] m-auto  justify-around`}
+        >
           <div>
             <div className=" gap-3 flex flex-row m-5 items-end">
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2 z-[0]">
                 <label className="border-2 border-slate-300 w-30 h-30 flex flex-col items-center justify-center rounded-xl relative cursor-pointer hover:border-blue-500 transition">
-                  <Upload className="w-10 h-10 text-gray-400" />
-                  <span className="absolute top-[75%] text-sm text-gray-500 text-[14px]">
-                    {"Upload Image"}
-                  </span>
+                  {!profileImage ? (
+                    <>
+                      <Upload className="w-10 h-10 text-gray-400" />
+                      <span className="absolute top-[75%] text-sm text-gray-500 text-[14px]">
+                        {"Upload Image"}
+                      </span>
+                    </>
+                  ) : (
+                    <div className=" relative">
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        onMouseEnter={() => setProfileBlur(true)}
+                        onMouseLeave={() => setProfileBlur(false)}
+                        className={`absolute text-red-500 bottom-[20%] left-0 right-0 m-auto  ${
+                          profileBlur ? "text-3xl" : "text-[1px] border-none"
+                        } z-100 duration-150 border-[2px] border-red-500 p-1 rounded-sm`}
+                        onClick={(e) => handleRemoveProfile(e)}
+                      />
+                      <img
+                        src={profileImage}
+                        alt=""
+                        className={`w-30 h-30 rounded-xl ${
+                          profileBlur ? "opacity-45" : ""
+                        }`}
+                        onMouseEnter={() => setProfileBlur(true)}
+                        onMouseLeave={() => setProfileBlur(false)}
+                      />
+                    </div>
+                  )}
+
                   <input
                     type="file"
                     className="hidden"
                     name="profilePhoto"
                     onChange={handleProfileChange}
+                    disabled={profileBlur}
+                    ref={fileInputRef}
                   />
                 </label>
-                {profile && (
-                  <p className="text-gray-600 text-sm truncate max-w-xs">
-                    {profile.substring(0, 15)}
-                  </p>
-                )}
               </div>
               <input
                 className="placeholder:text-slate-600 text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[400px] h-[30px]"
@@ -120,6 +263,7 @@ const RegStepOne = () => {
                     id=""
                     placeholder="Street 1"
                     onChange={(e) => setStreet1(e.target.value)}
+                    required
                   />
                 </div>
                 <div>
@@ -142,6 +286,7 @@ const RegStepOne = () => {
                     id=""
                     placeholder="City/Town"
                     onChange={(e) => setCity(e.target.value)}
+                    required
                   />
                 </div>
                 <div>
@@ -151,7 +296,7 @@ const RegStepOne = () => {
                     name="district"
                     onChange={(e) => setDistrict(e.target.value)}
                   >
-                    <option value="" disabled>Select a district</option>
+                    <option value="">Select a district</option>
                     <option value="Ampara">Ampara</option>
                     <option value="Anuradhapura">Anuradhapura</option>
                     <option value="Badulla">Badulla</option>
@@ -187,6 +332,7 @@ const RegStepOne = () => {
                     id=""
                     placeholder="Postal code"
                     onChange={(e) => setPostalCode(e.target.value)}
+                    required
                   />
                 </div>
               </div>
@@ -199,6 +345,7 @@ const RegStepOne = () => {
                     id=""
                     placeholder="Gs division"
                     onChange={(e) => setGsDivision(e.target.value)}
+                    required
                   />
                 </div>
                 <div>
@@ -209,6 +356,7 @@ const RegStepOne = () => {
                     id=""
                     placeholder="Gn division"
                     onChange={(e) => setGnDivision(e.target.value)}
+                    required
                   />
                 </div>
                 <div></div>
@@ -238,6 +386,7 @@ const RegStepOne = () => {
                   id=""
                   placeholder="Mobile"
                   onChange={(e) => setMobile(e.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -259,14 +408,15 @@ const RegStepOne = () => {
             <div className=" flex flex-row gap-[20px] m-5">
               <div className="">
                 <input
-                  type={isFocused || date ? "date" : "text"}
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
+                  type={isFocused || dob ? "date" : "text"}
+                  value={dob}
+                  onChange={(e) => setDob(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   placeholder="Select Dob"
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                   name="dob"
+                  required
                 />
               </div>
               <div>
@@ -275,6 +425,7 @@ const RegStepOne = () => {
                   id=""
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                   onChange={(e) => setGender(e.target.value)}
+                  required
                 >
                   <option value="">Select gender</option>
                   <option value="male">Male</option>
@@ -290,14 +441,16 @@ const RegStepOne = () => {
                 id=""
                 placeholder="NIC"
                 onChange={(e) => setNic(e.target.value)}
+                required
               />
             </div>
             <div className=" flex flex-row gap-[20px] m-5">
               <div>
-                <select className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600" 
-                onChange={(e) => setNationality(e.target.value)}
+                <select
+                  className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
+                  onChange={(e) => setNationality(e.target.value)}
+                  required
                 >
-
                   <option value="">Select nationality</option>
                   <option value="sinhala">Sinhala</option>
                   <option value="tamil">Tamil</option>
@@ -311,6 +464,7 @@ const RegStepOne = () => {
                   name="religion"
                   id=""
                   onChange={(e) => setReligion(e.target.value)}
+                  required
                 >
                   <option value="">Select Religion</option>
                   <option value="buddhism">Buddhism</option>
@@ -318,7 +472,6 @@ const RegStepOne = () => {
                   <option value="islam">Islam</option>
                   <option value="christianity">Christianity</option>
                   <option value="other">Other</option>
-
                 </select>
               </div>
             </div>
@@ -334,7 +487,9 @@ const RegStepOne = () => {
                     name="coporate_title"
                     id=""
                     placeholder="Cooperate title"
-                    onChange={(e) => setCooperateTitle(e.target.value)}
+                    onChange={(e) => setCorporateTitle(e.target.value)}
+                    value={corporateTitle}
+                    disabled
                   />
                 </div>
                 <div>
@@ -355,8 +510,12 @@ const RegStepOne = () => {
                     id=""
                     className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     onChange={(e) => setDepartment(e.target.value)}
+                    disabled
                   >
-                    <option value="">Select department</option>
+                    <option value="">
+                      {department.substring(0, 1).toUpperCase() +
+                        department.substring(1)}
+                    </option>
                     <option value="accounts">Accounts</option>
                     <option value="sales">Sales</option>
                     <option value="operation">Operation</option>
@@ -367,9 +526,12 @@ const RegStepOne = () => {
                     className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
                     id="emType"
                     onChange={(e) => setEmployeeType(e.target.value)}
-                    required
+                    disabled
                   >
-                    <option value="">Select employee type</option>
+                    <option value="">
+                      {employeeType.substring(0, 1).toUpperCase() +
+                        employeeType.substring(1)}
+                    </option>
                     <option value="permenant">Permenant</option>
                     <option value="temporary">Temporary</option>
                     <option value="training">Training</option>
@@ -382,56 +544,131 @@ const RegStepOne = () => {
             <div className=" w-[100%] bg-[#262626] text-white pl-10 rounded-sm py-1 text-[14px]">
               Attachments
             </div>
-            <div className=" flex flex-row flex-wrap gap-[20px] mx-5 my-10">
-              <div className="flex flex-col items-center">
-                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-indigo-400 text-white text-[12px] rounded-lg cursor-pointer hover:bg-indigo-500 transition">
-                  <span>Upload NIC image</span>
-                  <input
-                    type="file"
-                    className="hidden"
-                    name="nic"
-                    onChange={NicHandleFileChange}
-                  />
-                </label>
+            <div className="relative flex flex-row flex-wrap gap-[20px] mx-5 my-10">
+              <div className="relative flex flex-col items-center">
+                  <div
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      const file = e.dataTransfer.files[0];
+                      if (file) setNicFileName(file);
+                    }}
+                    onClick={() => document.getElementById("nicFileInput").click()}
+                    className="felx items-center justify-center w-[150px] h-[120px] border-2 border-dashed border-gray-400 hover:border-blue-500 text-gray-600 text-[12px] rounded-lg cursor-pointer transition text-center px-2">
+                      <FontAwesomeIcon icon={faFile} className="text-gray-400 text-7xl m-2" /><br/> 
+                      Upload NIC<br/>
+                      
+                      <input
+                        type="file"
+                        className="hidden"
+                        id="nicFileInput"
+                        name="nic"
+                        onChange={NicHandleFileChange}
+                      />
+                  </div>
+                  {nicFileName !== "No file selected" && (
+                    <FontAwesomeIcon
+                      icon={faCircleXmarkSolid}
+                      title="Remove file"
+                      onClick={handleRemoveNIC}
+                      className="absolute top-1 right-1 text-gray-500 bg-white p-1 rounded-full cursor-pointer text-[25px] group-hover:scale-110 transition"
+                    />
+                  )}
                 <p className="mt-2 text-gray-600 text-sm">
-                  {nicFileName.substring(0, 16)}
+                  {nicFileName !== "No file selected"
+                    ? nicFileName.name.substring(0, 16)
+                    : nicFileName}
                 </p>
               </div>
-              <div className="flex flex-col items-center">
-                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-indigo-400 text-white text-[12px] rounded-lg cursor-pointer hover:bg-indigo-500 transition">
-                  <span>Upload Gn certificate</span>
+              <div className="relative flex flex-col items-center">
+                <div
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      const file = e.dataTransfer.files[0];
+                      if (file) setGnFileName(file);
+                    }}
+                    onClick={() => document.getElementById("gnFileInput").click()}
+                    className="felx items-center justify-center w-[150px] h-[120px] border-2 border-dashed border-gray-400 hover:border-blue-500 text-gray-600 text-[12px] rounded-lg cursor-pointer transition text-center px-2">
+                      <FontAwesomeIcon icon={faFile} className="text-gray-400 text-7xl m-2" /><br/>
+                      Upload GN certificate<br/>
                   <input
                     type="file"
                     className="hidden"
                     name="gn_certificate"
+                    id="gnFileInput"
                     onChange={GnHandleFileChange}
                   />
-                </label>
-                <p className="mt-2 text-gray-600 text-sm">{GnFileName}</p>
+                </div>
+                {GnFileName !== "No file selected" && (
+                    <FontAwesomeIcon
+                      icon={faCircleXmarkSolid}
+                      title="Remove file"
+                      onClick={handleRemoveGn}
+                      className="absolute top-1 right-1 text-gray-500 bg-white p-1 rounded-full cursor-pointer text-[25px] group-hover:scale-110 transition"
+                    />
+                  )}
+                <p className="mt-2 text-gray-600 text-sm">
+                  {GnFileName !== "No file selected"
+                    ? GnFileName.name.substring(0, 16)
+                    : GnFileName}
+                </p>
               </div>
-              <div className="flex flex-col items-center">
-                <label className="flex items-center justify-center w-[150px] px-1 py-2 bg-indigo-400 text-white text-[12px] rounded-lg cursor-pointer hover:bg-indigo-500 transition">
-                  <span>Upload Letter of appt.</span>
+              <div className="relative flex flex-col items-center">
+                <div
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      const file = e.dataTransfer.files[0];
+                      if (file) setLAFileName(file);
+                    }}
+                    onClick={() => document.getElementById("laFileInput").click()}
+                    className="felx items-center justify-center w-[150px] h-[120px] border-2 border-dashed border-gray-400 hover:border-blue-500 text-gray-600 text-[12px] rounded-lg cursor-pointer transition text-center px-2">
+                      <FontAwesomeIcon icon={faFile} className="text-gray-400 text-7xl m-2" /><br/>
+                      Upload Letter of Appt.<br/>
                   <input
                     type="file"
                     className="hidden"
                     name="letterAppt"
+                    id="laFileInput"
                     onChange={LAHandleFileChange}
                   />
-                </label>
-                <p className="mt-2 text-gray-600 text-sm">{LAFileName}</p>
+                </div>
+                {LAFileName !== "No file selected" && (
+                    <FontAwesomeIcon
+                      icon={faCircleXmarkSolid}
+                      title="Remove file"
+                      onClick={handleRemoveLA}
+                      className="absolute top-1 right-1 text-gray-500 bg-white p-1 rounded-full cursor-pointer text-[25px] group-hover:scale-110 transition"
+                    />
+                  )}
+                <p className="mt-2 text-gray-600 text-sm">
+                  {LAFileName !== "No file selected"
+                    ? LAFileName.name.substring(0, 16)
+                    : LAFileName}
+                </p>
               </div>
             </div>
-            <div className=" float-end mt-10">
+            <div className=" float-end">
               <input
                 type="submit"
                 value="Complete"
-                className=" bg-indigo-400 hover:bg-indigo-500 text-white text-[14px] px-5 py-1 rounded-sm cursor-pointer"
+                className=" bg-[#219ebc] hover:bg-black text-white text-[14px] px-5 py-1 rounded-sm cursor-pointer"
               />
             </div>
           </div>
         </div>
       </form>
+
+      {loading && (
+        <>
+          <div className="fixed inset-0  flex justify-center bg-[#ffffffd2]">
+            <div className=" p-5 ">
+              <LoadingModal />
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
