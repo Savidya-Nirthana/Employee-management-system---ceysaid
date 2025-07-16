@@ -139,7 +139,7 @@ const AddGroupTours = () => {
       const uploadPdf = await uploadContent(user.userId, "pdf", pdf);
       formData.append("pdf", uploadPdf.data.path);
     }
-
+ 
     const response = await getData(formData);
     setLoading(false);
     if (response.status == 200) {

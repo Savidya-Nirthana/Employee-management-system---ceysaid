@@ -16,9 +16,9 @@ export const getData = async (formData) => {
 
 export const uploadContent = async (userId, type, file) => {
   const formData = new FormData();
+  formData.append("file", file);
   formData.append("userId", userId);
   formData.append("type", type);
-  formData.append("file", file);
 
   try {
     const response = await API.post(`${BASE_URL}/upload`, formData, {
@@ -33,12 +33,13 @@ export const uploadContent = async (userId, type, file) => {
   }
 };
 
+
 export const getGroupData = async () => {
   try {
     const response = await API.get(`${BASE_URL}/getData`, {
       withCredentials: true,
     });
-    return {status: true, data: response.data.data};
+    return { status: true, data: response.data.data };
   } catch (e) {
     console.error(e);
   }

@@ -1,5 +1,56 @@
 import mongoose from "mongoose";
 
+const OperationAcceptance = mongoose.Schema({
+  category: {
+    type: String,
+    default: "acceptance",
+  },
+
+  isText: {
+    type: Boolean,
+    default: false,
+  },
+
+  flights: [
+    {
+      arrival: {
+        time: { type: String, default: "" },
+      },
+      departure: {
+        dateTime: { type: String, required: true },
+        from: { type: String, required: true },
+        to: { type: String, required: true },
+      },
+      flight: { type: String, required: true },
+    },
+  ],
+
+  hotels: {
+    type: [String],
+    default: [],
+  },
+
+  itenary: {
+    type: [String],
+    default: [],
+  },
+
+  package: {
+    type: [String],
+    default: [],
+  },
+
+  special: {
+    type: [String],
+    default: [],
+  },
+
+  attachements: {
+    type: [String],
+    default: [],
+  },
+});
+
 const salesSchema = mongoose.Schema(
   {
     userId: {
@@ -71,6 +122,26 @@ const salesSchema = mongoose.Schema(
       default: "Low",
       required: true,
     },
+    isLocked: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+    lockedBy: {
+      type: String,
+      default: null,
+    },
+    lockedAt: {
+      type: Date,
+      default: null,
+    },
+
+    approvedBy: {
+      type: String,
+      defaultL: null,
+    },
+
+    logs: { acceptance: [OperationAcceptance] },
   },
   {
     timestamps: true,

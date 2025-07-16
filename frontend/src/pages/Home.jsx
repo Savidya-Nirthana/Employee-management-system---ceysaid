@@ -7,16 +7,17 @@ import UserDetails from "../components/Home/UserDetails";
 import { UIContext } from "../contexts/UIContext";
 import ProtectedComponents from "../routes/ProtectedComponents";
 import AllSales from "../components/Home/AllSales";
-import OperationResponseModel from "../components/Models/OperationResponseModel";
 import PendingSales from "../components/Home/PendingSales";
+import SalesApproval from "../components/Home/SalesApproval";
+import OperationnApproval from "../components/Home/OperationApproval";
 const Home = () => {
   const [refresh, setRefresh] = useState(false);
-  const { showNav } = useContext(UIContext);
+  const { showNav, scrollOff } = useContext(UIContext);
 
   return (
-    <div className=" flex flex-row gap-2 mx-2 ">
+    <div className=" flex flex-row gap-2 mx-2">
       <div
-        className={`duration-500 mt-[70px] w-[100%] ${
+        className={`duration-500 mt-[70px] w-[100%]  ${
           showNav ? "ml-[200px]" : "ml-[50px]"
         }`}
       >
@@ -43,6 +44,7 @@ const Home = () => {
             <GroupTour />
           </div>
           <div>
+            <SalesApproval />
             <AllSales refresh={refresh} />
           </div>
         </ProtectedComponents>
@@ -55,6 +57,7 @@ const Home = () => {
             <PendingSales />
             <GroupTour />
           </div>
+          <OperationnApproval />
         </ProtectedComponents>
       </div>
     </div>

@@ -4,9 +4,12 @@ export const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
   const [showNav, setShowNav] = useState(false);
+  const [scrollOff, setScrollOff] = useState(false);
   return (
     <>
-      <UIContext.Provider value={{ showNav, setShowNav }}>
+      <UIContext.Provider
+        value={{ showNav, setShowNav, scrollOff, setScrollOff }}
+      >
         {children}
       </UIContext.Provider>
     </>

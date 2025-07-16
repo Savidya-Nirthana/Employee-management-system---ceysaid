@@ -85,7 +85,6 @@ const SalesTeamForm = ({ setRefresh }) => {
       travelStartDate,
       additionalDetails,
     };
-    // console.log("Sales Details Submitted:", salesDetails);
     const { err, message } = await addSales(salesDetails);
     if (!err) {
       setRefresh((prev) => !prev);
@@ -114,7 +113,7 @@ const SalesTeamForm = ({ setRefresh }) => {
     }
   };
   return (
-    <div className="w-[800px]  bg-slate-0  px-10 py-4  rounded-[10px]  shadow-md shadow-black/25 m-5">
+    <div className="w-[800px]  bg-slate-0  px-10 py-8  rounded-[10px]  shadow-md shadow-black/25 m-5">
       <ToastContainer />
       <h2 className=" text-xl font-semibold  text-slate-600 m-2">
         Add sales details
@@ -127,7 +126,7 @@ const SalesTeamForm = ({ setRefresh }) => {
             Customer details :{" "}
           </label>
           <div className="mb-3 pl-2 pt-2">
-            <label className=" text-[14px]  text-slate-600">Name : </label>
+            <label className=" text-[14px]  text-slate-600">Name : </label> 
             <input
               type="text"
               name="customername"
@@ -247,7 +246,7 @@ const SalesTeamForm = ({ setRefresh }) => {
                   </div>
                 ))}
                 <div
-                  className=" cursor-pointer"
+                  className=" cursor-pointer text-[14px] hover:bg-[#219ebc] hover:text-white p-2"
                   onClick={() => {
                     setShowCountries(false);
                     setCountry(country);

@@ -20,8 +20,8 @@ import {
   uploadImage,
 } from "../controllers/userController.js";
 import { protect } from "../middlewares/authMiddleware.js";
-import { upload } from "../middlewares/uploadMiddleware.js";
-
+import multer from "multer";
+const upload = multer();
 const router = express.Router();
 
 router.post("/login", login);
@@ -42,3 +42,6 @@ router.post("/changePassword", protect, changePassword);
 router.post("/getPermUser", protect, getPermUser);
 router.post("/reject", protect, rejectApp);
 export default router;
+
+
+

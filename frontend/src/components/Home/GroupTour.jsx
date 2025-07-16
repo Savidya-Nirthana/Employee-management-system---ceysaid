@@ -5,11 +5,15 @@ import {
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ImageZoomModel from "../Models/ImageZoomModel";
+import GroupAddForm from "../Models/GroupAddFrom";
 
 export default function Group_Tour() {
   const [dataArray, setDataArray] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(2);
   const [startIndex, setStartIndex] = useState(0);
+  const [selectImage, setSelectImage] = useState(null);
+  const [selectGroup, setSelectGroup] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -43,8 +47,17 @@ export default function Group_Tour() {
               className=" max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-5 mb-3"
             >
               <div className=" flex flex-row">
-                <div className="m-3">
-                  <img className="h-38 rounded-2xl" src={elt.flyer} alt="" />
+                <div
+                  className="m-3"
+                  onClick={() => {
+                    setSelectImage(elt.flyer);
+                  }}
+                >
+                  <img
+                    className="h-38 rounded-2xl cursor-pointer"
+                    src={elt.flyer}
+                    alt=""
+                  />
                 </div>
                 <div className=" m-3">
                   <h2 className=" text-md font-semibold uppercase text-slate-600">
@@ -68,12 +81,15 @@ export default function Group_Tour() {
                 </div>
               </div>
               <div className=" flex flex-row gap-8 justify-end">
-                <a href={elt.pdf} download={`${elt.name}.pdf`}>
+                <a href={elt.pdf} download={`${elt.name}.pdf`} target="_blank">
                   <button className="bg-[#219ebc]  hover:bg-black text-white text-[14px] px-4 py-2 rounded">
                     Download pdf
                   </button>
                 </a>
-                <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 text-[14px] rounded ml-2">
+                <button
+                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 text-[14px] rounded ml-2"
+                  onClick={() => setSelectGroup(elt)}
+                >
                   Add
                 </button>
               </div>
@@ -99,6 +115,17 @@ export default function Group_Tour() {
           />
         </button>
       </div>
+      {selectImage && (
+        <div>
+          <ImageZoomModel setIsOpen={setSelectImage} imageUrl={selectImage} />
+        </div>
+      )}
+
+      {selectGroup && (
+        <div className="fixed inset-0 flex  z-222 bg-[#ffffffd2] justify-center items-center">
+          <GroupAddForm setSelectGroup={setSelectGroup} />{" "}
+        </div>
+      )}
     </div>
   );
 }

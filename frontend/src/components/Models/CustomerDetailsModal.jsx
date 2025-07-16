@@ -1,13 +1,20 @@
 import { useContext, useState } from "react";
 import OperationResponseModel from "./OperationResponseModel";
 import { AuthContext } from "../../contexts/AuthContext";
+import { proceed } from "../../services/salesservices";
 
-const CustomerDetailsModal = ({ setOpen, selectSale, view }) => {
+const CustomerDetailsModal = ({ setOpen, selectSale, view,refresh, setRefresh }) => {
   const [openResponse, setOpenResponse] = useState(null);
   const { user } = useContext(AuthContext);
   const { role } = user;
+
+  const proceedHandled = async () => {
+    setOpenResponse(true);
+    proceed(selectSale._id, user.userId);
+  };
+
   return (
-    <div className=" w-[400px] h-[570px] ">
+    <div className=" fixed inset-0 flex justify-center  z-222 bg-[#ffffffd2] items-center">
       <div className="bg-white p-5 rounded-lg shadow-lg max-w-[600px]">
         <div>
           <table className="w-full">
@@ -70,10 +77,10 @@ const CustomerDetailsModal = ({ setOpen, selectSale, view }) => {
           </table>
         </div>
         <div className="flex justify-end gap-10 pt-2">
-          {role != "sales" ? (
+          {role != "sales" && role != "admin" ? (
             <button
               className="bg-[#2fa4c2] text-white px-2.5 py-1.5 rounded cursor-pointer hover:bg-black"
-              onClick={() => setOpenResponse(true)}
+              onClick={proceedHandled}
             >
               Proceed
             </button>
@@ -89,7 +96,13 @@ const CustomerDetailsModal = ({ setOpen, selectSale, view }) => {
         </div>
       </div>
       {openResponse && (
-        <OperationResponseModel setOpenResponse={setOpenResponse} />
+        <OperationResponseModel
+          setOpenResponse={setOpenResponse}
+          selectSale={selectSale}
+          user={user}
+          refresh = {refresh}
+          setRefresh = {setRefresh}
+        />
       )}
     </div>
   );

@@ -1,23 +1,32 @@
-import multer from "multer";
-import { v2 as cloudinary } from "cloudinary";
-import streamifier from "streamifier";
+import { storage } from "../config/firebaseConfig.js";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { v4 } from "uuid";
 
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_API_SECRET,
-});
-
-export const groupCloudinary = (file, folder) => {
-  return new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      { folder: folder, resource_type: "auto", access_mode: "public" },
-      (error, result) => {
-        if (error) return reject(error);
-        resolve(result);
+export const uploadGroupContentMid = (file, folder) =>
+  new Promise((resolve, reject) => {
+    const storageRef = ref(storage, `${folder}/${v4()}/${file.originalname}`);
+    const uploadTask = uploadBytesResumable(storageRef, file.buffer, {
+      contentType: file.mimetype,
+    });
+    uploadTask.on(
+      "state_changed",
+      (snap) => {
+        const pct = (snap.bytesTransferred / snap.totalBytes) * 100;
+        console.log(`Upload ${pct.toFixed(0)} %`);
+      },
+      reject,
+      async () => {
+        try {
+          const url = await getDownloadURL(uploadTask.snapshot.ref);
+          resolve(url);
+        } catch (err) {
+          reject(err);
+        }
       }
     );
-
-    streamifier.createReadStream(file).pipe(uploadStream);
   });
-};

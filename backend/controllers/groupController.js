@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
-import { groupCloudinary } from "../middlewares/uploadGroupContentMiddleware.js";
 import GroupTours from "../models/groupTour.model.js";
+import { uploadGroupContentMid } from "../middlewares/uploadGroupContentMiddleware.js";
 
 export const saveData = asyncHandler(async (req, res) => {
   console.log(req.body);
@@ -29,14 +29,13 @@ export const saveData = asyncHandler(async (req, res) => {
 export const uploadGoupContent = asyncHandler(async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ message: "file not found" });
+      return res.status(400).json({ message: "No file received" });
     }
-
+    const buffer = req.file;
     const { userId, type } = req.body;
     const folder = `groups/${userId}/${type}`;
-
-    const result = await groupCloudinary(req.file.buffer, folder);
-    res.status(200).json({ path: result.secure_url });
+    const result = await uploadGroupContentMid(buffer, folder);
+    res.status(200).json({ path: result });
   } catch (e) {
     console.log(e);
   }

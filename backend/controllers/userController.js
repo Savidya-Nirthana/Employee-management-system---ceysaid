@@ -4,7 +4,7 @@ import tempEmployer from "../models/temp_emp.model.js";
 import PermenentUser from "../models/permenent_emp.model.js";
 import path from "path";
 import { fileURLToPath } from "url";
-import { uploadToCloudinary } from "../middlewares/uploadMiddleware.js";
+import { uploadUserContentMid } from "../middlewares/uploadMiddleware.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -135,9 +135,9 @@ export const uploadImage = asyncHandler(async (req, res) => {
     const { userId, type } = req.body;
     const folder = `users/${userId}/${type}`;
 
-    const result = await uploadToCloudinary(req.file.buffer, folder);
+    const result = await uploadUserContentMid(req.file, folder);
 
-    res.status(200).json({ path: result.secure_url });
+    res.status(200).json({ path: result });
   } catch (e) {
     console.log(e);
   }
@@ -293,6 +293,7 @@ export const registerPerm = asyncHandler(async (req, res) => {
       throw new Error("Registration failed");
     }
   } catch (err) {
+    console.error(err);
     throw new Error("Registration failed");
   }
 });
@@ -336,6 +337,7 @@ export const getProfileImage = asyncHandler(async (req, res) => {
 
 export const applyChanges = asyncHandler(async (req, res) => {
   const { user } = await req.body;
+  console.log(user.corporateDetails.corporateTitle);
   try {
     const userReg = await PermenentUser.findOneAndUpdate(
       { userId: user.userId },
@@ -348,10 +350,12 @@ export const applyChanges = asyncHandler(async (req, res) => {
           "corporateDetails.employeeType": user.corporateDetails.employeeType,
           email: user.email,
           profile_status: "active",
+          role: user.role,
         },
       }
     );
     if (userReg) {
+      console.log(userReg.corporateDetails.corporateTitle);
       res.status(200).json({ message: "User update successfull" });
     }
   } catch (error) {

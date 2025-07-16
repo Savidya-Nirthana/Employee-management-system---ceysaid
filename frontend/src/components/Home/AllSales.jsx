@@ -4,6 +4,7 @@ import CustomerDetailsModal from "../Models/CustomerDetailsModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
+import emptyData from "../../assets/images/messages/emptyData.png";
 import {
   faCaretDown,
   faChevronCircleLeft,
@@ -22,8 +23,7 @@ const AllSales = ({ refresh }) => {
   const [selectSale, setSelectSale] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(11);
   const [startIndex, setStartIndex] = useState(0);
-  const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
-  const [search, setSearch] = useState(null);
+  const [search, setSearch] = useState([]);
 
   const [countries, setCountries] = useState([]);
   const [showCountries, setShowCountries] = useState(false);
@@ -47,27 +47,42 @@ const AllSales = ({ refresh }) => {
       setStartIndex(startIndex - itemsPerPage);
     }
   };
-  const outSideRef = useRef(null);
-  const outSideLineRef = useRef(null);
   useEffect(() => {
     const getData = async () => {
       const response = await getSalesById(user.userId);
-      let filtered = response.reverse();
-      if (filteredPriority) {
-        filtered = response.filter((u) => u.priority === filteredPriority);
-      }
 
-      if (filteredActiveStatus) {
-        filtered = response.filter((u) => u.status === filteredActiveStatus);
-      }
+      if (!response.isError) {
+        if (!response.isEmpty) {
+          let filtered = response.data.reverse();
+          if (filteredPriority) {
+            filtered = response.filter((u) => u.priority === filteredPriority);
+          }
 
-      if (filteredCountry) {
-        filtered = response.filter((u) => u.country === filteredCountry);
-      }
+          if (filteredActiveStatus) {
+            filtered = response.filter(
+              (u) => u.status === filteredActiveStatus
+            );
+          }
 
-      setSalesArray(filtered);
-      setCountries([...new Set(filtered.map((u) => String(u.country)))]);
-      setSearch(filtered);
+          if (filteredCountry) {
+            filtered = response.filter((u) => u.country === filteredCountry);
+          }
+
+          if (filtered.length <= 0) {
+            setSalesArray([]);
+            setCountries([]);
+            setSearch([]);
+          } else {
+            setSalesArray(filtered);
+            setCountries([...new Set(filtered.map((u) => String(u.country)))]);
+            setSearch(filtered);
+          }
+        } else {
+          setSalesArray([]);
+          setCountries([]);
+          setSearch([]);
+        }
+      }
     };
     getData();
   }, [refresh, filteredPriority, filteredActiveStatus, filteredCountry]);
@@ -108,42 +123,10 @@ const AllSales = ({ refresh }) => {
     handleSearch();
   }, [type, applyFilter]);
 
-  const timeOutRef = useRef(null);
-  const handleMouseEnter = (e, elt) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-
-    const popupHeight = 230;
-    const popupWidth = 400;
-
-    let top = rect.bottom + window.scrollY;
-    let left = e.clientX + 50;
-
-    if (top + popupHeight > window.innerHeight + window.scrollY) {
-      top = rect.top + window.scrollY - popupHeight - 20;
-    }
-
-    if (left + popupWidth + 20 > window.innerWidth) {
-      left = left - popupWidth - 100;
-    }
-    timeOutRef.current = setTimeout(() => {
-      setPopupPosition({ top: `${top}px`, left: `${left}px` });
-
-      setView(true);
-      setSelectSale(elt);
-    }, 1000);
-  };
-
-  const handleMouseLeave = () => {
-    if (timeOutRef.current) {
-      clearTimeout(timeOutRef.current);
-    }
-    setSelectSale(null);
-    setView(false);
-  };
-
-  if (salesArray === null) return <div>loading</div>;
   return (
-    <div className="rounded-[10px]  my-2 shadow-md shadow-black/25 m-5 bg-slate-0 h-auto">
+    <div className="rounded-[10px]  my-2 shadow-md shadow-black/25 m-5 bg-slate-0 h-auto px-[20px] py-[20px]">
+      <h2 className=" text-xl font-semibold  text-slate-600 m-2">All sales</h2>
+      <hr className="border-t border-gray-300 my-4"></hr>
       <div className=" w-[100%] flex-col flex items-center  relative pt-10">
         <FontAwesomeIcon
           icon={faMagnifyingGlass}
@@ -319,7 +302,7 @@ const AllSales = ({ refresh }) => {
         <div className=" h-[600px]">
           <table className="table-auto w-[98%] m-auto mt-10">
             <thead className="">
-              <tr>
+              <tr className=" border-b border-gray-300">
                 <th className="px-4 py-3 text-center">Name</th>
                 <th className="px-4 py-3 text-center">Country</th>
                 <th className="px-4 py-3 text-center">No of Days</th>
@@ -329,91 +312,97 @@ const AllSales = ({ refresh }) => {
               </tr>
             </thead>
             <tbody className="">
-              {search
-                .slice(startIndex, startIndex + itemsPerPage)
-                .map((elt, index) => (
-                  <tr
-                    key={index}
-                    className="hover:bg-gray-50 border-t border-gray-300"
-                    onMouseEnter={(e) => {
-                      handleMouseEnter(e, elt);
-                    }}
-                    ref={outSideLineRef}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <td className="px-4 py-3 text-center">
-                      {elt.customerDetails.name}
-                    </td>
-                    <td className="px-4 py-3 text-center">{elt.country}</td>
-                    <td className="px-4 py-3 text-center">{elt.noDays}</td>
-                    <td className="px-4 py-3 text-center">
-                      {elt.startDate.split("T")[0]}
-                    </td>
-                    <td className="px-4 py-2 justify-items-center">
-                      <div
-                        className={`w-[40%]  text-center rounded-full ${
-                          elt.priority === "low"
-                            ? "bg-green-300 text-green-700"
-                            : elt.priority === "normal"
-                            ? "bg-yellow-300 text-yellow-700"
-                            : "bg-red-300 text-red-700"
-                        }  min-w-[80px]`}
+              {search.length <= 0 ? (
+                <div className="absolute w-[200px] h-[200px] left-0 right-0 m-auto opacity-50">
+                  <img src={emptyData} className=" w-[200px] flex" />
+                  <div className=" text-center text-[14px] font-bold text-blue-700 mt-[-10px]">
+                    NO DATA
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {search
+                    .slice(startIndex, startIndex + itemsPerPage)
+                    .map((elt, index) => (
+                      <tr
+                        key={index}
+                        className="hover:bg-gray-50 border-t border-gray-300"
+                        onClick={() => {
+                          setOpen(true);
+                          setSelectSale(elt);
+                        }}
                       >
-                        {elt.priority[0].toUpperCase() +
-                          elt.priority.substring(1)}
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 justify-items-center">
-                      <div
-                        className={`w-[30%] text-center rounded-full ${
-                          elt.status === "pending"
-                            ? "bg-red-300 text-red-700"
-                            : elt.status === "active"
-                            ? "bg-green-300 text-green-700"
-                            : "bg-blue-300 text-blue-700"
-                        } min-w-[100px]`}
-                      >
-                        {elt.status[0].toUpperCase() + elt.status.substring(1)}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                        <td className="px-4 py-3 text-center">
+                          {elt.customerDetails.name}
+                        </td>
+                        <td className="px-4 py-3 text-center">{elt.country}</td>
+                        <td className="px-4 py-3 text-center">{elt.noDays}</td>
+                        <td className="px-4 py-3 text-center">
+                          {elt.startDate.split("T")[0]}
+                        </td>
+                        <td className="px-4 py-2 justify-items-center">
+                          <div
+                            className={`w-[40%]  text-center rounded-full ${
+                              elt.priority === "low"
+                                ? "bg-green-300 text-green-700"
+                                : elt.priority === "normal"
+                                ? "bg-yellow-300 text-yellow-700"
+                                : "bg-red-300 text-red-700"
+                            }  min-w-[80px]`}
+                          >
+                            {elt.priority[0].toUpperCase() +
+                              elt.priority.substring(1)}
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 justify-items-center">
+                          <div
+                            className={`w-[30%] text-center rounded-full ${
+                              elt.status === "pending"
+                                ? "bg-red-300 text-red-700"
+                                : elt.status === "active"
+                                ? "bg-green-300 text-green-700"
+                                : "bg-blue-300 text-blue-700"
+                            } min-w-[100px]`}
+                          >
+                            {elt.status[0].toUpperCase() +
+                              elt.status.substring(1)}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </>
+              )}
             </tbody>
           </table>
         </div>
-        <div className=" flex m-auto w-[70px] justify-around text-[#219ebc] h-[100px] z-[0]">
-          <button disabled={startIndex === 0} className=" disabled:opacity-50">
-            <FontAwesomeIcon
-              icon={faChevronCircleLeft}
-              onClick={prevPage}
-              className="cursor-pointer text-2xl"
-            />
-          </button>
-          <button
-            className="disabled:opacity-50"
-            disabled={startIndex + itemsPerPage >= salesArray.length}
-          >
-            <FontAwesomeIcon
-              icon={faChevronCircleRight}
-              className=" cursor-pointer text-2xl"
-              onClick={nextPage}
-            />
-          </button>
-        </div>
+        {search.length > 0 && (
+          <div className=" flex m-auto w-[70px] justify-around text-[#219ebc] h-[100px] z-[0]">
+            <button
+              disabled={startIndex === 0}
+              className=" disabled:opacity-50"
+            >
+              <FontAwesomeIcon
+                icon={faChevronCircleLeft}
+                onClick={prevPage}
+                className="cursor-pointer text-2xl"
+              />
+            </button>
+            <button
+              className="disabled:opacity-50"
+              disabled={startIndex + itemsPerPage >= salesArray.length}
+            >
+              <FontAwesomeIcon
+                icon={faChevronCircleRight}
+                className=" cursor-pointer text-2xl"
+                onClick={nextPage}
+              />
+            </button>
+          </div>
+        )}
       </div>
 
-      {view && selectSale && (
-        <div
-          className="absolute inset-0 flex  z-222 bg-[#ffffffd2] items-center"
-          style={{
-            position: "absolute",
-            top: popupPosition.top,
-            left: popupPosition.left,
-          }}
-          onMouseEnter={() => setView(true)}
-          onMouseLeave={handleMouseLeave}
-          ref={outSideRef}
-        >
+      {open && (
+        <div className="fixed inset-0 flex  z-222 bg-[#ffffffd2] justify-center items-center">
           <CustomerDetailsModal
             view={view}
             selectSale={selectSale}

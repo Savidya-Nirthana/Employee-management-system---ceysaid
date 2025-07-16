@@ -9,34 +9,59 @@ import cookieParser from "cookie-parser";
 import databaseConnection from "./config/connection.js";
 import { logger } from "./middlewares/logger.js";
 import corsOptions from "./config/corsOptions.js";
-const server = express();
+import { startAutoUnlock } from "./services/autoUnlocked.js";
+import http from "http";
+import { Server as SocketServer } from "socket.io";
 
-server.use(logger);
-server.use(cors(corsOptions));
+const app = express();
+const server = http.createServer(app);
 
-server.options("*", cors(corsOptions));
+const io = new SocketServer(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
-server.use(cookieParser());
+export { io };
 
-server.use(express.static("uploads"));
+io.on("connect", (socket) => {
+  console.log("Socket connected:", socket.id);
 
-// server.use((req, res) => {
+});
+
+app.use(logger);
+app.use(cors(corsOptions));
+
+app.options("*", cors(corsOptions));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.use(express.static("uploads"));
+
+// app.use((req, res) => {
 //   console.log(req.body);
 // })
-server.use("/api/v1/users", userRouter);
-server.use("/api/v1/leave", leaveRouter);
-server.use("/api/v1/sales", salesRouter);
-server.use("/api/v1/groups", groupRouter);
-server.get("/api/v1", (req, res) => {
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/leave", leaveRouter);
+app.use("/api/v1/sales", salesRouter);
+// app.use("/api/v1/sales", (req, res) => {
+//   console.log("checkkkk");
+// });
+app.use("/api/v1/groups", groupRouter);
+app.get("/api/v1", (req, res) => {
   res
     .status(200)
     .json({ message: "testing111111", environment: process.env.NODE_ENV });
 });
 
-server.use(notFound);
-server.use(errorHandler);
+app.use(notFound);
+app.use(errorHandler);
+
+startAutoUnlock();
 
 server.listen(process.env.PORT, () => {
   databaseConnection();

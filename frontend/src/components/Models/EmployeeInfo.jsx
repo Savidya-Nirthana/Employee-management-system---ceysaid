@@ -4,6 +4,8 @@ import { Upload } from "lucide-react";
 import PulseLoader from "react-spinners/PulseLoader";
 
 import ImageZoomModel from "./ImageZoomModel";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 const EmployeeInfo = (props) => {
   const { userId, type, user, setUser, setIsEdit } = props;
   const [imageUrl, setImageUrl] = useState(null);
@@ -475,16 +477,41 @@ const EmployeeInfo = (props) => {
                   onClick={() => setSelectImageUrl(`${nicImageUrl}`)}
                 >
                   {nicImageUrl ? (
-                    <img
-                      className=" rounded-md"
-                      src={`${nicImageUrl}`}
-                      alt="NIC image"
-                    />
+                    nicImageUrl.includes(".pdf") ? (
+                      <>
+                        <embed
+                          src={`${nicImageUrl}`}
+                          type="application/pdf"
+                          width="100%"
+                          height="100%"
+                        />
+                      </>
+                    ) : (
+                      <img
+                        className=" rounded-md"
+                        src={`${nicImageUrl}`}
+                        alt="NIC image"
+                      />
+                    )
                   ) : (
                     <PulseLoader color="oklch(0.673 0.182 276.935)" size={12} />
                   )}
                 </label>
-                <p className="mt-2 text-gray-600 text-sm">NIC</p>
+                {nicImageUrl &&
+                  (nicImageUrl.includes(".pdf") ? (
+                    <a
+                      href={`${nicImageUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 text-gray-600 text-sm hover:text-blue-500 transition"
+                    >
+                      NIC <FontAwesomeIcon icon={faEye} />
+                    </a>
+                  ) : (
+                    <>
+                      <p className="mt-2 text-gray-600 text-sm">NIC</p>
+                    </>
+                  ))}
               </div>
               <div className="flex flex-col items-center">
                 <label
@@ -492,37 +519,83 @@ const EmployeeInfo = (props) => {
                   onClick={() => setSelectImageUrl(`${gsImageUrl}`)}
                 >
                   {gsImageUrl ? (
-                    <img
-                      className=" rounded-md"
-                      src={`${gsImageUrl}`}
-                      alt="gs certificate"
-                    />
+                    gsImageUrl.includes(".pdf") ? (
+                      <>
+                        <embed
+                          src={`${gsImageUrl}`}
+                          type="application/pdf"
+                          width="100%"
+                          height="100%"
+                        />
+                      </>
+                    ) : (
+                      <img
+                        className=" rounded-md"
+                        src={`${gsImageUrl}`}
+                        alt="gs certificate"
+                      />
+                    )
                   ) : (
                     <PulseLoader color="oklch(0.673 0.182 276.935)" size={12} />
                   )}
                 </label>
-                <p className="mt-2 text-gray-600 text-sm">Gs certificate</p>
+                {gsImageUrl &&
+                  (gsImageUrl.includes(".pdf") ? (
+                    <a
+                      href={`${gsImageUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" mt-2 text-gray-600 text-sm hover:text-blue-500 transition"
+                    >
+                      Gs certificate <FontAwesomeIcon icon={faEye} />
+                    </a>
+                  ) : (
+                    <p className="mt-2 text-gray-600 text-sm">Gs certificate</p>
+                  ))}
               </div>
               <div className="flex flex-col items-center">
                 <label
                   className="flex items-center justify-center w-[100px] h-[100px]  text-white text-[12px] rounded-lg cursor-pointer border-2 hover:border-blue-500 transition"
-                  onClick={() =>
-                    setSelectImageUrl(`${letterApptUrl}`)
-                  }
+                  onClick={() => setSelectImageUrl(`${letterApptUrl}`)}
                 >
                   {letterApptUrl ? (
-                    <img
-                      className=" rounded-md"
-                      src={`${letterApptUrl}`}
-                      alt="letter_of_appointment"
-                    />
+                    letterApptUrl.includes(".pdf") ? (
+                      <>
+                        <embed
+                          src={`${letterApptUrl}`}
+                          type="application/pdf"
+                          width="100%"
+                          height="100%"
+                        />
+                      </>
+                    ) : (
+                      <img
+                        className=" rounded-md"
+                        src={`${letterApptUrl}`}
+                        alt="letter_of_appointment"
+                      />
+                    )
                   ) : (
                     <PulseLoader color="oklch(0.673 0.182 276.935)" size={12} />
                   )}
                 </label>
-                <p className="mt-2 text-gray-600 text-sm">
-                  Letter of appointment
-                </p>
+                {letterApptUrl &&
+                  (letterApptUrl.includes(".pdf") ? (
+                    <a
+                      href={`${letterApptUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=" mt-2 text-gray-600 text-sm hover:text-blue-500 transition"
+                    >
+                      Letter of appointment <FontAwesomeIcon icon={faEye} />
+                    </a>
+                  ) : (
+                    <>
+                      <p className="mt-2 text-gray-600 text-sm">
+                        Letter of appointment
+                      </p>
+                    </>
+                  ))}
               </div>
             </div>
           </div>
