@@ -7,10 +7,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ImageZoomModel from "../Models/ImageZoomModel";
 import GroupAddForm from "../Models/GroupAddFrom";
-
+import { data } from "react-router";
+import HashLoader from "react-spinners/HashLoader";
+import EmptyData from "../../assets/images/messages/emptyData.png";
+import { AnimatePresence, motion } from "framer-motion";
 export default function Group_Tour() {
   const [dataArray, setDataArray] = useState([]);
-  const [itemsPerPage, setItemsPerPage] = useState(2);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
   const [startIndex, setStartIndex] = useState(0);
   const [selectImage, setSelectImage] = useState(null);
   const [selectGroup, setSelectGroup] = useState(null);
@@ -35,10 +38,27 @@ export default function Group_Tour() {
       setStartIndex(startIndex - itemsPerPage);
     }
   };
-
+  if (dataArray === null) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen w-[500px] shadow-md shadow-black/25 m-5 rounded-lg">
+        <HashLoader color="#023047" size={50} speedMultiplier={1.2} />
+        <h1 className="text-xl text-slate-500 font-semibold">Loading...</h1>
+      </div>
+    );
+  }
+  if (dataArray.length === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen w-[500px] shadow-md shadow-black/25 m-5 rounded-lg ">
+        <img src={EmptyData} alt="No data" className="w-[300px] h-[300px]" />
+        <h1 className="text-xl text-slate-500 font-semibold relative top-[-50px]">
+          No group tours available
+        </h1>
+      </div>
+    );
+  }
   return (
-    <div className=" flex flex-col ">
-      <div className=" h-[350px]  m-5 w-[500px]">
+    <div className=" flex flex-col shadow-md shadow-black/25 m-5 rounded-lg bg-slate-50">
+      <div className="h-[760px]  m-5 w-[500px]">
         {dataArray
           .slice(startIndex, startIndex + itemsPerPage)
           .map((elt, index) => (
@@ -60,7 +80,7 @@ export default function Group_Tour() {
                   />
                 </div>
                 <div className=" m-3">
-                  <h2 className=" text-md font-semibold uppercase text-slate-600">
+                  <h2 className=" text-lg font-semibold uppercase text-slate-600">
                     {elt.name}
                   </h2>
                   <div className="mt-2 text-gray-500">{elt.country}</div>
@@ -80,14 +100,14 @@ export default function Group_Tour() {
                   </div>
                 </div>
               </div>
-              <div className=" flex flex-row gap-8 justify-end">
+              <div className=" flex flex-row gap-2 justify-end">
                 <a href={elt.pdf} download={`${elt.name}.pdf`} target="_blank">
-                  <button className="bg-[#219ebc]  hover:bg-black text-white text-[14px] px-4 py-2 rounded">
+                  <button className="cursor-pointer hover:bg-slate-700 hover:text-white  border-[2px] border-slate-700 text-slate-700 text-[14px] px-4 py-2 rounded transition-all duration-300 ease-in-out">
                     Download pdf
                   </button>
                 </a>
                 <button
-                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 text-[14px] rounded ml-2"
+                  className="cursor-pointer bg-slate-700 hover:bg-white hover:text-slate-600 border-[2px] border-slate-700 text-white px-4 py-2 text-[14px] rounded ml-2 transition-all duration-300 ease-in-out"
                   onClick={() => setSelectGroup(elt)}
                 >
                   Add
@@ -96,7 +116,7 @@ export default function Group_Tour() {
             </div>
           ))}
       </div>
-      <div className=" flex m-auto w-[70px] justify-around text-[#219ebc] h-[100px] z-[0]">
+      <div className=" flex m-auto w-[70px] justify-around  text-[#219ebc] my-8 z-[0]">
         <button disabled={startIndex === 0} className=" disabled:opacity-50">
           <FontAwesomeIcon
             icon={faChevronCircleLeft}
@@ -115,11 +135,23 @@ export default function Group_Tour() {
           />
         </button>
       </div>
-      {selectImage && (
-        <div>
-          <ImageZoomModel setIsOpen={setSelectImage} imageUrl={selectImage} />
-        </div>
-      )}
+      <AnimatePresence>
+        {selectImage && (
+          <div className="fixed inset-0 flex justify-center z-[222] bg-[#00000065] items-center overflow-y-scroll">
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <ImageZoomModel
+                setIsOpen={setSelectImage}
+                imageUrl={selectImage}
+              />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {selectGroup && (
         <div className="fixed inset-0 flex  z-222 bg-[#ffffffd2] justify-center items-center">

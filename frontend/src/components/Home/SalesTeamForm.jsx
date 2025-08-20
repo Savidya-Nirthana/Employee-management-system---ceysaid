@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Countries } from "../../data/countries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faClose, faKeyboard } from "@fortawesome/free-solid-svg-icons";
 import { addSales } from "../../services/salesservices";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -113,119 +113,113 @@ const SalesTeamForm = ({ setRefresh }) => {
     }
   };
   return (
-    <div className="w-[800px]  bg-slate-0  px-10 py-8  rounded-[10px]  shadow-md shadow-black/25 m-5">
+    <div className="w-[800px]  bg-slate-50   pb-8  rounded-[10px]   shadow-md shadow-black/25 m-5">
       <ToastContainer />
-      <h2 className=" text-xl font-semibold  text-slate-600 m-2">
-        Add sales details
-      </h2>
-      <hr className="border-t border-gray-300 my-4"></hr>
+      <div className=" flex flex-row items-center gap-2 bg-slate-700 rounded-t-[10px] text-white p-2">
+        <h2 className=" text-xl font-semibold p-2">Add sales details</h2>
+        <FontAwesomeIcon icon={faCartPlus} />
+      </div>
 
-      <form className="m-auto" onSubmit={handleSumbit}>
-        <div className="mb-4 gap-3 pl-5">
-          <label className="block text-me font-medium text-gray-700">
-            Customer details :{" "}
-          </label>
-          <div className="mb-3 pl-2 pt-2">
-            <label className=" text-[14px]  text-slate-600">Name : </label> 
+      <form className="m-auto px-8 mt-6" onSubmit={handleSumbit}>
+        <div className="">
+          <div className="my-3 ">
             <input
               type="text"
               name="customername"
               id=""
-              className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[200px]"
-              placeholder="Enter customer name"
+              className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               value={customername}
               onChange={(e) => setCustomername(e.target.value)}
               required
+              placeholder="Customer name"
             />
           </div>
 
-          <div className="mb-2 pl-2 flex items-center">
-            <label className=" text-[14px]  text-slate-600 mr-1">
-              Contacts :{" "}
-            </label>
-            <select
-              name="contactMethod"
-              value={contactMethod}
-              onChange={(e) => setContactMethod(e.target.value)}
-              className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[150px] block"
-              required
-            >
-              <option value="">Contact method</option>
-              <option value="phone">Telephone</option>
-              <option value="email">E-mail</option>
-            </select>
-            {contactMethod && (
-              <div className="flex items-center gap-1 pl-2">
+          <div className="my-3 ">
+            <div className=" flex w-full gap-2">
+              <select
+                name="contactMethod"
+                value={contactMethod}
+                onChange={(e) => setContactMethod(e.target.value)}
+                className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
+                required
+              >
+                <option value="">Contact method</option>
+                <option value="phone">Telephone</option>
+                <option value="email">E-mail</option>
+              </select>
+              {contactMethod && (
                 <input
                   type={contactMethod === "phone" ? "tel" : "email"}
                   name={contactMethod}
                   value={contactValue}
                   onChange={(e) => setContactValue(e.target.value)}
-                  className="border-[1px] border-slate-300 outline-pink-400 p-[5px] text-slate-600 text-[13px] w-[200px]"
+                  className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
                   placeholder={
                     contactMethod === "phone" ? "Phone number" : "Email"
                   }
-                  required
+                  required 
                 />
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
-          <div className="mb-3 pl-2">
-            <label className=" text-[14px]  text-slate-600">Lead : </label>
+          <div className="my-3">
             <select
               name="lead"
               id=""
-              className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[200px]"
+              className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               required
               value={lead}
               onChange={(e) => setLead(e.target.value)}
             >
-              <option value="">Connected media</option>
+              <option value="" className="">
+                Connected media
+              </option>
               <option value="facebook">Facebook</option>
               <option value="whatsapp">WhatsApp</option>
               <option value="instagram">Instagram</option>
               <option value="linkedin">Linkedin</option>
-              <option value=""></option>
-              <option value=""></option>
             </select>
           </div>
         </div>
 
-        <hr className="border-t border-gray-300 my-4"></hr>
+        {/* <hr className="border-t-[2px] border-slate-600 my-4"></hr> */}
 
-        <div className="mb-4 flex items-center gap-3">
-          <label className=" text-[14px]  text-slate-600 ml-2">
-            Subject :{" "}
-          </label>
+        <div className="mb-1">
           <input
             type="text"
             name="subject"
             id=""
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[200px]"
+            className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
             placeholder="Subject"
             required
           />
         </div>
-        <div className="mb-4 relative flex items-center gap-3">
-          <label className="text-[14px]  text-slate-600 ml-2">Country : </label>
+        <div className="my-3 relative">
           <input
             type="text"
             name="country"
             id=""
-            className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[200px]"
+            className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
             value={country}
             onChange={handlesCountrySearch}
             placeholder="Country"
             onFocus={() => setShowCountries(true)}
             required
           />
-          <div className="absolute left-12 top-8 cursor-pointer">
+          <div className="absolute left-0   top-12 cursor-pointer">
             {showCountries && (
               <div
-                className="absolute max-h-[400px] overflow-y-scroll scroll-auto bg-white w-[250px]  py-1 z-1 font-[14px]"
+                className="absolute max-h-[400px] overflow-y-scroll scroll-auto bg-white w-[750px] py-1 z-1 font-[14px]"
                 ref={showCountriesRef}
               >
                 {countriesArray.map((c, index) => (
@@ -246,23 +240,20 @@ const SalesTeamForm = ({ setRefresh }) => {
                   </div>
                 ))}
                 <div
-                  className=" cursor-pointer text-[14px] hover:bg-[#219ebc] hover:text-white p-2"
+                  className=" cursor-pointer text-[14px] hover:bg-[#219ebc] hover:text-white p-2 flex flex-row items-center gap-2"
                   onClick={() => {
                     setShowCountries(false);
                     setCountry(country);
                   }}
                 >
-                  {country}
+                  <FontAwesomeIcon icon={faKeyboard}/><div>{country}</div>
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        <div className="mb-4 relative flex items-center gap-3">
-          <label className="text-[14px]  text-slate-600 ml-2">
-            Main cities & places :{" "}
-          </label>
+        <div className="mb-1 relative">
           <input
             type="text"
             id=""
@@ -271,12 +262,13 @@ const SalesTeamForm = ({ setRefresh }) => {
             onFocus={() => setShowCities(true)}
             placeholder="Main Cities & Places"
             onChange={handleCitySearch}
-            className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[200px]"
+            className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
           />
-          <div className="absolute left-30 top-8 cursor-pointer">
+          <div className="absolute left-0 top-12 cursor-pointer">
             {showCities && (
               <div
-                className="absolute  overflow-y-scroll scroll-auto bg-white w-[250px]  py-1 z-1"
+                className="absolute  overflow-y-scroll scroll-auto bg-white w-[750px]  py-1 z-1"
                 ref={showCityRef}
               >
                 {!country ? (
@@ -302,16 +294,17 @@ const SalesTeamForm = ({ setRefresh }) => {
                     setCities((previousCity) => [...previousCity, city]),
                       setShowCities(false);
                   }}
-                  className=" text-[13px] text-slate-500 cursor-pointer"
+                  className=" cursor-pointer text-[14px] hover:bg-[#219ebc] hover:text-white p-2 flex flex-row items-center gap-2"
                 >
-                  {city}
+                  <FontAwesomeIcon icon={faKeyboard} />
+                  <div>{city}</div>
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        <div className="mb-4 flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <div className="flex flex-row flex-wrap rounded-md w-[500px] col-span-2">
             {cities.map((e, index) => (
               <>
@@ -333,76 +326,61 @@ const SalesTeamForm = ({ setRefresh }) => {
           </div>
         </div>
 
-        <div className="mb-4 flex items-center gap-3">
-          <div className="flex items-center gap-1">
-            <label className="text-[14px]  text-slate-600 ml-2">
-              Number of adults :{" "}
-            </label>
+        <div className="mb-3 flex-col items-center">
+          <div className="text-[14px]  text-slate-600">Passangers:</div>
+          <div className="flex gap-2 w-full">
             <input
               type="number"
               name="adults"
               id=""
               value={adults}
               onChange={(e) => setAdults(e.target.value)}
-              className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[90px]"
+              className="flex-1 border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               placeholder="Adults"
               required
             />
-          </div>
-
-          <div className="flex items-center gap-1">
-            <label className="text-[14px]  text-slate-600 ml-2">
-              Number of children :{" "}
-            </label>
             <input
               type="number"
               name="children"
               id=""
               value={children}
               onChange={(e) => setChildren(e.target.value)}
-              className=" border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[90px]"
+              className="flex-1 border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               placeholder="Children"
             />
-          </div>
-
-          <div className="flex items-center gap-1 ml-2">
-            <label className="text-[14px]  text-slate-600">
-              Number of infants:{" "}
-            </label>
             <input
               type="number"
               name="infants"
               id=""
               value={infants}
               onChange={(e) => setInfants(e.target.value)}
-              className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[90px]"
+              className="flex-1 border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               placeholder="Infants"
             />
           </div>
         </div>
-        <div className="mb-4 flex items-center gap-3">
-          <label className="text-[14px]  text-slate-600 ml-2">
-            Priority :{" "}
-          </label>
-          <div className="flex item-center gap-4">
-            <select
-              name="priority"
-              id=""
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[150px]"
-              required
-            >
-              <option value="">Select priority</option>
-              <option value="high">High</option>
-              <option value="normal">Normal</option>
-              <option value="low">Low</option>
-            </select>
-          </div>
+        <div className="my-3 flex-col gap-3">
+          <select
+            name="priority"
+            id=""
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+            className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+             focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
+            required
+          >
+            <option value="">Select priority</option>
+            <option value="high">High</option>
+            <option value="normal">Normal</option>
+            <option value="low">Low</option>
+          </select>
         </div>
-        <div className="mb-4 flex items-center gap-4">
-          <div className="flex items-center gap-3">
-            <label className="text-[14px]  text-slate-600 ml-2">
+        <div className="mb-3 flex items-center gap-4">
+          <div className="flex-col flex flex-1">
+            <label className="text-[14px]  text-slate-600">
               Travel start date :{" "}
             </label>
             <input
@@ -411,14 +389,12 @@ const SalesTeamForm = ({ setRefresh }) => {
               id=""
               value={travelStartDate}
               onChange={(e) => setTravelStartDate(e.target.value)}
-              className=" border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[200px]"
+              className="border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
               required
             />
           </div>
-        </div>
-        <div className="mb-4 flex items-center gap-4">
-          <div className="flex items-center gap-3">
-            <label className="text-[14px]  text-slate-600 ml-2">
+          <div className="flex-col flex flex-1">
+            <label className="text-[14px]  text-slate-600 ">
               Number of days :{" "}
             </label>
             <input
@@ -427,33 +403,33 @@ const SalesTeamForm = ({ setRefresh }) => {
               id=""
               value={numofdays}
               onChange={(e) => setNumofdays(e.target.value)}
-              className=" border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[200px]"
+              className="border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
               placeholder="Number of days"
               required
             />
           </div>
         </div>
-        <div className="">
-          <label className="text-[14px]  text-slate-600 block pb-2 ml-2">
-            Additional details :{" "}
-          </label>
+
+        <div className="mb-3">
           <textarea
             name="additionalDetails"
             id=""
             value={additionalDetails}
             placeholder="Enter additional details"
             onChange={(e) => setAdditionalDetails(e.target.value)}
-            className="border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[200px] ml-2"
+            className="border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
             rows="4"
             required
           />
         </div>
 
-        <div className="pt-5 ml-2">
+        <div className="pt-5 float-right ">
           <input
             type="submit"
             value="Submit"
-            className="bg-[#219ebc] text-white px-4 py-2 text-[14px] rounded-sm cursor-pointer"
+            className="bg-white text-slate-600 px-4 py-2 text-[14px] rounded-sm cursor-pointer border-[1px] border-slate-600 
+           hover:bg-slate-700 hover:text-white hover:border-white 
+           transition-all duration-300 ease-in-out"
           />
         </div>
       </form>

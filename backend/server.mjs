@@ -52,11 +52,6 @@ app.use("/api/v1/sales", salesRouter);
 //   console.log("checkkkk");
 // });
 app.use("/api/v1/groups", groupRouter);
-app.get("/api/v1", (req, res) => {
-  res
-    .status(200)
-    .json({ message: "testing111111", environment: process.env.NODE_ENV });
-});
 
 app.use(notFound);
 app.use(errorHandler);
@@ -67,3 +62,13 @@ server.listen(process.env.PORT, () => {
   databaseConnection();
   console.log("server is running " + process.env.PORT);
 });
+
+
+
+
+
+
+
+
+
+  

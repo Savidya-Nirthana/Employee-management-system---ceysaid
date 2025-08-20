@@ -5,6 +5,7 @@ import {
   faMagnifyingGlass,
   faChevronCircleLeft,
   faChevronCircleRight,
+  faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { getApprovedData } from "../../services/salesservices";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -45,10 +46,13 @@ const OperationApproval = () => {
   });
 
   return (
-    <div className="px-4 shadow-md my-10 mx-10 rounded-2xl h-[800px]">
-      <h2 className="text-[20px] text-slate-600 ml-10 my-5">Approved</h2>
-
-      <div className="flex justify-center mb-6">
+    <div className="px-4 shadow-md  rounded-2xl h-[900px] my-5">
+      <div className=" bg-slate-700 rounded-t-[10px] p-[5px] flex flex-row justify-start items-center gap-2">
+                <h2 className=" text-xl font-semibold  text-white m-3 ">Approved</h2>
+                <FontAwesomeIcon icon={faThumbsUp} className=" text-white  text-xl" />
+              </div>
+      <div className=" mx-10 my-10">
+      <div className="flex justify-center mb-6 ">
         <div className="relative w-[70%]">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
@@ -149,6 +153,7 @@ const OperationApproval = () => {
               onClick={nextPage}
             />
           </button>
+        </div>
         </div>
     </div>
   );

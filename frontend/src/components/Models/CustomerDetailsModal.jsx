@@ -2,8 +2,17 @@ import { useContext, useState } from "react";
 import OperationResponseModel from "./OperationResponseModel";
 import { AuthContext } from "../../contexts/AuthContext";
 import { proceed } from "../../services/salesservices";
+import { motion, AnimatePresence } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 
-const CustomerDetailsModal = ({ setOpen, selectSale, view,refresh, setRefresh }) => {
+const CustomerDetailsModal = ({
+  setOpen,
+  selectSale,
+  view,
+  refresh,
+  setRefresh,
+}) => {
   const [openResponse, setOpenResponse] = useState(null);
   const { user } = useContext(AuthContext);
   const { role } = user;
@@ -14,8 +23,13 @@ const CustomerDetailsModal = ({ setOpen, selectSale, view,refresh, setRefresh })
   };
 
   return (
-    <div className=" fixed inset-0 flex justify-center  z-222 bg-[#ffffffd2] items-center">
-      <div className="bg-white p-5 rounded-lg shadow-lg max-w-[600px]">
+    <div>
+      <div className="bg-white p-5 rounded-lg shadow-lg max-w-[600px] relative">
+        <FontAwesomeIcon
+          icon={faXmarkCircle}
+          className="absolute top-[-5px] right-[-5px] text-slate-700 hover:text-red-500 cursor-pointer text-[30px]"
+          onClick={() => setOpen(false)}
+        />
         <div>
           <table className="w-full">
             <tbody>
@@ -79,7 +93,7 @@ const CustomerDetailsModal = ({ setOpen, selectSale, view,refresh, setRefresh })
         <div className="flex justify-end gap-10 pt-2">
           {role != "sales" && role != "admin" ? (
             <button
-              className="bg-[#2fa4c2] text-white px-2.5 py-1.5 rounded cursor-pointer hover:bg-black"
+              className="hover:bg-slate-700 hover:text-white text-slate-800 border-slate-700 border-[2px]  px-2.5 py-1.5 rounded cursor-pointer bg-white"
               onClick={proceedHandled}
             >
               Proceed
@@ -87,23 +101,34 @@ const CustomerDetailsModal = ({ setOpen, selectSale, view,refresh, setRefresh })
           ) : (
             ""
           )}
-          <button
-            className="bg-[#c80000] text-white px-2.5 py-1.5 rounded cursor-pointer hover:bg-black"
-            onClick={() => setOpen(false)}
-          >
-            Close
-          </button>
         </div>
       </div>
-      {openResponse && (
-        <OperationResponseModel
-          setOpenResponse={setOpenResponse}
-          selectSale={selectSale}
-          user={user}
-          refresh = {refresh}
-          setRefresh = {setRefresh}
-        />
-      )}
+      <AnimatePresence>
+        {openResponse && (
+          <motion.div
+            className="fixed inset-0 flex justify-center z-[222] bg-[#00000065] items-center overflow-y-scroll"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: -20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <OperationResponseModel
+                setOpenResponse={setOpenResponse}
+                selectSale={selectSale}
+                user={user}
+                refresh={refresh}
+                setRefresh={setRefresh}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

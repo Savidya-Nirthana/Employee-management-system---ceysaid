@@ -15,7 +15,7 @@ const Home = () => {
   const { showNav, scrollOff } = useContext(UIContext);
 
   return (
-    <div className=" flex flex-row gap-2 mx-2">
+    <div className=" flex flex-row gap-2 ">
       <div
         className={`duration-500 mt-[70px] w-[100%]  ${
           showNav ? "ml-[200px]" : "ml-[50px]"
@@ -43,9 +43,11 @@ const Home = () => {
             <SalesTeamForm setRefresh={setRefresh} />
             <GroupTour />
           </div>
-          <div>
+          <div className="">
             <SalesApproval />
-            <AllSales refresh={refresh} />
+            <div className=" my-6">
+              <AllSales refresh={refresh} />
+            </div>
           </div>
         </ProtectedComponents>
 

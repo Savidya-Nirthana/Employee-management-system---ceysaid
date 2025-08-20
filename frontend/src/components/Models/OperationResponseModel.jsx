@@ -5,6 +5,13 @@ import {
   faPenToSquare,
   faPlusCircle,
   faFile,
+  faFileSignature,
+  faUpload,
+  faPlane,
+  faSitemap,
+  faHotel,
+  faBoxArchive,
+  faWebAwesome,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import {
@@ -16,6 +23,7 @@ import {
 import { useDropzone } from "react-dropzone";
 import UploadLoading from "./UploadLoading.jsx";
 import { ToastContainer, toast } from "react-toastify";
+import { AnimatePresence, motion } from "framer-motion";
 
 const OperationResponseModel = ({
   setOpenResponse,
@@ -249,24 +257,36 @@ const OperationResponseModel = ({
   });
 
   return (
-    <div className=" fixed inset-0 flex justify-center items-start bg-[#ffffffd2] overflow-y-auto ">
-      <div className="bg-white p-5 rounded-lg shadow-lg relative mt-10 mb-10 w-full max-w-4xl">
-        <div className=" flex gap-3 bg-slate-100 absolute top-0 left-0 w-[100%] rounded-t-xl p-5 ">
-          <button
-            className=""
+    <div className="">
+      <div className="bg-white p-5 rounded-lg shadow-lg relative mt-10 mb-10 w-full max-w-4xl min-w-[800px] min-h-[500px]">
+        <FontAwesomeIcon
+          icon={faCircleXmark}
+          className=" absolute top-[-6px] right-[-6px] text-[35px] text-[#023047] cursor-pointer hover:text-red-500 z-[1000]"
+          onClick={() => {
+            setOpenResponse(false);
+          }}
+        />
+        <div className=" flex gap-7  absolute top-0 left-0 w-[100%] rounded-t-xl p-5 font-display">
+          <div
             onClick={() => {
               setIsUpload(false);
             }}
+            className={`flex flex-row gap-2 items-center hover:text-sky-700 cursor-pointer transition-all duration-300 ease-in-out ${
+              !isUpload ? "text-2xl" : "text-[16px]"
+            }`}
           >
-            Fill details
-          </button>
-          <button
+            <button>Fill details</button>
+          </div>
+          <div
             onClick={() => {
               setIsUpload(true);
             }}
+            className={`flex flex-row gap-2 items-center hover:text-sky-700 cursor-pointer transition-all duration-300 ease-in-out ${
+              isUpload ? "text-2xl" : "text-[16px]"
+            }`}
           >
-            Upload files
-          </button>
+            <button>Upload files</button>
+          </div>
         </div>
         <ToastContainer />
         {!isUpload ? (
@@ -275,72 +295,100 @@ const OperationResponseModel = ({
               <div>
                 <div className=" flex flex-row justify-between my-10">
                   <div>
-                    <div className=" m-5">
-                      <div className="text-xl font-semibold text-gray-800 mb-2 pb-1 ">
-                        Flight Details:
+                    <div className="m-5">
+                      <div className="text-xl flex flex-row gap-2 items-center font-semibold text-gray-800 mb-2 pb-1 ">
+                        <FontAwesomeIcon icon={faPlane} />
+                        <div>Flight Details:</div>
                       </div>
                       <ul className="w-[300px] border-b-[1px] border-slate-200 ">
                         <div>
-                          {[
-                            ...flightDetails,
-                            ...Array(addFlightDetails).fill(null),
-                          ].map((value, index) => (
-                            <li
-                              className="flex m-2 justify-between"
-                              key={index}
-                              onMouseEnter={() =>
-                                setShowFlightController(index)
-                              }
-                              onMouseLeave={() => setShowFlightController(null)}
-                            >
-                              <div className="flex">
-                                <input
-                                  className="text-[14px] w-6 h-6 mt-1"
-                                  value={
-                                    index + 1 < 10
-                                      ? `0${index + 1}.`
-                                      : `${index + 1}.`
-                                  }
-                                  disabled
-                                />
+                          <AnimatePresence>
+                            {[
+                              ...flightDetails,
+                              ...Array(addFlightDetails).fill(null),
+                            ].map((value, index) => (
+                              <motion.li
+                                key={index}
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="flex m-2 justify-between overflow-hidden"
+                                onMouseEnter={() =>
+                                  setShowFlightController(index)
+                                }
+                                onMouseLeave={() =>
+                                  setShowFlightController(null)
+                                }
+                              >
+                                <div className="flex">
+                                  <input
+                                    className="text-[14px] w-6 h-6 mt-1"
+                                    value={
+                                      index + 1 < 10
+                                        ? `0${index + 1}.`
+                                        : `${index + 1}.`
+                                    }
+                                    disabled
+                                  />
 
-                                <div className="flex flex-col gap-2 w-[200px] ml-2">
-                                  {index < flightDetails.length ? (
-                                    editFlightIndex === index ? (
+                                  <div className="flex flex-col gap-2 w-[200px] ml-2">
+                                    {index < flightDetails.length ? (
+                                      editFlightIndex === index ? (
+                                        <input
+                                          className="font-semibold border-b-2 border-slate-200 text-[13px]"
+                                          value={newFlight.flight}
+                                          onChange={(e) => {
+                                            setNewFlight({
+                                              ...newFlight,
+                                              flight: e.target.value,
+                                            });
+                                          }}
+                                        />
+                                      ) : (
+                                        <span className="text-[13px]">
+                                          {value.flight}
+                                        </span>
+                                      )
+                                    ) : (
                                       <input
-                                        className="font-semibold border-b-2 border-slate-200 text-[13px]"
-                                        value={newFlight.flight}
-                                        onChange={(e) => {
+                                        type="text"
+                                        placeholder="Flight no."
+                                        className="border-b-2 border-slate-200 text-[13px]"
+                                        onChange={(e) =>
                                           setNewFlight({
                                             ...newFlight,
                                             flight: e.target.value,
-                                          });
-                                        }}
+                                          })
+                                        }
                                       />
-                                    ) : (
-                                      <span className="text-[13px]">
-                                        {value.flight}
-                                      </span>
-                                    )
-                                  ) : (
-                                    <input
-                                      type="text"
-                                      placeholder="Flight no."
-                                      className="border-b-2 border-slate-200 text-[13px]"
-                                      onChange={(e) =>
-                                        setNewFlight({
-                                          ...newFlight,
-                                          flight: e.target.value,
-                                        })
-                                      }
-                                    />
-                                  )}
+                                    )}
 
-                                  {index < flightDetails.length ? (
-                                    editFlightIndex === index ? (
+                                    {index < flightDetails.length ? (
+                                      editFlightIndex === index ? (
+                                        <input
+                                          className="text-[13px] border-b-2 border-slate-200"
+                                          value={newFlight.departure.dateTime}
+                                          onChange={(e) =>
+                                            setNewFlight({
+                                              ...newFlight,
+                                              departure: {
+                                                ...newFlight.departure,
+                                                dateTime: e.target.value,
+                                              },
+                                            })
+                                          }
+                                        />
+                                      ) : (
+                                        <span className="text-[13px]">
+                                          {value.departure.dateTime}
+                                        </span>
+                                      )
+                                    ) : (
                                       <input
-                                        className="text-[13px] border-b-2 border-slate-200"
-                                        value={newFlight.departure.dateTime}
+                                        type="text"
+                                        placeholder="Time and date"
+                                        className="border-b-2 border-slate-200 text-[13px]"
                                         onChange={(e) =>
                                           setNewFlight({
                                             ...newFlight,
@@ -351,33 +399,33 @@ const OperationResponseModel = ({
                                           })
                                         }
                                       />
-                                    ) : (
-                                      <span className="text-[13px]">
-                                        {value.departure.dateTime}
-                                      </span>
-                                    )
-                                  ) : (
-                                    <input
-                                      type="text"
-                                      placeholder="Time and date"
-                                      className="border-b-2 border-slate-200 text-[13px]"
-                                      onChange={(e) =>
-                                        setNewFlight({
-                                          ...newFlight,
-                                          departure: {
-                                            ...newFlight.departure,
-                                            dateTime: e.target.value,
-                                          },
-                                        })
-                                      }
-                                    />
-                                  )}
+                                    )}
 
-                                  {index < flightDetails.length ? (
-                                    editFlightIndex === index ? (
+                                    {index < flightDetails.length ? (
+                                      editFlightIndex === index ? (
+                                        <input
+                                          className="text-[13px] border-b-2 border-slate-200"
+                                          value={newFlight.departure.from}
+                                          onChange={(e) =>
+                                            setNewFlight({
+                                              ...newFlight,
+                                              departure: {
+                                                ...newFlight.departure,
+                                                from: e.target.value,
+                                              },
+                                            })
+                                          }
+                                        />
+                                      ) : (
+                                        <span className="text-[13px]">
+                                          {value.departure.from}
+                                        </span>
+                                      )
+                                    ) : (
                                       <input
-                                        className="text-[13px] border-b-2 border-slate-200"
-                                        value={newFlight.departure.from}
+                                        type="text"
+                                        placeholder="From"
+                                        className="border-b-2 border-slate-200 text-[13px]"
                                         onChange={(e) =>
                                           setNewFlight({
                                             ...newFlight,
@@ -388,33 +436,33 @@ const OperationResponseModel = ({
                                           })
                                         }
                                       />
-                                    ) : (
-                                      <span className="text-[13px]">
-                                        {value.departure.from}
-                                      </span>
-                                    )
-                                  ) : (
-                                    <input
-                                      type="text"
-                                      placeholder="From"
-                                      className="border-b-2 border-slate-200 text-[13px]"
-                                      onChange={(e) =>
-                                        setNewFlight({
-                                          ...newFlight,
-                                          departure: {
-                                            ...newFlight.departure,
-                                            from: e.target.value,
-                                          },
-                                        })
-                                      }
-                                    />
-                                  )}
+                                    )}
 
-                                  {index < flightDetails.length ? (
-                                    editFlightIndex === index ? (
+                                    {index < flightDetails.length ? (
+                                      editFlightIndex === index ? (
+                                        <input
+                                          className="text-[13px] border-b-2 border-slate-200"
+                                          value={newFlight.departure.to}
+                                          onChange={(e) =>
+                                            setNewFlight({
+                                              ...newFlight,
+                                              departure: {
+                                                ...newFlight.departure,
+                                                to: e.target.value,
+                                              },
+                                            })
+                                          }
+                                        />
+                                      ) : (
+                                        <span className="text-[13px]">
+                                          {value.departure.to}
+                                        </span>
+                                      )
+                                    ) : (
                                       <input
-                                        className="text-[13px] border-b-2 border-slate-200"
-                                        value={newFlight.departure.to}
+                                        type="text"
+                                        placeholder="To"
+                                        className="border-b-2 border-slate-200 text-[13px]"
                                         onChange={(e) =>
                                           setNewFlight({
                                             ...newFlight,
@@ -425,198 +473,204 @@ const OperationResponseModel = ({
                                           })
                                         }
                                       />
-                                    ) : (
-                                      <span className="text-[13px]">
-                                        {value.departure.to}
-                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-col gap-1">
+                                  {index < flightDetails.length ? (
+                                    showFlightController === index && (
+                                      <>
+                                        <FontAwesomeIcon
+                                          icon={faCircleXmark}
+                                          onClick={() => deleteFlight(index)}
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
+                                        />
+                                        <FontAwesomeIcon
+                                          icon={faPenToSquare}
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-blue-500 transition-all duration-300 ease-in-out"
+                                          onClick={() => {
+                                            setEditFlightIndex(index);
+                                            setNewFlight(flightDetails[index]);
+                                          }}
+                                        />
+                                        {editFlightIndex !== null && (
+                                          <FontAwesomeIcon
+                                            icon={faCircleCheck}
+                                            onClick={
+                                              index !== editFlightIndex
+                                                ? addFlight
+                                                : () => updateFlight(index)
+                                            }
+                                            className="text-[#023047] cursor-pointer text-[20px] hover:green-blue-500 transition-all duration-300 ease-in-out"
+                                          />
+                                        )}
+                                      </>
                                     )
                                   ) : (
-                                    <input
-                                      type="text"
-                                      placeholder="To"
-                                      className="border-b-2 border-slate-200 text-[13px]"
-                                      onChange={(e) =>
-                                        setNewFlight({
-                                          ...newFlight,
-                                          departure: {
-                                            ...newFlight.departure,
-                                            to: e.target.value,
-                                          },
-                                        })
-                                      }
-                                    />
-                                  )}
-                                </div>
-                              </div>
-
-                              <div className="flex flex-col gap-1">
-                                {index < flightDetails.length ? (
-                                  showFlightController === index && (
                                     <>
                                       <FontAwesomeIcon
                                         icon={faCircleXmark}
-                                        onClick={() => deleteFlight(index)}
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
+                                        onClick={() =>
+                                          setAddFlightDetails(
+                                            addFlightDetails - 1
+                                          )
+                                        }
                                       />
                                       <FontAwesomeIcon
-                                        icon={faPenToSquare}
-                                        onClick={() => {
-                                          setEditFlightIndex(index);
-                                          setNewFlight(flightDetails[index]);
-                                        }}
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:text-green-500 transition-all duration-300 ease-in-out"
+                                        icon={faCircleCheck}
+                                        onClick={addFlight}
                                       />
-                                      {editFlightIndex !== null && (
-                                        <FontAwesomeIcon
-                                          icon={faCircleCheck}
-                                          onClick={
-                                            index !== editFlightIndex
-                                              ? addFlight
-                                              : () => updateFlight(index)
-                                          }
-                                        />
-                                      )}
                                     </>
-                                  )
-                                ) : (
-                                  <>
-                                    <FontAwesomeIcon
-                                      icon={faCircleXmark}
-                                      onClick={() =>
-                                        setAddFlightDetails(
-                                          addFlightDetails - 1
-                                        )
-                                      }
-                                    />
-                                    <FontAwesomeIcon
-                                      icon={faCircleCheck}
-                                      onClick={addFlight}
-                                    />
-                                  </>
-                                )}
-                              </div>
-                            </li>
-                          ))}
+                                  )}
+                                </div>
+                              </motion.li>
+                            ))}
+                          </AnimatePresence>
                         </div>
 
                         <li>
-                          <div className="flex flex-row items-center gap-3 mt-4">
-                            <FontAwesomeIcon
-                              className=" text-blue-500"
-                              icon={faPlusCircle}
-                              onClick={() =>
-                                setAddFlightDetails(addFlightDetails + 1)
-                              }
-                            />
-                            <span className=" text-blue-500">Add More</span>
+                          <div
+                            className="flex flex-row items-center gap-3 mt-4 cursor-pointer hover:text-blue-400 text-blue-500"
+                            onClick={() =>
+                              setAddFlightDetails(addFlightDetails + 1)
+                            }
+                          >
+                            <FontAwesomeIcon classNam="" icon={faPlusCircle} />
+                            <span className="">Add More</span>
                           </div>
                         </li>
                       </ul>
                     </div>
                     <div className=" m-5">
-                      <div className="text-xl font-semibold text-gray-800 mb-2 pb-1">
-                        Hotel Details
+                      <div className="text-xl flex flex-row gap-2 items-center font-semibold text-gray-800 mb-2 pb-1">
+                        <FontAwesomeIcon icon={faHotel} />
+                        <div>Hotel Details:</div>
                       </div>
                       <ul className=" w-[300px] border-b-[1px] border-slate-200">
-                        <div>
-                          {[
-                            ...hotelDetails,
-                            ...Array(addHotelDetails).fill(null),
-                          ].map((value, index) => (
-                            <li
-                              key={index}
-                              onMouseEnter={() => setShowHotelController(index)}
-                              onMouseLeave={() => setShowHotelController(null)}
-                            >
-                              <input
-                                className="text-[14px] w-6 h-6 mt-1"
-                                value={
-                                  index + 1 < 10
-                                    ? `0${index + 1}.`
-                                    : `${index + 1}.`
+                        <div className=" ml-2">
+                          <AnimatePresence>
+                            {[
+                              ...hotelDetails,
+                              ...Array(addHotelDetails).fill(null),
+                            ].map((value, index) => (
+                              <motion.li
+                                key={index}
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="flex overflow-hidden items-center"
+                                onMouseEnter={() =>
+                                  setShowHotelController(index)
                                 }
-                                disabled
-                              />
+                                onMouseLeave={() =>
+                                  setShowHotelController(null)
+                                }
+                              >
+                                <input
+                                  className="text-[14px] w-6 h-6 mt-1"
+                                  value={
+                                    index + 1 < 10
+                                      ? `0${index + 1}.`
+                                      : `${index + 1}.`
+                                  }
+                                  disabled
+                                />
 
-                              {index < hotelDetails.length ? (
-                                editHotelIndex === index ? (
-                                  <input
-                                    value={newHotel}
-                                    onChange={(e) => {
-                                      setNewHotel(e.target.value);
-                                    }}
-                                  />
-                                ) : (
-                                  <span>{value}</span>
-                                )
-                              ) : (
-                                <div>
-                                  <input
-                                    type="text"
-                                    placeholder="Hotel"
-                                    className="border-b-2 border-slate-200 text-[13px]"
-                                    onChange={(e) =>
-                                      setNewHotel(e.target.value)
-                                    }
-                                  />
-                                </div>
-                              )}
-
-                              <div>
                                 {index < hotelDetails.length ? (
-                                  showHotelController === index && (
+                                  editHotelIndex === index ? (
+                                    <input
+                                      value={newHotel}
+                                      onChange={(e) => {
+                                        setNewHotel(e.target.value);
+                                      }}
+                                      className=" min-w-[200x]"
+                                    />
+                                  ) : (
+                                    <span className=" min-w-[200px]">
+                                      {value}
+                                    </span>
+                                  )
+                                ) : (
+                                  <div>
+                                    <input
+                                      type="text"
+                                      placeholder="Hotel"
+                                      className="border-b-2 border-slate-200 text-[13px] min-w-[200px]"
+                                      onChange={(e) =>
+                                        setNewHotel(e.target.value)
+                                      }
+                                    />
+                                  </div>
+                                )}
+
+                                <div>
+                                  {index < hotelDetails.length ? (
+                                    showHotelController === index && (
+                                      <>
+                                        <FontAwesomeIcon
+                                          icon={faCircleXmark}
+                                          onClick={() => deleteHotel(index)}
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
+                                        />
+                                        <FontAwesomeIcon
+                                          icon={faPenToSquare}
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-blue-500 transition-all duration-300 ease-in-out"
+                                          onClick={() => {
+                                            setEditHotelIndex(index);
+                                            console.log(editHotelIndex);
+                                            setNewHotel(hotelDetails[index]);
+                                          }}
+                                        />
+                                        {editHotelIndex !== null && (
+                                          <FontAwesomeIcon
+                                            icon={faCircleCheck}
+                                            className="text-[#023047] cursor-pointer text-[20px] hover:green-red-500 transition-all duration-300 ease-in-out"
+                                            onClick={
+                                              index !== editHotelIndex
+                                                ? addHotel
+                                                : () => updateHotel(index)
+                                            }
+                                          />
+                                        )}
+                                      </>
+                                    )
+                                  ) : (
                                     <>
                                       <FontAwesomeIcon
                                         icon={faCircleXmark}
-                                        onClick={() => deleteHotel(index)}
+                                        onClick={() =>
+                                          setAddHotelDetails(
+                                            addHotelDetails - 1
+                                          )
+                                        }
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
                                       />
+                                      {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
                                       <FontAwesomeIcon
-                                        icon={faPenToSquare}
-                                        onClick={() => {
-                                          setEditHotelIndex(index);
-                                          console.log(editHotelIndex);
-                                          setNewHotel(hotelDetails[index]);
-                                        }}
+                                        icon={faCircleCheck}
+                                        onClick={addHotel}
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:green-red-500 transition-all duration-300 ease-in-out"
                                       />
-                                      {editHotelIndex !== null && (
-                                        <FontAwesomeIcon
-                                          icon={faCircleCheck}
-                                          onClick={
-                                            index !== editHotelIndex
-                                              ? addHotel
-                                              : () => updateHotel(index)
-                                          }
-                                        />
-                                      )}
                                     </>
-                                  )
-                                ) : (
-                                  <>
-                                    <FontAwesomeIcon
-                                      icon={faCircleXmark}
-                                      onClick={() =>
-                                        setAddHotelDetails(addHotelDetails - 1)
-                                      }
-                                    />
-                                    {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
-                                    <FontAwesomeIcon
-                                      icon={faCircleCheck}
-                                      onClick={addHotel}
-                                    />
-                                  </>
-                                )}
-                              </div>
-                            </li>
-                          ))}
+                                  )}
+                                </div>
+                              </motion.li>
+                            ))}
+                          </AnimatePresence>
                         </div>
                         <li>
-                          <div className="flex flex-row items-center gap-3 mt-4">
-                            <FontAwesomeIcon
-                              className=" text-blue-500"
-                              icon={faPlusCircle}
-                              onClick={() =>
-                                setAddHotelDetails(addHotelDetails + 1)
-                              }
-                            />
-                            <span className=" text-blue-500">Add More</span>
+                          <div
+                            onClick={() =>
+                              setAddHotelDetails(addHotelDetails + 1)
+                            }
+                            className="flex flex-row items-center gap-3 mt-4 cursor-pointer hover:text-blue-400 text-blue-500"
+                          >
+                            <FontAwesomeIcon className="" icon={faPlusCircle} />
+                            <span className="">Add More</span>
                           </div>
                         </li>
                       </ul>
@@ -624,367 +678,410 @@ const OperationResponseModel = ({
                   </div>
                   <div>
                     <div className="m-5">
-                      <div className=" text-xl font-semibold text-gray-800 mb-2 pb-1">
-                        Tour Iternary
+                      <div className=" flex flex-row items-center gap-2 text-xl font-semibold text-gray-800 mb-2 pb-1">
+                        <FontAwesomeIcon icon={faSitemap} />
+                        <div>Tour Iternary:</div>
                       </div>
                       <ul className="w-[300px] border-b-[1px] border-slate-200">
-                        <div>
-                          {[
-                            ...itenaryDetails,
-                            ...Array(addIternaryDetails).fill(null),
-                          ].map((value, index) => (
-                            <li
-                              key={index}
-                              onMouseEnter={() =>
-                                setshowIternaryController(index)
-                              }
-                              onMouseLeave={() =>
-                                setshowIternaryController(null)
-                              }
-                            >
-                              <input
-                                className="text-[14px] w-6 h-6 mt-1"
-                                value={
-                                  index + 1 < 10
-                                    ? `0${index + 1}.`
-                                    : `${index + 1}.`
+                        <div className=" ml-2">
+                          <AnimatePresence>
+                            {[
+                              ...itenaryDetails,
+                              ...Array(addIternaryDetails).fill(null),
+                            ].map((value, index) => (
+                              <motion.li
+                                key={index}
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                                onMouseEnter={() =>
+                                  setshowIternaryController(index)
                                 }
-                                disabled
-                              />
+                                onMouseLeave={() =>
+                                  setshowIternaryController(null)
+                                }
+                                className="flex flex-row gap-2 items-center"
+                              >
+                                <input
+                                  className="text-[14px] w-6 h-6 mt-1"
+                                  value={
+                                    index + 1 < 10
+                                      ? `0${index + 1}.`
+                                      : `${index + 1}.`
+                                  }
+                                  disabled
+                                />
 
-                              {index < itenaryDetails.length ? (
-                                editIternaryIndex === index ? (
-                                  <input
-                                    value={newItenary}
-                                    onChange={(e) => {
-                                      setNewItenary(e.target.value);
-                                    }}
-                                  />
-                                ) : (
-                                  <span>{value}</span>
-                                )
-                              ) : (
-                                <div>
-                                  <input
-                                    type="text"
-                                    placeholder="Itenary"
-                                    className="border-b-2 border-slate-200 text-[13px]"
-                                    onChange={(e) =>
-                                      setNewItenary(e.target.value)
-                                    }
-                                  />
-                                </div>
-                              )}
-
-                              <div>
                                 {index < itenaryDetails.length ? (
-                                  showIternaryController === index && (
-                                    <>
-                                      <FontAwesomeIcon
-                                        icon={faCircleXmark}
-                                        onClick={() => deleteItenary(index)}
-                                      />
-                                      <FontAwesomeIcon
-                                        icon={faPenToSquare}
-                                        onClick={() => {
-                                          setEditIternaryIndex(index);
-                                          setNewItenary(itenaryDetails[index]);
-                                        }}
-                                      />
-                                      {editIternaryIndex !== null && (
-                                        <FontAwesomeIcon
-                                          icon={faCircleCheck}
-                                          onClick={
-                                            index !== editIternaryIndex
-                                              ? addItenary
-                                              : () => updateItenary(index)
-                                          }
-                                        />
-                                      )}
-                                    </>
+                                  editIternaryIndex === index ? (
+                                    <input
+                                      value={newItenary}
+                                      onChange={(e) => {
+                                        setNewItenary(e.target.value);
+                                      }}
+                                      className=" min-w-[200px]"
+                                    />
+                                  ) : (
+                                    <span className=" min-w-[200px]">
+                                      {value}
+                                    </span>
                                   )
                                 ) : (
-                                  <>
-                                    <FontAwesomeIcon
-                                      icon={faCircleXmark}
-                                      onClick={() =>
-                                        setAddIternaryDetails(
-                                          addIternaryDetails - 1
-                                        )
+                                  <div>
+                                    <input
+                                      type="text"
+                                      placeholder="Itenary"
+                                      className="border-b-2 border-slate-200 text-[13px] min-w-[200px]"
+                                      onChange={(e) =>
+                                        setNewItenary(e.target.value)
                                       }
                                     />
-                                    {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
-                                    <FontAwesomeIcon
-                                      icon={faCircleCheck}
-                                      onClick={addItenary}
-                                    />
-                                  </>
+                                  </div>
                                 )}
-                              </div>
-                            </li>
-                          ))}
-                        </div>
-                        <li>
-                          <div className="flex flex-row items-center gap-3 mt-4">
-                            <FontAwesomeIcon
-                              className=" text-blue-500"
-                              icon={faPlusCircle}
-                              onClick={() =>
-                                setAddIternaryDetails(addIternaryDetails + 1)
-                              }
-                            />
-                            <span className=" text-blue-500">Add More</span>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className=" m-5">
-                      <div className=" text-xl font-semibold text-gray-800 mb-2 pb-1">
-                        Package Include
-                      </div>
-                      <ul className=" w-[300px] border-b-[1px] border-slate-200">
-                        <div>
-                          {[
-                            ...packageDetails,
-                            ...Array(addPackageDetails).fill(null),
-                          ].map((value, index) => (
-                            <li
-                              key={index}
-                              onMouseEnter={() =>
-                                setshowPackageController(index)
-                              }
-                              onMouseLeave={() =>
-                                setshowPackageController(null)
-                              }
-                            >
-                              <input
-                                className="text-[14px] w-6 h-6 mt-1"
-                                value={
-                                  index + 1 < 10
-                                    ? `0${index + 1}.`
-                                    : `${index + 1}.`
-                                }
-                                disabled
-                              />
 
-                              {index < packageDetails.length ? (
-                                editPackageIndex === index ? (
-                                  <input
-                                    value={newPackage}
-                                    onChange={(e) => {
-                                      setNewPackage(e.target.value);
-                                    }}
-                                  />
-                                ) : (
-                                  <span>{value}</span>
-                                )
-                              ) : (
                                 <div>
-                                  <input
-                                    type="text"
-                                    placeholder="Itenary"
-                                    className="border-b-2 border-slate-200 text-[13px]"
-                                    onChange={(e) =>
-                                      setNewPackage(e.target.value)
-                                    }
-                                  />
-                                </div>
-                              )}
-
-                              <div>
-                                {index < packageDetails.length ? (
-                                  showPackageController === index && (
+                                  {index < itenaryDetails.length ? (
+                                    showIternaryController === index && (
+                                      <>
+                                        <FontAwesomeIcon
+                                          icon={faCircleXmark}
+                                          onClick={() => deleteItenary(index)}
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
+                                        />
+                                        <FontAwesomeIcon
+                                          icon={faPenToSquare}
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-blue-500 transition-all duration-300 ease-in-out"
+                                          onClick={() => {
+                                            setEditIternaryIndex(index);
+                                            setNewItenary(
+                                              itenaryDetails[index]
+                                            );
+                                          }}
+                                        />
+                                        {editIternaryIndex !== null && (
+                                          <FontAwesomeIcon
+                                            icon={faCircleCheck}
+                                            className="text-[#023047] cursor-pointer text-[20px] hover:text-green-500 transition-all duration-300 ease-in-out"
+                                            onClick={
+                                              index !== editIternaryIndex
+                                                ? addItenary
+                                                : () => updateItenary(index)
+                                            }
+                                          />
+                                        )}
+                                      </>
+                                    )
+                                  ) : (
                                     <>
                                       <FontAwesomeIcon
                                         icon={faCircleXmark}
-                                        onClick={() => deletePackage(index)}
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
+                                        onClick={() =>
+                                          setAddIternaryDetails(
+                                            addIternaryDetails - 1
+                                          )
+                                        }
                                       />
+                                      {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
                                       <FontAwesomeIcon
-                                        icon={faPenToSquare}
-                                        onClick={() => {
-                                          setEditPackageIndex(index);
-                                          setNewPackage(packageDetails[index]);
-                                        }}
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:text-green-500 transition-all duration-300 ease-in-out"
+                                        icon={faCircleCheck}
+                                        onClick={addItenary}
                                       />
-                                      {editPackageIndex !== null && (
-                                        <FontAwesomeIcon
-                                          icon={faCircleCheck}
-                                          onClick={
-                                            index !== editPackageIndex
-                                              ? addPackage
-                                              : () => updatePackage(index)
-                                          }
-                                        />
-                                      )}
                                     </>
-                                  )
-                                ) : (
-                                  <>
-                                    <FontAwesomeIcon
-                                      icon={faCircleXmark}
-                                      onClick={() =>
-                                        setAddPackageDetails(
-                                          addPackageDetails - 1
-                                        )
-                                      }
-                                    />
-                                    {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
-                                    <FontAwesomeIcon
-                                      icon={faCircleCheck}
-                                      onClick={addPackage}
-                                    />
-                                  </>
-                                )}
-                              </div>
-                            </li>
-                          ))}
+                                  )}
+                                </div>
+                              </motion.li>
+                            ))}
+                          </AnimatePresence>
                         </div>
-
                         <li>
-                          <div className="flex flex-row items-center gap-3 mt-4">
-                            <FontAwesomeIcon
-                              className=" text-blue-500"
-                              icon={faPlusCircle}
-                              onClick={() =>
-                                setAddPackageDetails(addPackageDetails + 1)
-                              }
-                            />
-                            <span className=" text-blue-500">Add More</span>
+                          <div
+                            className="flex flex-row items-center gap-3 mt-4 cursor-pointer hover:text-blue-400 text-blue-500"
+                            onClick={() =>
+                              setAddIternaryDetails(addIternaryDetails + 1)
+                            }
+                          >
+                            <FontAwesomeIcon className="" icon={faPlusCircle} />
+                            <span className="">Add More</span>
                           </div>
                         </li>
                       </ul>
                     </div>
                     <div className=" m-5">
-                      <div className=" text-xl font-semibold text-gray-800 mb-2 pb-1">
-                        Special Requests
+                      <div className=" text-xl flex flex-row gap-2 items-center font-semibold text-gray-800 mb-2 pb-1">
+                        <FontAwesomeIcon icon={faBoxArchive} />
+                        <div>Package Include:</div>
+                      </div>
+                      <ul className=" w-[300px] border-b-[1px] border-slate-200 gap-2">
+                        <div className=" ml-2">
+                          <AnimatePresence>
+                            {[
+                              ...packageDetails,
+                              ...Array(addPackageDetails).fill(null),
+                            ].map((value, index) => (
+                              <motion.li
+                                key={index}
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="flex overflow-hidden items-center gap-2"
+                                onMouseEnter={() =>
+                                  setshowPackageController(index)
+                                }
+                                onMouseLeave={() =>
+                                  setshowPackageController(null)
+                                }
+                              >
+                                <input
+                                  className="text-[14px] w-6 h-6 mt-1"
+                                  value={
+                                    index + 1 < 10
+                                      ? `0${index + 1}.`
+                                      : `${index + 1}.`
+                                  }
+                                  disabled
+                                />
+
+                                {index < packageDetails.length ? (
+                                  editPackageIndex === index ? (
+                                    <input
+                                      value={newPackage}
+                                      onChange={(e) => {
+                                        setNewPackage(e.target.value);
+                                      }}
+                                      className=" min-w-[200px]"
+                                    />
+                                  ) : (
+                                    <span className=" min-w-[200px]">
+                                      {value}
+                                    </span>
+                                  )
+                                ) : (
+                                  <div>
+                                    <input
+                                      type="text"
+                                      placeholder="Itenary"
+                                      className="border-b-2 border-slate-200 text-[13px] min-w-[200px]"
+                                      onChange={(e) =>
+                                        setNewPackage(e.target.value)
+                                      }
+                                    />
+                                  </div>
+                                )}
+
+                                <div>
+                                  {index < packageDetails.length ? (
+                                    showPackageController === index && (
+                                      <>
+                                        <FontAwesomeIcon
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
+                                          icon={faCircleXmark}
+                                          onClick={() => deletePackage(index)}
+                                        />
+                                        <FontAwesomeIcon
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-blue-500 transition-all duration-300 ease-in-out"
+                                          icon={faPenToSquare}
+                                          onClick={() => {
+                                            setEditPackageIndex(index);
+                                            setNewPackage(
+                                              packageDetails[index]
+                                            );
+                                          }}
+                                        />
+                                        {editPackageIndex !== null && (
+                                          <FontAwesomeIcon
+                                            className="text-[#023047] cursor-pointer text-[20px] hover:text-green-500 transition-all duration-300 ease-in-out"
+                                            icon={faCircleCheck}
+                                            onClick={
+                                              index !== editPackageIndex
+                                                ? addPackage
+                                                : () => updatePackage(index)
+                                            }
+                                          />
+                                        )}
+                                      </>
+                                    )
+                                  ) : (
+                                    <>
+                                      <FontAwesomeIcon
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
+                                        icon={faCircleXmark}
+                                        onClick={() =>
+                                          setAddPackageDetails(
+                                            addPackageDetails - 1
+                                          )
+                                        }
+                                      />
+                                      {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
+                                      <FontAwesomeIcon
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:text-green-500 transition-all duration-300 ease-in-out"
+                                        icon={faCircleCheck}
+                                        onClick={addPackage}
+                                      />
+                                    </>
+                                  )}
+                                </div>
+                              </motion.li>
+                            ))}
+                          </AnimatePresence>
+                        </div>
+
+                        <li>
+                          <div
+                            className="flex flex-row items-center gap-3 mt-4 cursor-pointer hover:text-blue-400 text-blue-500"
+                            onClick={() =>
+                              setAddPackageDetails(addPackageDetails + 1)
+                            }
+                          >
+                            <FontAwesomeIcon className="" icon={faPlusCircle} />
+                            <span className="">Add More</span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className=" m-5">
+                      <div className="flex flex-row gap-2 items-center text-xl font-semibold text-gray-800 mb-2 pb-1">
+                        <FontAwesomeIcon icon={faWebAwesome} />
+                        <div>Special Requests:</div>
                       </div>
                       <ul className="w-[300px] border-b-[1px] border-slate-200">
-                        <div>
-                          {[
-                            ...specialDetails,
-                            ...Array(addSpecialDetails).fill(null),
-                          ].map((value, index) => (
-                            <li
-                              key={index}
-                              onMouseEnter={() =>
-                                setshowSpecialController(index)
-                              }
-                              onMouseLeave={() =>
-                                setshowSpecialController(null)
-                              }
-                            >
-                              <input
-                                className="text-[14px] w-6 h-6 mt-1"
-                                value={
-                                  index + 1 < 10
-                                    ? `0${index + 1}.`
-                                    : `${index + 1}.`
+                        <div className=" ml-2">
+                          <AnimatePresence>
+                            {[
+                              ...specialDetails,
+                              ...Array(addSpecialDetails).fill(null),
+                            ].map((value, index) => (
+                              <motion.li
+                                key={index}
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="flex overflow-hidden items-center gap-2"
+                                onMouseEnter={() =>
+                                  setshowSpecialController(index)
                                 }
-                                disabled
-                              />
+                                onMouseLeave={() =>
+                                  setshowSpecialController(null)
+                                }
+                              >
+                                <input
+                                  className="text-[14px] w-6 h-6 mt-1"
+                                  value={
+                                    index + 1 < 10
+                                      ? `0${index + 1}.`
+                                      : `${index + 1}.`
+                                  }
+                                  disabled
+                                />
 
-                              {index < specialDetails.length ? (
-                                editSpecialIndex === index ? (
-                                  <input
-                                    value={newSpRequest}
-                                    onChange={(e) => {
-                                      setNewSpRequest(e.target.value);
-                                    }}
-                                  />
-                                ) : (
-                                  <span>{value}</span>
-                                )
-                              ) : (
-                                <div>
-                                  <input
-                                    type="text"
-                                    placeholder="Itenary"
-                                    className="border-b-2 border-slate-200 text-[13px]"
-                                    onChange={(e) =>
-                                      setNewSpRequest(e.target.value)
-                                    }
-                                  />
-                                </div>
-                              )}
-
-                              <div>
                                 {index < specialDetails.length ? (
-                                  showSpecialController === index && (
-                                    <>
-                                      <FontAwesomeIcon
-                                        icon={faCircleXmark}
-                                        onClick={() => deleteSpecial(index)}
-                                      />
-                                      <FontAwesomeIcon
-                                        icon={faPenToSquare}
-                                        onClick={() => {
-                                          setEditSpecialIndex(index);
-                                          setNewSpRequest(
-                                            specialDetails[index]
-                                          );
-                                        }}
-                                      />
-                                      {editSpecialIndex !== null && (
-                                        <FontAwesomeIcon
-                                          icon={faCircleCheck}
-                                          onClick={
-                                            index !== editSpecialIndex
-                                              ? addSpecial
-                                              : () => updatetSpecial(index)
-                                          }
-                                        />
-                                      )}
-                                    </>
+                                  editSpecialIndex === index ? (
+                                    <input
+                                      value={newSpRequest}
+                                      onChange={(e) => {
+                                        setNewSpRequest(e.target.value);
+                                      }}
+                                      className=" min-w-[200px]"
+                                    />
+                                  ) : (
+                                    <span className=" min-w-[200px]">
+                                      {value}
+                                    </span>
                                   )
                                 ) : (
-                                  <>
-                                    <FontAwesomeIcon
-                                      icon={faCircleXmark}
-                                      onClick={() =>
-                                        setAddSpecialDetails(
-                                          addSpecialDetails - 1
-                                        )
+                                  <div>
+                                    <input
+                                      type="text"
+                                      placeholder="Special Requests"
+                                      className="border-b-2 border-slate-200 text-[13px] min-w-[200px]"
+                                      onChange={(e) =>
+                                        setNewSpRequest(e.target.value)
                                       }
                                     />
-                                    {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
-                                    <FontAwesomeIcon
-                                      icon={faCircleCheck}
-                                      onClick={addSpecial}
-                                    />
-                                  </>
+                                  </div>
                                 )}
-                              </div>
-                            </li>
-                          ))}
+
+                                <div>
+                                  {index < specialDetails.length ? (
+                                    showSpecialController === index && (
+                                      <>
+                                        <FontAwesomeIcon
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
+                                          icon={faCircleXmark}
+                                          onClick={() => deleteSpecial(index)}
+                                        />
+                                        <FontAwesomeIcon
+                                          className="text-[#023047] cursor-pointer text-[20px] hover:text-blue-500 transition-all duration-300 ease-in-out"
+                                          icon={faPenToSquare}
+                                          onClick={() => {
+                                            setEditSpecialIndex(index);
+                                            setNewSpRequest(
+                                              specialDetails[index]
+                                            );
+                                          }}
+                                        />
+                                        {editSpecialIndex !== null && (
+                                          <FontAwesomeIcon
+                                            className="text-[#023047] cursor-pointer text-[20px] hover:text-green-500 transition-all duration-300 ease-in-out"
+                                            icon={faCircleCheck}
+                                            onClick={
+                                              index !== editSpecialIndex
+                                                ? addSpecial
+                                                : () => updatetSpecial(index)
+                                            }
+                                          />
+                                        )}
+                                      </>
+                                    )
+                                  ) : (
+                                    <>
+                                      <FontAwesomeIcon
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:text-red-500 transition-all duration-300 ease-in-out"
+                                        icon={faCircleXmark}
+                                        onClick={() =>
+                                          setAddSpecialDetails(
+                                            addSpecialDetails - 1
+                                          )
+                                        }
+                                      />
+                                      {/* <FontAwesomeIcon icon={faPenToSquare} /> */}
+                                      <FontAwesomeIcon
+                                        className="text-[#023047] cursor-pointer text-[20px] hover:text-green-500 transition-all duration-300 ease-in-out"
+                                        icon={faCircleCheck}
+                                        onClick={addSpecial}
+                                      />
+                                    </>
+                                  )}
+                                </div>
+                              </motion.li>
+                            ))}
+                          </AnimatePresence>
                         </div>
                         <li>
-                          <div className="flex flex-row items-center gap-3 mt-4">
-                            <FontAwesomeIcon
-                              className=" text-blue-500"
-                              icon={faPlusCircle}
-                              onClick={() =>
-                                setAddSpecialDetails(addSpecialDetails + 1)
-                              }
-                            />
-                            <span className=" text-blue-500">Add More</span>
+                          <div
+                            className="flex flex-row items-center gap-3 mt-4 cursor-pointer hover:text-blue-400 text-blue-500"
+                            onClick={() =>
+                              setAddSpecialDetails(addSpecialDetails + 1)
+                            }
+                          >
+                            <FontAwesomeIcon className="" icon={faPlusCircle} />
+                            <span className=" ">Add More</span>
                           </div>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </div>
-                <div className=" absolute bottom-0 left-0 w-full bg-gray-100 p-5 rounded-b-lg flex flex-row gap-3">
+                <div className="w-full  p-5 rounded-b-lg flex flex-row justify-end gap-3">
                   <button
-                    className="bg-[#2fa4c2] text-white px-2.5 py-1.5 rounded cursor-pointer hover:bg-black"
+                    className="hover:bg-slate-700 text-slate-800 hover:text-white bg-white border-[2px] border-slate-700 px-2.5 py-1.5 rounded cursor-pointer transtion-all duration-300 ease-in-out"
                     onClick={submitHandler}
                   >
                     Send
-                  </button>
-                  <button
-                    className="bg-[#c80000] text-white px-2.5 py-1.5 rounded cursor-pointer hover:bg-black"
-                    onClick={closeProceed}
-                  >
-                    Close
                   </button>
                 </div>
               </div>
@@ -994,7 +1091,7 @@ const OperationResponseModel = ({
           <div>
             <div
               {...getRootProps()}
-              className="border-2 border-dashed mt-20 border-blue-500 p-10 ml-5 mb-5 rounded-md text-center cursor-pointer bg-blue-50"
+              className="border-2 border-dashed mt-20 border-blue-500 p-10  m-5 rounded-md text-center cursor-pointer bg-blue-50"
             >
               <input {...getInputProps()} />
               {isDragActive ? (
@@ -1054,18 +1151,12 @@ const OperationResponseModel = ({
                 </div>
               )}
             </div>
-            <div className=" flex gap-3">
+            <div className=" flex gap-3 justify-end">
               <button
-                className="bg-[#2fa4c2] text-white px-2.5 py-1.5  rounded cursor-pointer hover:bg-black"
+                className="m-5 hover:bg-slate-700 text-slate-700 border-[2px] border-slate-700  hover:text-white px-2.5 py-1.5  rounded cursor-pointer bg-white transition-all duration-300 ease-in-out"
                 onClick={submitHandlerFiles}
               >
                 Send
-              </button>
-              <button
-                className="bg-[#c80000] text-white px-2.5 py-1.5 rounded cursor-pointer hover:bg-black"
-                onClick={() => setOpenResponse(false)}
-              >
-                Close
               </button>
             </div>
           </div>

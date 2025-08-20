@@ -31,4 +31,3 @@ router.get("/getApproved",getApprovedData)
 export default router;
 
 
-

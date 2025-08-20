@@ -10889,3 +10889,19 @@
 20250716	09:59:45	34187da1-d9a6-4142-9785-5dbdd99c27b3	UserId or password invalid
 20250716	12:43:41	fe5a016d-faa0-4ec0-95b6-3ad736ebf718	user id not found
 20250716	12:43:41	9f49dc53-face-4661-8469-918df3f914f3	e is not defined
+20250722	13:16:17	2c19f96a-7396-46ca-95f1-6823a9db16a3	Operation `permenent_users.findOne()` buffering timed out after 10000ms
+20250722	13:16:20	771d6a31-17f0-4752-a2d4-5080dbda8330	Operation `permenent_users.findOne()` buffering timed out after 10000ms
+20250724	23:07:13	5b5b48d6-3585-40bb-934a-0ee66afd08dd	e is not defined
+20250725	12:18:32	d4e61a78-1c73-4327-ad83-cd36742b5083	UserId or password invalid
+20250729	01:11:33	10e5dc12-fd7d-42bd-903b-05d9cda669ef	UserId or password invalid
+20250801	07:34:05	6e6c3e53-65e3-4b83-843b-2f006eaea6de	UserId or password invalid
+20250801	08:17:11	c41694f3-2111-4166-95db-a472e5ffa33e	user id not found
+20250801	08:17:15	6404c62b-f963-4e6a-ac4d-aee4f1fa8d80	user id not found
+20250806	11:50:09	7417e342-b2e4-44e2-a1a7-87b807c4617a	user id not found
+20250806	11:50:09	597b10ac-ef70-4c87-8c50-165b31ffb160	user id not found
+20250806	11:50:21	9eab3961-1d8f-4bd5-bcd7-7587f13c4da9	user id not found
+20250806	11:50:21	a4b436df-8cc0-4da3-9d38-e952d6723c38	user id not found
+20250813	08:00:29	000f3c39-bd52-43d9-b6b6-57a12fa225eb	user id not found
+20250813	08:00:29	4b25cabe-56b9-415d-8b9d-4eeeddcad13a	user id not found
+20250814	08:19:48	805b64d2-a5d9-49ff-b949-ffff6b6789a7	user id not found
+20250814	08:19:48	b419d8c5-210b-483d-83f6-83d12e983094	user id not found

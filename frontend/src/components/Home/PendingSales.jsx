@@ -7,9 +7,12 @@ import {
   faMagnifyingGlass,
   faChevronCircleLeft,
   faChevronCircleRight,
+  faGlobe,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import socket from "../../services/socket";
 import zeroLoading from "../../assets/images/messages/emptyData.png";
+import { AnimatePresence, motion } from "framer-motion";
 
 const PendingSales = () => {
   const [arrayData, setArrayData] = useState(null);
@@ -69,8 +72,11 @@ const PendingSales = () => {
     return <div className=" h-[800px]">loading</div>;
   } else {
     return (
-      <div className=" h-[800px] shadow-md my-6 rounded-2xl">
-        <div className=" ml-10 mt-3 text-slate-600 text-[20px]">Pendings</div>
+      <div className="w-[800px]    pb-8  rounded-[10px]   shadow-md shadow-black/25 m-5">
+        <div className=" bg-slate-700 rounded-t-[10px] p-[5px] flex flex-row justify-start items-center gap-2">
+          <h2 className=" text-xl font-semibold  text-white m-3 ">Pending</h2>
+          <FontAwesomeIcon icon={faSpinner} className=" text-white  text-xl" />
+        </div>
         <div className=" w-[100%] flex-col flex items-center  relative pt-10">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
@@ -96,23 +102,23 @@ const PendingSales = () => {
             ""
           )}
         </div>
-        <div className=" h-[600px]">
+        <div className="flex flex-col mx-2 h-[700px] bg-slate-50 mt-5">
           <table>
             <thead>
               <tr>
-                <th className="px-10 py-3 pt-7 text-center">UserID</th>
-                <th className="px-10 py-3 pt-7 text-center">Country</th>
-                <th className="px-10 py-3 pt-7 text-center">Days</th>
-                <th className="px-10 py-3 pt-7 text-center">Passangers</th>
-                <th className="px-10 py-3 pt-7 text-center">Priority</th>
-                <th className="px-10 py-3 pt-7 text-center">Status</th>
+                <th className="px-8 py-3 pt-7 text-center">UserID</th>
+                <th className="px-8 py-3 pt-7 text-center">Country</th>
+                <th className="px-8 py-3 pt-7 text-center">Days</th>
+                <th className="px-8 py-3 pt-7 text-center">Passangers</th>
+                <th className="px-8 py-3 pt-7 text-center">Priority</th>
+                <th className="px-8 py-3 pt-7 text-center">Status</th>
               </tr>
             </thead>
             <tbody>
               {arrayData.length != 0 ? (
                 arrayData.map((elt, index) => (
                   <tr
-                    className={`hover:bg-gray-50 border-t border-gray-300 ${
+                    className={`hover:bg-slate-100 border-t border-gray-300 cursor-pointer ${
                       elt.isLocked ? "opacity-50 cursor-not-allowed " : ""
                     }`}
                     key={index}
@@ -170,18 +176,32 @@ const PendingSales = () => {
             </tbody>
           </table>
         </div>
-
-        {open && selectSale && (
-          <div>
-            <CustomerDetailsModal
-              view={view}
-              selectSale={selectSale}
-              setOpen={setOpen}
-              refresh={refresh}
-              setRefresh={setRefresh}
-            />
-          </div>
-        )}
+        <AnimatePresence>
+          {open && selectSale && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 flex justify-center z-[222] bg-[#00000065] items-center overflow-y-scroll"
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0, y: -20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.8, opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <CustomerDetailsModal
+                  view={view}
+                  selectSale={selectSale}
+                  setOpen={setOpen}
+                  refresh={refresh}
+                  setRefresh={setRefresh}
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
         <div className=" flex m-auto w-[70px] justify-around text-[#219ebc] h-[100px] z-[0]">
           <button disabled={startIndex === 0} className=" disabled:opacity-50">
             <FontAwesomeIcon

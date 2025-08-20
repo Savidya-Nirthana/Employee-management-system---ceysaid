@@ -150,3 +150,6 @@ const salesSchema = mongoose.Schema(
 
 const SalesModel = mongoose.model("sales_data", salesSchema);
 export default SalesModel;
+
+
+

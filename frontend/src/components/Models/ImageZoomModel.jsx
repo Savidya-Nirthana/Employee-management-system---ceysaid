@@ -5,7 +5,7 @@ const ImageZoomModel = (props) => {
   const { imageUrl, setIsOpen } = props;
   console.log(imageUrl);
   return (
-    <div className="fixed inset-0 bg-white bg-opacity-50 flex justify-center items-center z-100">
+    <div>
       <div className="bg-white bg-opacity-50 p-4 rounded-lg shadow-lg relative w-auto">
         <button
           className="absolute top-[0] right-[-60px] text-white w-[50px] h-[40px] rounded-md hover:bg-red-500 text-3xl bg-red-400 cursor-pointer"

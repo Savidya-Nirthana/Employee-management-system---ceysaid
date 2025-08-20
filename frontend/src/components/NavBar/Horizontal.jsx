@@ -35,15 +35,15 @@ const Horizontal = () => {
   }, []);
 
   return (
-    <>
+    <div className="">
       <div
-        className={` fixed top-[0px] flex flex-row items-center justify-between  bg-white p-2 mb-2 ${
+        className={` fixed top-[0px] flex flex-row items-center justify-between  bg-white p-2 ${
           showNav ? "left-[200px]" : "left-[50px] duration-500"
         }`}
         style={
           showNav
             ? { width: `${winWidth - 220}px` }
-            : { width: `${winWidth - 70}px` }
+            : { width: `${winWidth - 65}px` }
         }
       >
         <div className=" flex flex-row items-center gap-2">
@@ -107,7 +107,7 @@ const Horizontal = () => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
