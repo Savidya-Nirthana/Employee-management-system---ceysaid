@@ -145,12 +145,14 @@ const AllSales = ({ refresh }) => {
                         </td>
                         <td className="px-4 py-3 justify-items-center">
                           <div
-                            className={`w-[30%] text-center rounded-full ${
+                            className={`w-[30%] text-center rounded-full${
                               elt.status === "pending"
                                 ? "bg-red-300 text-red-700"
                                 : elt.status === "active"
                                 ? "bg-green-300 text-green-700"
-                                : "bg-blue-300 text-blue-700"
+                                : elt.status === "confirm"
+                                ? " bg-orange-300 text-orange-600"
+                                : " bg-blue-300 text-blue-700"
                             } min-w-[100px]`}
                           >
                             {elt.status[0].toUpperCase() +

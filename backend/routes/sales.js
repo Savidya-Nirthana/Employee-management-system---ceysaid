@@ -7,8 +7,10 @@ import {
   getDataById,
   lockedControll,
   opData,
+  salesConfirmation,
   saveFiles,
   unlockedControll,
+  uploadConfimation,
   uploadSalesContent,
 } from "../controllers/salesController.js";
 import { protect } from "../middlewares/authMiddleware.js";
@@ -25,9 +27,8 @@ router.get("/getApprove", approveData);
 router.get("/locked", lockedControll);
 router.get("/unlocked", unlockedControll);
 router.post("/OpFiles", protect, upload.single("file"), uploadSalesContent);
-router.post("/saveFiles", protect, saveFiles)
-router.get("/getApproved",getApprovedData)
-
+router.post("/saveFiles", protect, saveFiles);
+router.get("/getApproved", getApprovedData);
+router.post("/conFiles", protect, upload.single("file"), uploadConfimation);
+router.get("/sendConfirmation", salesConfirmation);
 export default router;
-
-

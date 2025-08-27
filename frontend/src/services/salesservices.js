@@ -130,3 +130,29 @@ export const getApprovedData = async (userId) => {
     console.log(e);
   }
 };
+
+export const sendCofimation = async (saleId, urls) => {
+  try {
+    const response = await API.get(`${BASE_URL}/sendConfirmation`, {
+      params: {saleId: saleId, urls: urls }
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const confirmationUpload = async (subject, file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("subject", subject);
+  try {
+    const response = await API.post(`${BASE_URL}/conFiles`, formData, {
+      withCredentials: true,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data.path;
+  } catch (e) {
+    console.log(e);
+  }
+};
+

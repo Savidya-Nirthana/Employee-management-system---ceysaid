@@ -81,6 +81,7 @@ const SalesApproval = () => {
                 <th className="px-4 py-3 text-center">No of days</th>
                 <th className="px-4 py-3 text-center">Start Date</th>
                 <th className="px-4 py-3 text-center">Priority</th>
+                <th className="px-4 py-3 text-center">State</th>
                 <th className="px-4 py-3 text-center">Approved by</th>
               </thead>
               <tbody>
@@ -116,6 +117,22 @@ const SalesApproval = () => {
                           >
                             {elt.priority[0].toUpperCase() +
                               elt.priority.substring(1)}
+                          </div>
+                        </td>
+                        <td className={`px-4 py-3 text-center  `}>
+                          <div
+                            className={`  rounded-full ${
+                              elt.status === "pending"
+                                ? "bg-red-300 text-red-700"
+                                : elt.status === "active"
+                                ? "bg-green-300 text-green-700"
+                                : elt.status === "confirm"
+                                ? " bg-orange-300 text-orange-600"
+                                : "bg-blue-300 text-blue-700"
+                            } `}
+                          >
+                            {elt.status[0].toUpperCase() +
+                              elt.status.substring(1)}
                           </div>
                         </td>
                         <td className="px-4 py-3 text-center">

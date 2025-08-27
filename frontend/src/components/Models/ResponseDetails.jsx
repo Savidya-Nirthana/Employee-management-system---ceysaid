@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBoxArchive,
+  faCircleCheck,
   faFileExcel,
   faFilePdf,
   faFileWord,
@@ -66,7 +67,7 @@ const ResponseDetails = ({
             <FontAwesomeIcon icon={faPaperclip} className=" text-2xl" />
             <div>Attachments</div>
           </div>
-          <div className=" bg-purple-200 w-[300px] h-[100px] flex items-center justify-center rounded-2xl my-2 gap-10">
+          <div className=" bg-purple-200 w-[300px] h-[100px] flex items-center justify-center rounded-2xl my-2 gap-10 shadow-md shadow-purple-600/25">
             {/* {selectSale} */}
             {!selectSale.logs.acceptance[0].isText ? (
               selectSale.logs.acceptance[0].attachements.map((elt, index) => (
@@ -109,9 +110,9 @@ const ResponseDetails = ({
       </div>
       <hr className=" h-[2px] bg-slate-700 border-none" />
       <div className=" w-[100%] m-auto pb-10">
-        <div className=" flex flex-col mx-5">
-          <div className=" flex flex-row justify-between gap-5 my-10">
-            <div className=" bg-slate-100 p-5 rounded-lg min-w-[300px]">
+        <div className=" flex flex-col mx-10">
+          <div className=" flex flex-row justify-between gap-5 my-10 ">
+            <div className=" bg-slate-100 p-5 rounded-lg min-w-[300px] shadow-md shadow-black/25">
               <div className=" flex items-center gap-4">
                 <FontAwesomeIcon icon={faPerson} className=" text-2xl" />
                 <div className=" text-[22px] my-2 ">Customer Details:-</div>
@@ -129,7 +130,7 @@ const ResponseDetails = ({
                 {selectSale.customerDetails.lead}
               </div>
             </div>
-            <div className=" flex-1 bg-slate-100 p-5 rounded-lg">
+            <div className=" flex-1 bg-slate-100 shadow-md shadow-black/25 p-5 rounded-lg">
               <div className=" flex items-center gap-4">
                 <FontAwesomeIcon icon={faUmbrellaBeach} className=" text-2xl" />
                 <div className=" text-[22px] my-2">Tour:-</div>
@@ -152,7 +153,7 @@ const ResponseDetails = ({
           </div>
 
           <div className=" flex flex-col w-[100%] m-auto ">
-            <div className=" mb-10 bg-slate-100 p-5 rounded-lg">
+            <div className=" mb-10 bg-slate-100 p-5 rounded-lg shadow-md shadow-black/25 ">
               <div className=" flex items-center gap-4">
                 <FontAwesomeIcon icon={faPlane} className=" text-2xl" />
                 <div className=" text-[22px] my-2">Flight Details:-</div>
@@ -177,7 +178,7 @@ const ResponseDetails = ({
               </div>
             </div>
             <div className=" flex flex-row justify-between gap-5">
-              <div className=" mb-10 bg-slate-100 flex-1 p-5 rounded-lg">
+              <div className=" mb-10 bg-slate-100 flex-1 p-5 rounded-lg shadow-md shadow-black/25">
                 <div className=" flex items-center gap-4">
                   <FontAwesomeIcon icon={faHotel} className=" text-2xl" />
                   <div className=" text-[22px] my-2">Hotel Details:-</div>
@@ -190,7 +191,7 @@ const ResponseDetails = ({
                 ))}
               </div>
 
-              <div className=" mb-10 bg-slate-100 flex-1 p-5 rounded-lg">
+              <div className=" mb-10 bg-slate-100 flex-1 p-5 rounded-lg shadow-md shadow-black/25">
                 <div className=" flex items-center gap-4">
                   <FontAwesomeIcon icon={faSitemap} className=" text-2xl" />
                   <div className=" text-[22px] my-2">Tour itenerary:-</div>
@@ -208,7 +209,7 @@ const ResponseDetails = ({
               </div>
             </div>
             <div className=" flex flex-row gap-5 justify-between">
-              <div className=" mb-10 flex-1 bg-slate-100 p-5 rounded-lg">
+              <div className=" mb-10 flex-1 bg-slate-100 p-5 rounded-lg shadow-md shadow-black/25">
                 <div className=" flex items-center gap-4">
                   <FontAwesomeIcon icon={faBoxArchive} className=" text-2xl" />
                   <div className=" text-[22px] my-2">Package:-</div>
@@ -225,7 +226,7 @@ const ResponseDetails = ({
                 )}
               </div>
 
-              <div className=" mb-10 flex-1 bg-slate-100 p-5 rounded-lg">
+              <div className=" mb-10 flex-1 bg-slate-100 p-5 rounded-lg shadow-md shadow-black/25">
                 <div className=" flex items-center gap-4">
                   <FontAwesomeIcon icon={faWebAwesome} className=" text-2xl" />
                   <div className=" text-[22px] my-2">Special:-</div>
@@ -279,9 +280,21 @@ const ResponseDetails = ({
           confirmation ? "scale-y-100 h-[400px]" : "scale-y-0 h-[0px]"
         } w-full`}
       >
-        <div className="overflow-auto">
-          <MultipleFileUpload />
-        </div>
+        {selectSale.status !== "confirm" ? (
+          <div className="overflow-auto">
+            <MultipleFileUpload data={selectSale} />
+          </div>
+        ) : (
+          <div className=" flex items-center justify-center h-[400px]">
+            <div className=" w-[300px] bg-slate-100 h-[100px] flex items-center justify-center rounded-md gap-5 shadow-md shadow-black/25">
+              <div className=" text-[20px]">Confirmed</div>
+              <FontAwesomeIcon
+                icon={faCircleCheck}
+                className=" text-green-400 text-[20px]"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       <AnimatePresence>

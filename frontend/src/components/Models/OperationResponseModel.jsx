@@ -224,7 +224,7 @@ const OperationResponseModel = ({
     for (const elt of uploadedFiles) {
       const res = await opertationUpload(selectSale.subject, elt);
       urls.push(res);
-      setUploadCount((prev) => prev + 1);
+      setUploadCount((prev) => prev + 1); 
     }
     setOpenLoading(false);
     const response = await saveFiles(urls, selectSale);

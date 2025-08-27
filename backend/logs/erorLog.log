@@ -10905,3 +10905,19 @@
 20250813	08:00:29	4b25cabe-56b9-415d-8b9d-4eeeddcad13a	user id not found
 20250814	08:19:48	805b64d2-a5d9-49ff-b949-ffff6b6789a7	user id not found
 20250814	08:19:48	b419d8c5-210b-483d-83f6-83d12e983094	user id not found
+20250821	08:38:08	d94479d9-dc6d-40e9-8442-e20cd8a9ac96	not found /api/v1/sales/sendConfirmation
+20250821	08:43:53	abdbf44c-fd2c-46e0-9c1e-88cfe9cf77ee	not found /api/v1/sales/sendConfirmation
+20250821	09:06:18	a018e8f4-feaf-46d2-be26-0115d2f1a34d	not found /api/v1/sales/sendConfirmation
+20250821	09:06:18	d1065695-3a7a-42df-90a1-8850eef58e1b	not found /api/v1/sales/sendConfirmation
+20250821	09:09:30	58fd4e60-c54f-403c-9fe3-38f6138d7e52	e is not defined
+20250821	09:09:30	2a2a7380-ef4c-4d8c-966b-14a6ecf7c577	user id not found
+20250821	09:09:39	ef0b15b5-96e5-4bcc-8690-a46695c0f12e	user id not found
+20250821	09:09:40	f6d73e19-e789-4e78-9fa5-a8015be98a66	e is not defined
+20250821	15:56:51	3c96a586-53ba-4750-9bc9-c9b9a515a2f0	not found /api/v1/sales/sendConfirmation?saleId=686628fe0e12e00689c10dd8&urls[]=https:%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fceysaid-file-server.firebasestorage.app%2Fo%2Fsales%252Fsadfw_confirmation%252F208e0721-b76c-4d0c-96fc-6ab5f7d6b2e6%252Fdummy.pdf%3Falt%3Dmedia%26token%3Dcc1db1f4-be3c-4d18-a6de-b6e50e1ec7b7
+20250827	12:42:11	9435a9fb-a9d3-4290-b210-7880826efb3d	data and hash arguments required
+20250827	12:42:37	c91dc506-0c65-42b0-acd7-5a070087be70	data and hash arguments required
+20250827	12:42:50	020ad4b9-449e-4c98-a15b-b118c3b9925d	UserId or password invalid
+20250827	12:43:12	3207df56-8932-4529-a990-b8f8afa32464	UserId or password invalid
+20250827	12:43:28	72df7f38-387f-42d0-b3ad-cc458badf7fe	UserId or password invalid
+20250827	12:43:59	a3f0ae62-e6e7-44ad-aeb2-38752037fe6b	data and hash arguments required
+20250827	12:44:58	1e95ae47-6dc2-4376-947e-9de017dde9ce	data and hash arguments required

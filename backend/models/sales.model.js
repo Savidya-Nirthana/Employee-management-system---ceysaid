@@ -51,6 +51,17 @@ const OperationAcceptance = mongoose.Schema({
   },
 });
 
+const OperationConfirmation = mongoose.Schema({
+  category: {
+    type: String,
+    default: "confirmation",
+  },
+  attachements: {
+    type: [String],
+    default: [],
+  },
+});
+
 const salesSchema = mongoose.Schema(
   {
     userId: {
@@ -141,7 +152,10 @@ const salesSchema = mongoose.Schema(
       defaultL: null,
     },
 
-    logs: { acceptance: [OperationAcceptance] },
+    logs: {
+      acceptance: [OperationAcceptance],
+      confirmation: [OperationConfirmation],
+    },
   },
   {
     timestamps: true,
@@ -150,6 +164,3 @@ const salesSchema = mongoose.Schema(
 
 const SalesModel = mongoose.model("sales_data", salesSchema);
 export default SalesModel;
-
-
-

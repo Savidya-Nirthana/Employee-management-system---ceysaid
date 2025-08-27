@@ -105,9 +105,26 @@ export const uploadSalesContent = asyncHandler(async (req, res) => {
     }
     const buffer = req.file;
     const { subject } = req.body;
-    console.log(subject);
     const folder = `sales/${subject}`;
     const result = await uploadSalesContentMid(buffer, folder);
+    res.status(200).json({ path: result });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+export const uploadConfimation = asyncHandler(async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file recieved" });
+    }
+
+    const { subject } = req.body;
+    const buffer = req.file;
+    const folder = `sales/${subject}_confirmation`;
+
+    const result = await uploadSalesContentMid(buffer, folder);
+
     res.status(200).json({ path: result });
   } catch (e) {
     console.log(e);
@@ -156,7 +173,7 @@ export const approveData = asyncHandler(async (req, res) => {
     const userId = await req.query.userId;
     const response = await SalesModel.find({
       userId: userId,
-      status: "approved",
+      status: { $in: ["approved", "confirm"] },
     });
     if (response.length > 0) {
       return res.status(200).json({ isZero: false, data: response });
@@ -203,8 +220,35 @@ export const getApprovedData = asyncHandler(async (req, res) => {
       status: "approved",
       approvedBy: userId,
     });
-    res.status(200).json({data: data})
+    res.status(200).json({ data: data });
   } catch (err) {
     console.log("error");
+  }
+}); 
+
+export const salesConfirmation = asyncHandler(async (req, res) => {
+  try {
+    const { saleId, urls } = req.query;
+    const newLog = {
+      category: "confirmation",
+      attachements: urls,
+    };
+
+    const response = await SalesModel.findByIdAndUpdate(
+      saleId,
+      {
+        $push: {
+          "logs.confirmation": newLog,
+        },
+        $set: {
+          status: "confirm",
+        },
+      },
+      { new: true }
+    );
+    return res.status(200).json({ message: "Upload success", isError: false });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Error", isError: true });
   }
 });
