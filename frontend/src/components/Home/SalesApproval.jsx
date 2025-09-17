@@ -66,8 +66,8 @@ const SalesApproval = () => {
   }, [userId]);
   return (
     <>
-      <div className="rounded-[10px]  my-2 shadow-md h-[800px] shadow-black/25 m-5 bg-slate-0  pb-[20px]">
-        <div className=" bg-slate-700 rounded-t-[10px] text-white p-2 flex flex-row items-center gap-2">
+      <div className="rounded-[10px]   shadow-md h-[800px] shadow-black/25  bg-slate-0  pb-[20px]">
+        <div className="  rounded-t-[10px] text-slate-700 p-2 flex flex-row items-center gap-2">
           <h2 className=" text-xl font-semibold    m-2">Approval sales</h2>
           <FontAwesomeIcon icon={faThumbsUp} />
         </div>
@@ -81,7 +81,7 @@ const SalesApproval = () => {
                 <th className="px-4 py-3 text-center">No of days</th>
                 <th className="px-4 py-3 text-center">Start Date</th>
                 <th className="px-4 py-3 text-center">Priority</th>
-                <th className="px-4 py-3 text-center">State</th>
+                <th className="px-4 py-3 text-center">Active status</th>
                 <th className="px-4 py-3 text-center">Approved by</th>
               </thead>
               <tbody>
@@ -107,7 +107,7 @@ const SalesApproval = () => {
                         </td>
                         <td className="px-4 py-2 justify-items-center">
                           <div
-                            className={`w-[40%]  text-center rounded-full ${
+                            className={`w-[90px]  text-center rounded-full ${
                               elt.priority === "low"
                                 ? "bg-green-300 text-green-700"
                                 : elt.priority === "normal"
@@ -119,9 +119,9 @@ const SalesApproval = () => {
                               elt.priority.substring(1)}
                           </div>
                         </td>
-                        <td className={`px-4 py-3 text-center  `}>
+                        <td className={`px-4 py-2  justify-items-center`}>
                           <div
-                            className={`  rounded-full ${
+                            className={`  w-[90px]  text-center rounded-full ${
                               elt.status === "pending"
                                 ? "bg-red-300 text-red-700"
                                 : elt.status === "active"

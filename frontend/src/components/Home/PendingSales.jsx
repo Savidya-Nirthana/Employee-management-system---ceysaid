@@ -13,6 +13,7 @@ import {
 import socket from "../../services/socket";
 import zeroLoading from "../../assets/images/messages/emptyData.png";
 import { AnimatePresence, motion } from "framer-motion";
+import SearchBar from "./SearchBar";
 
 const PendingSales = () => {
   const [arrayData, setArrayData] = useState(null);
@@ -26,6 +27,8 @@ const PendingSales = () => {
 
   const searchRef = useRef(null);
   const [type, setType] = useState(null);
+  const [searchData, setSearchData] = useState([]);
+
   const getAll = async () => {
     const response = await getAllData();
     setArrayData(response.reverse());
@@ -77,7 +80,7 @@ const PendingSales = () => {
           <h2 className=" text-xl font-semibold  text-white m-3 ">Pending</h2>
           <FontAwesomeIcon icon={faSpinner} className=" text-white  text-xl" />
         </div>
-        <div className=" w-[100%] flex-col flex items-center  relative pt-10">
+        {/* <div className=" w-[100%] flex-col flex items-center  relative pt-10">
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             className=" absolute left-[10%] top-[53px] pl-[15px]"
@@ -101,7 +104,12 @@ const PendingSales = () => {
           ) : (
             ""
           )}
-        </div>
+        </div> */}
+        <SearchBar
+          data={arrayData}
+          search={searchData}
+          setSearch={setSearchData}
+        />
         <div className="flex flex-col mx-2 h-[700px] bg-slate-50 mt-5">
           <table>
             <thead>
@@ -109,14 +117,14 @@ const PendingSales = () => {
                 <th className="px-8 py-3 pt-7 text-center">UserID</th>
                 <th className="px-8 py-3 pt-7 text-center">Country</th>
                 <th className="px-8 py-3 pt-7 text-center">Days</th>
-                <th className="px-8 py-3 pt-7 text-center">Passangers</th>
+                <th className="px-8 py-3 pt-7 text-center">Name</th>
                 <th className="px-8 py-3 pt-7 text-center">Priority</th>
                 <th className="px-8 py-3 pt-7 text-center">Status</th>
               </tr>
             </thead>
             <tbody>
-              {arrayData.length != 0 ? (
-                arrayData.map((elt, index) => (
+              {searchData.length != 0 ? (
+                searchData.map((elt, index) => (
                   <tr
                     className={`hover:bg-slate-100 border-t border-gray-300 cursor-pointer ${
                       elt.isLocked ? "opacity-50 cursor-not-allowed " : ""
@@ -130,7 +138,8 @@ const PendingSales = () => {
                     <td className="px-4 py-3 text-center">{elt.userId}</td>
                     <td className="px-4 py-3 text-center">{elt.country}</td>
                     <td className="px-4 py-3 text-center">{elt.noDays}</td>
-                    <td className="px-4 py-3 text-center">{`A${elt.no_pax.adult}C${elt.no_pax.child}I${elt.no_pax.infant}`}</td>
+                    <td className="px-4 py-3 text-center">{elt.customerDetails.name}</td>
+                    {/* <td className="px-4 py-3 text-center">{`A${elt.no_pax.adult}-C${elt.no_pax.child}-I${elt.no_pax.infant}`}</td> */}
                     <td className="px-4 py-3 text-center">
                       <div
                         className={`w-[45%] text-center rounded-full 
@@ -143,21 +152,23 @@ const PendingSales = () => {
                     }
                      min-w-[100px] `}
                       >
-                        {elt.priority}
+                        {elt.priority[0].toUpperCase() +
+                          elt.priority.substring(1)}
                       </div>
                     </td>
                     <td className="px-4 py-3 text-center">
                       <div
-                        className={`w-[30%] text-center rounded-full
-                    ${
-                      elt.status == "active"
-                        ? " bg-purple-300 text-purple-700 border border-purple-700"
-                        : elt.status == "pending"
-                        ? "bg-orange-300 text-orange-700 border border-orange-700"
-                        : "bg-blue-300 text-blue-700 border border-blue-700"
-                    } min-w-[100px]`}
+                        className={`w-[30%] text-center rounded-full ${
+                          elt.status === "pending"
+                            ? "bg-red-300 text-red-700"
+                            : elt.status === "active"
+                            ? "bg-green-300 text-green-700"
+                            : elt.status === "confirm"
+                            ? " bg-orange-300 text-orange-600"
+                            : " bg-blue-300 text-blue-700"
+                        } min-w-[100px]`}
                       >
-                        {elt.status}
+                        {elt.status[0].toUpperCase() + elt.status.substring(1)}
                       </div>
                     </td>
                   </tr>

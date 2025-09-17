@@ -3,7 +3,6 @@ import GroupTours from "../models/groupTour.model.js";
 import { uploadGroupContentMid } from "../middlewares/uploadGroupContentMiddleware.js";
 
 export const saveData = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const formData = await req.body;
   try {
     const createTour = await GroupTours.create({
@@ -45,6 +44,16 @@ export const getData = asyncHandler(async (req, res) => {
   try {
     const response = await GroupTours.find();
     return res.status(200).json({ data: response });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+export const groupDelete = asyncHandler(async (req, res) => {
+  const { _id } = req.body;
+  try {
+    await GroupTours.findByIdAndDelete(_id);
+    return res.status(200).json({ message: "Group tour deleted successfully" });
   } catch (e) {
     console.log(e);
   }

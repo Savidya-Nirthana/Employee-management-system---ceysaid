@@ -27,9 +27,9 @@ const LeaveApplication = () => {
     }
   };
   return (
-    <>
-      <div className=" bg-slate-50 w-[600px] flex flex-col items-center pb-5">
-        <div className="text-[20px] text-slate-600 w-[100%] m-5 pl-5">
+    <div className="bg-slate-50 w-[650px]  p-5 h-[380px] rounded-[10px]  shadow-lg shadow-black/25">
+      <div className="  ">
+        <div className="text-[20px] text-[#023047] font-semibold pb-3">
           Leave application
         </div>
         <form action="" onSubmit={handleSubmit}>
@@ -143,7 +143,7 @@ const LeaveApplication = () => {
           />
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

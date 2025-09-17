@@ -1,7 +1,7 @@
 const LeaveDetails = () => {
   return (
-    <div className=" bg-slate-50">
-      <div className="text-[20px] text-slate-600 w-[100%] m-5 pl-5">Leave Balence</div>
+    <div className=" bg-slate-50 py-5 px-5 rounded-[10px]  shadow-lg shadow-black/25">
+      <div className="text-[20px] text-[#023047] font-semibold pb-3">Leave Balence</div>
       <table className="">
         <thead className=" text-[14px] text-slate-500">
           <th className=" w-[100px]">Leave type</th>
@@ -10,7 +10,7 @@ const LeaveDetails = () => {
           <th className=" w-[100px]">Used</th>
           <th className=" w-[100px]">Pending</th>
         </thead>
-        <tbody className=" text-[14px] text-center">
+        <tbody className=" text-[14px] text-slate-500 text-center">
           <tr>
             <td className=" py-3">Annual leave</td>
             <td>14.00</td>

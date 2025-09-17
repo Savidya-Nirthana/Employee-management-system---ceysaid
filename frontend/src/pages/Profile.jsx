@@ -2,6 +2,8 @@ import { useContext } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 import { AuthContext } from "../contexts/AuthContext";
 import { UIContext } from "../contexts/UIContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Profile = () => {
   const { showNav } = useContext(UIContext);
@@ -23,14 +25,18 @@ const Profile = () => {
             showNav ? "ml-[200px]" : "ml-[60px]"
           }`}
         >
-          <div className="flex flex-col items-center w-[25%] mr-0 m-6 p-6 text-black rounded-[10px] shadow-lg shadow-black/25">
+          <div className="flex flex-col  items-center w-[25%] mr-0 m-6 p-6 text-black rounded-[10px] shadow-lg shadow-black/25">
             <div className="p-6 ">
-              <div className="w-48 h-48 overflow-hidden">
-                <img
-                  src={user.attachments.employeeImage}
-                  alt="testp"
-                  className="object-cover w-full h-full:"
-                />
+              <div className="w-48 h-48 overflow-hidden flex justify-center items-center">
+                {user.attachments.employeeImage ? (
+                  <img
+                    src={user.attachments.employeeImage}
+                    alt="testp"
+                    className="object-cover w-full h-full:"
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} className=" text-[#219ebc] mt-2 ml-2 text-[150px]" />
+                )}
               </div>
               <div className=" flex justify-center items-center pt-6 text-2xl">
                 {user.userId} - {user.corporateDetails.corporateTitle}

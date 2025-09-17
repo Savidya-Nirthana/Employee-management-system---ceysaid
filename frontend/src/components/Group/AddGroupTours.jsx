@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Upload } from "lucide-react";
 import LoadingModal from "../Models/LoadingModel.jsx";
 
-const AddGroupTours = () => {
+const AddGroupTours = ({setRefresh}) => {
   const [groupTourName, setGroupTourName] = useState(null);
   const [totalSeats, setTotalSeats] = useState(null);
   const [availableSeats, setAvailableSeats] = useState(null);
@@ -122,11 +122,13 @@ const AddGroupTours = () => {
     }
     e.preventDefault();
     const formData = new FormData();
-
+    // console.log(cities);
     formData.append("userId", user.userId);
     formData.append("groupTourName", groupTourName);
     formData.append("country", country);
-    formData.append("cities", cities);
+    cities.forEach((city) => {
+      formData.append("cities[]", city);
+    });
     formData.append("totalSeats", totalSeats);
     formData.append("availableSeats", availableSeats);
 
@@ -139,12 +141,13 @@ const AddGroupTours = () => {
       const uploadPdf = await uploadContent(user.userId, "pdf", pdf);
       formData.append("pdf", uploadPdf.data.path);
     }
- 
+
     const response = await getData(formData);
     setLoading(false);
     if (response.status == 200) {
       toast.success(response.data.message);
       refreshForm();
+      setRefresh((prev) => !prev);
     } else {
       toast.error();
     }

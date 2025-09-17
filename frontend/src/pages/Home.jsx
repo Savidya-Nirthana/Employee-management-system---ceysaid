@@ -39,11 +39,11 @@ const Home = () => {
           <div>
             <UserDetails />
           </div>
-          <div className=" flex flex-row justify-around  items-stretch m-auto">
+          <div className=" flex flex-row justify-around  items-stretch m-auto gap-10 w-[95%] my-10">
             <SalesTeamForm setRefresh={setRefresh} />
             <GroupTour />
           </div>
-          <div className="">
+          <div className=" flex flex-col justify-around  items-stretch m-auto w-[95%] gap-5">
             <SalesApproval />
             <div className=" my-6">
               <AllSales refresh={refresh} />

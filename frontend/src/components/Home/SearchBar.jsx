@@ -249,7 +249,7 @@ const SearchBar = ({ refresh, data, search, setSearch }) => {
           </div>
         </div>
         <div className=" flex flex-row gap-10 items-center">
-          <div className=" font-semibold text-[#023047] text-[18px] font-round">{`${search.length} Items`}</div>
+          <div className=" font-semibold text-[#023047]  font-round">{`${search.length} Items`}</div>
           {type && (
             <div className=" flex flex-row items-center gap-2 bg-slate-100 px-5 py-1 rounded-2xl">
               <div>{`"${type}"`}</div>

@@ -1,4 +1,5 @@
 import {
+  faAdd,
   faAngleLeft,
   faAngleRight,
   faCircleXmark,
@@ -99,9 +100,7 @@ const CustomerBlock = ({
   );
 };
 
-const SponserBlock = () => {
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-
+const SponserBlock = ({ uploadedFiles, setUploadedFiles }) => {
   const onDrop = (acceptedFiles) => {
     setUploadedFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
   };
@@ -178,14 +177,6 @@ const SponserBlock = () => {
           </div>
         )}
       </div>
-      <div className=" flex gap-3 justify-end">
-        <button
-          className="m-5 hover:bg-slate-700 text-slate-700 border-[2px] border-slate-700  hover:text-white px-2.5 py-1.5  rounded cursor-pointer bg-white transition-all duration-300 ease-in-out"
-          // onClick={submitHandlerFiles}
-        >
-          Send
-        </button>
-      </div>
     </div>
   );
 };
@@ -214,6 +205,11 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
   // };
 
   const [fields, setFields] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+
+  const handleSubmit = () => {
+    //
+  };
 
   const handleAddField = () => {
     setCurrentSlide(currentSlide + 1);
@@ -233,20 +229,19 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
     setFields(updatedFields);
   };
 
-  const handleRemoveFile = (fieldIndex, fileIndex) => {
-    const updatedFields = [...fields];
-    updatedFields[fieldIndex].uploadedFiles.splice(fileIndex, 1);
-    setFields(updatedFields);
+  const handleRemoveFile = (fieldIndex) => {
+    setFields(fields.filter((_, idx) => idx !== fieldIndex));
+    setCurrentSlide(currentSlide - 1);
   };
   const variants = {
     enter: (dir) => ({
       opacity: 0,
-      x: dir === 1 ? 50 : -50, // coming in opposite to exit
+      x: dir === 1 ? 50 : -50, 
     }),
     center: { opacity: 1, x: 0 },
     exit: (dir) => ({
       opacity: 0,
-      x: dir === 1 ? -50 : 50, // exit opposite to enter
+      x: dir === 1 ? -50 : 50, 
     }),
   };
 
@@ -343,15 +338,34 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
                 }}
               />
             </div>
-            <div className=" flex justify-end gap-5 my-5">
-              <button className="bg-white text-slate-900 border-[2px] border-slate-700 hover:bg-slate-700   hover:text-white text-[14px] px-4 py-2 rounded cursor-pointer">
-                Send
-              </button>
+            <div className="flex items-center justify-center gap-3">
+              {fields.length > 0 &&
+                fields.map((field, index) => (
+                  <div
+                    key={index}
+                    className={`text-center cursor-pointer flex items-center justify-center ${
+                      currentSlide - 1 === index
+                        ? "bg-slate-700 w-[30px] h-[30px] rounded-full text-white"
+                        : "text-gray-400"
+                    } hover:bg-slate-500 hover:text-white w-[30px] h-[30px] rounded-full`}
+                    onClick={() => setCurrentSlide(index + 1)}
+                  >
+                    <div>{index + 1}</div>
+                  </div>
+                ))}
+              <FontAwesomeIcon
+                icon={faUserPlus}
+                className="text-[20px] text-slate-700 cursor-pointer hover:text-slate-500"
+                onClick={handleAddField}
+              />
             </div>
           </>
         ) : (
           <>
-            <SponserBlock />              
+            <SponserBlock
+              uploadedFiles={uploadedFiles}
+              setUploadedFiles={setUploadedFiles}
+            />
           </>
         )}
       </div>
@@ -360,6 +374,17 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
         onClick={() => setSaleResponse(false)}
       >
         <FontAwesomeIcon icon={faCircleXmark} />
+      </div>
+      <div className=" flex justify-end gap-5 my-5">
+        <button
+          onClick={() => {
+            console.log(fields);
+            console.log(uploadedFiles);
+          }}
+          className="bg-white text-slate-900 border-[2px] border-slate-700 hover:bg-slate-700   hover:text-white text-[14px] px-4 py-2 rounded cursor-pointer"
+        >
+          Send
+        </button>
       </div>
     </div>
   );

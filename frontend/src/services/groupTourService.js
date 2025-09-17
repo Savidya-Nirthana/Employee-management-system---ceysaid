@@ -44,3 +44,15 @@ export const getGroupData = async () => {
     console.error(e);
   }
 };
+
+
+export const groupDelete = async (data) => {
+  try {
+    const response = await API.post(`${BASE_URL}/delete`, data, {
+      withCredentials: true,
+    });
+    return { status: true, data: response.data.message };
+  } catch (e) {
+    console.error(e);
+  }
+};

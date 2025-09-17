@@ -13,7 +13,7 @@ const Employers = () => {
     <div className="flex flex-row gap-2 mx-5 ">
       {/* admin -> employers */}
       <div
-  className={`flex gap-5 items-center duration-500 mt-12 w-[100%] ${
+  className={`flex gap-5 items-center duration-500 mt-12 w-[100%]  ${
     showNav ? "2xl:flex-row flex-col xl:ml-[200px] ml-[160px]" : "flex-col xl:flex-row ml-[50px]"
   }`}
 >

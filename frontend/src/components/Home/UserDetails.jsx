@@ -11,7 +11,7 @@ const UserDetails = () => {
   return (
     <div className=" w-[100%] border-b-[1px] border-slate-200 p-5 relative top-[-20px] bg-[#023047] shadow-md shadow-black/25">
       <div className=" flex flex-row justify-center gap-20">
-        <div className=" w-[200px] h-[100px] bg-slate-0 border-white border-2 bg-slate-300 p-5 rounded-[10px]">
+        <div className=" w-[200px] h-[100px] bg-slate-0 border-amber-400 border-2 bg-slate-100 p-5 rounded-[10px]">
           <div className=" text-center text-[30px] font-semibold">11</div>
           <div className="">
             <div className=" flex flex-row items-center gap-2 justify-center    ">
@@ -24,7 +24,7 @@ const UserDetails = () => {
             /> */}
           </div>
         </div>
-        <div className=" w-[200px] h-[100px] bg-slate-300 border-white border-2 p-5 rounded-[10px]">
+        <div className=" w-[200px] h-[100px] bg-slate-100 border-amber-400 border-2 p-5 rounded-[10px]">
           <div className=" text-center text-[30px] font-semibold">11</div>
           <div>
             <div className=" flex flex-row items-center gap-2 justify-center">
@@ -37,7 +37,7 @@ const UserDetails = () => {
             /> */}
           </div>
         </div>
-        <div className="w-[200px] h-[100px] bg-slate-300 border-white border-2 p-5 rounded-[10px]">
+        <div className="w-[200px] h-[100px] bg-slate-100 border-amber-400 border-2 p-5 rounded-[10px]">
           <div className=" text-[30px] text-center text-slate-800 font-semibold">
             11
           </div>

@@ -113,9 +113,9 @@ const SalesTeamForm = ({ setRefresh }) => {
     }
   };
   return (
-    <div className="w-[800px]  bg-slate-50   pb-8  rounded-[10px]   shadow-md shadow-black/25 m-5">
+    <div className="w-[800px]  bg-slate-50   pb-8  rounded-[10px]   shadow-md shadow-black/25 ">
       <ToastContainer />
-      <div className=" flex flex-row items-center gap-2 bg-slate-700 rounded-t-[10px] text-white p-2">
+      <div className=" flex flex-row items-center gap-2  rounded-t-[10px] text-slate-700 p-2">
         <h2 className=" text-xl font-semibold p-2">Add sales details</h2>
         <FontAwesomeIcon icon={faCartPlus} />
       </div>

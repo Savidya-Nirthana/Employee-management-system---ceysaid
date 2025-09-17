@@ -40,7 +40,7 @@ export default function Group_Tour() {
   };
   if (dataArray === null) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen w-[500px] shadow-md shadow-black/25 m-5 rounded-lg">
+      <div className="flex flex-col justify-center items-center h-screen w-[500px] shadow-md shadow-black/25  rounded-lg">
         <HashLoader color="#023047" size={50} speedMultiplier={1.2} />
         <h1 className="text-xl text-slate-500 font-semibold">Loading...</h1>
       </div>
@@ -48,7 +48,7 @@ export default function Group_Tour() {
   }
   if (dataArray.length === 0) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen w-[500px] shadow-md shadow-black/25 m-5 rounded-lg ">
+      <div className="flex flex-col justify-center items-center h-screen w-[500px] shadow-md shadow-black/25  rounded-lg ">
         <img src={EmptyData} alt="No data" className="w-[300px] h-[300px]" />
         <h1 className="text-xl text-slate-500 font-semibold relative top-[-50px]">
           No group tours available
@@ -57,7 +57,7 @@ export default function Group_Tour() {
     );
   }
   return (
-    <div className=" flex flex-col shadow-md shadow-black/25 m-5 rounded-lg bg-slate-50">
+    <div className=" flex flex-col shadow-md shadow-black/25  rounded-lg bg-slate-50">
       <div className="h-[760px]  m-5 w-[500px]">
         {dataArray
           .slice(startIndex, startIndex + itemsPerPage)
@@ -84,7 +84,7 @@ export default function Group_Tour() {
                     {elt.name}
                   </h2>
                   <div className="mt-2 text-gray-500">{elt.country}</div>
-                  <div className="text-gray-700">
+                  <div className="text-gray-700 flex gap-2">
                     {elt.mainCities.map((e, index) => (
                       <div key={index}>{e}</div>
                     ))}

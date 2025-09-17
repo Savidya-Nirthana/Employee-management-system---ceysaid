@@ -81,10 +81,10 @@ const AllSales = ({ refresh }) => {
   }, [refresh]);
 
   return (
-    <div className="rounded-[10px]  my-2 shadow-md shadow-black/25 m-5 bg-slate-0 h-auto  pb-[20px]">
-      <div className=" bg-slate-700 rounded-t-[10px] p-[5px] flex flex-row justify-start items-center gap-2">
-        <h2 className=" text-xl font-semibold  text-white m-3 ">All sales</h2>
-        <FontAwesomeIcon icon={faGlobe} className=" text-white  text-xl" />
+    <div className="rounded-[10px]   shadow-md shadow-black/25  bg-slate-0 h-auto  pb-[20px]">
+      <div className="rounded-t-[10px] p-[5px] flex flex-row justify-start items-center gap-2">
+        <h2 className=" text-xl font-semibold  text-slate-700 m-3 ">All sales</h2>
+        <FontAwesomeIcon icon={faGlobe} className=" text-slate-700 text-xl" />
       </div>
       <SearchBar data={salesArray} search={search} setSearch={setSearch} />
       <div>
@@ -131,7 +131,7 @@ const AllSales = ({ refresh }) => {
                         </td>
                         <td className="px-4 py-2 justify-items-center">
                           <div
-                            className={`w-[40%]  text-center rounded-full ${
+                            className={`w-[90px]  text-center rounded-full ${
                               elt.priority === "low"
                                 ? "bg-green-300 text-green-700"
                                 : elt.priority === "normal"
@@ -143,9 +143,9 @@ const AllSales = ({ refresh }) => {
                               elt.priority.substring(1)}
                           </div>
                         </td>
-                        <td className="px-4 py-3 justify-items-center">
+                        <td className="px-4 py-2 justify-items-center">
                           <div
-                            className={`w-[30%] text-center rounded-full${
+                            className={`w-[90px] text-center rounded-full ${
                               elt.status === "pending"
                                 ? "bg-red-300 text-red-700"
                                 : elt.status === "active"
