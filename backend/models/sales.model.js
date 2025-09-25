@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 
+const fileSchema = new mongoose.Schema({
+  url: { type: String, required: true },
+  name: { type: String, required: true },
+});
+
+
+
 const OperationAcceptance = mongoose.Schema({
   category: {
     type: String,
@@ -57,7 +64,7 @@ const OperationConfirmation = mongoose.Schema({
     default: "confirmation",
   },
   attachements: {
-    type: [String],
+    type: [fileSchema],
     default: [],
   },
 });

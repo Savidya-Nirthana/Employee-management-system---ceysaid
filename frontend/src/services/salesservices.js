@@ -98,7 +98,6 @@ export const salesApprovalData = async (userId) => {
 };
 
 export const proceed = async (data, userId) => {
-  console.log("eee");
   try {
     const response = await API.get(`${BASE_URL}/locked`, {
       params: { data: data, userId: userId },
@@ -131,13 +130,20 @@ export const getApprovedData = async (userId) => {
   }
 };
 
-export const sendCofimation = async (saleId, urls) => {
+export const sendCofimation = async (saleId, files) => {
   try {
-    const response = await API.get(`${BASE_URL}/sendConfirmation`, {
-      params: {saleId: saleId, urls: urls }
-    });
+    const response = await API.post(
+      `/api/v1/sales/sendConfirmation`,
+      {
+        saleId,
+        files: files
+      },
+      { withCredentials: true }
+    );
+    return response.data;
   } catch (e) {
-    console.log(e);
+    console.error("Error sending confirmation:", e);
+    throw e;
   }
 };
 

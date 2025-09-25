@@ -9,6 +9,7 @@ import {
   faChevronCircleLeft,
   faChevronCircleRight,
   faGlobe,
+  faCircleXmark
 } from "@fortawesome/free-solid-svg-icons";
 import { AnimatePresence, motion } from "framer-motion";
 import SearchBar from "./SearchBar";

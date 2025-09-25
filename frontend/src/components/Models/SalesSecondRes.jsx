@@ -1,5 +1,4 @@
 import {
-  faAdd,
   faAngleLeft,
   faAngleRight,
   faCircleXmark,
@@ -229,9 +228,10 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
     setFields(updatedFields);
   };
 
-  const handleRemoveFile = (fieldIndex) => {
-    setFields(fields.filter((_, idx) => idx !== fieldIndex));
-    setCurrentSlide(currentSlide - 1);
+  const handleRemoveFile = (fieldIndex, fileIndex) => {
+    const updatedFields = [...fields];
+    updatedFields[fieldIndex].uploadedFiles.splice(fileIndex, 1);
+    setFields(updatedFields);
   };
   const variants = {
     enter: (dir) => ({

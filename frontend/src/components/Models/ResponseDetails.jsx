@@ -3,8 +3,7 @@ import { getPermRegUser } from "../../services/authservice";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBoxArchive,
-  faCircleCheck,
+   faBoxArchive,
   faFileExcel,
   faFilePdf,
   faFileWord,
@@ -17,6 +16,7 @@ import {
   faWebAwesome,
 } from "@fortawesome/free-solid-svg-icons";
 import SalesSecondRes from "./salesSecondRes";
+import { sendCofimation } from "../../services/salesservices";
 import { motion, AnimatePresence } from "framer-motion";
 import MultipleFileUpload from "../Home/MultipleFileUpload";
 const ResponseDetails = ({
@@ -25,10 +25,10 @@ const ResponseDetails = ({
   setResOpen,
   setSelectSale,
 }) => {
-  console.log(selectSale.priority);
   const [profile, setProfile] = useState(null);
   const [saleResponse, setSaleResponse] = useState(null);
   const [confirmation, setConfirmation] = useState(false);
+  const confirmedFiles = selectSale.confirmedFiles || [];
   useEffect(() => {
     const getImage = async () => {
       const response = await getPermRegUser(selectSale.approvedBy);
@@ -68,7 +68,6 @@ const ResponseDetails = ({
             <div>Attachments</div>
           </div>
           <div className=" bg-purple-200 w-[300px] h-[100px] flex items-center justify-center rounded-2xl my-2 gap-10 shadow-md shadow-purple-600/25">
-            {/* {selectSale} */}
             {!selectSale.logs.acceptance[0].isText ? (
               selectSale.logs.acceptance[0].attachements.map((elt, index) => (
                 <div
@@ -275,26 +274,23 @@ const ResponseDetails = ({
           Confirmation
         </button>
       </div>
-      <div
+       <div
         className={`transform transition-all duration-300 ease-in-out origin-top ${
           confirmation ? "scale-y-100 h-[400px]" : "scale-y-0 h-[0px]"
         } w-full`}
       >
-        {selectSale.status !== "confirm" ? (
-          <div className="overflow-auto">
-            <MultipleFileUpload data={selectSale} />
-          </div>
-        ) : (
-          <div className=" flex items-center justify-center h-[400px]">
-            <div className=" w-[300px] bg-slate-100 h-[100px] flex items-center justify-center rounded-md gap-5 shadow-md shadow-black/25">
-              <div className=" text-[20px]">Confirmed</div>
-              <FontAwesomeIcon
-                icon={faCircleCheck}
-                className=" text-green-400 text-[20px]"
-              />
-            </div>
-          </div>
-        )}
+        <div className="overflow-auto">
+            <MultipleFileUpload
+              data={selectSale}
+              onConfirm={({ files, status }) => {
+                setSelectSale(prev => ({
+                  ...prev,
+                  confirmedFiles: files,
+                }));
+                setConfirmation(false);
+              }}
+            />
+        </div>
       </div>
 
       <AnimatePresence>

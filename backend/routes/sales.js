@@ -12,6 +12,7 @@ import {
   unlockedControll,
   uploadConfimation,
   uploadSalesContent,
+  getConfirmedFiles,
 } from "../controllers/salesController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import multer from "multer";
@@ -30,5 +31,6 @@ router.post("/OpFiles", protect, upload.single("file"), uploadSalesContent);
 router.post("/saveFiles", protect, saveFiles);
 router.get("/getApproved", getApprovedData);
 router.post("/conFiles", protect, upload.single("file"), uploadConfimation);
-router.get("/sendConfirmation", salesConfirmation);
+router.post("/sendConfirmation", protect ,salesConfirmation);
+router.get("/getConfirmedFiles", getConfirmedFiles);
 export default router;

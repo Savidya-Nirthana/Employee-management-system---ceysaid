@@ -10924,3 +10924,15 @@
 20250916	11:12:09	ee6a2143-8353-41ef-aa32-0dc378d84712	user id not found
 20250916	11:12:09	7683e708-758f-48e8-a570-b699e15e7636	user id not found
 20250917	19:18:54	14abd044-a97c-4746-94a2-2eff08b10d6b	UserId or password invalid
+20250925	20:57:50	7c831df7-7286-4929-b994-947dd4a6e0a5	not found /api/v1/sales/getConfirmedFiles?saleId=68772366c9f94f775070dbf9
+20250925	20:57:50	13a9fc6d-61de-4b77-b4f1-baf0253ba1c6	not found /api/v1/sales/getConfirmedFiles?saleId=68772366c9f94f775070dbf9
+20250925	20:57:50	7f65d029-51c9-43bd-a17c-3232cdd50f89	user id not found
+20250925	20:57:50	793667f8-2b46-421a-a63c-68a6027d2e00	user id not found
+20250925	20:59:16	9aeb428e-441c-4f38-84c3-89ceb52495fd	not found /api/v1/sales/getConfirmedFiles?saleId=68772366c9f94f775070dbf9
+20250925	20:59:16	50624441-0ae3-47bb-a5bb-43c811ab1e24	not found /api/v1/sales/getConfirmedFiles?saleId=68772366c9f94f775070dbf9
+20250925	21:08:44	b9d63215-121c-4649-abaf-022db12a5ce1	not found /api/v1/sales/getConfirmedFiles?saleId=68c1a0bcde655b3cfdc92825
+20250925	21:08:44	fbbc9045-8dc0-4dc7-a568-2aecc4b59580	not found /api/v1/sales/getConfirmedFiles?saleId=68c1a0bcde655b3cfdc92825
+20250925	21:08:48	931f913c-94df-4402-aea9-e2cbee5709f4	not found /api/v1/sales/getConfirmedFiles?saleId=686628fe0e12e00689c10dd8
+20250925	21:08:48	b445bfe9-13d8-40c3-a624-269049f6abbe	not found /api/v1/sales/getConfirmedFiles?saleId=686628fe0e12e00689c10dd8
+20250925	23:07:56	03a88f35-eee6-4aa8-84e3-7072e99c226f	not found /api/v1/sales/getConfirmedFiles?saleId=68c1a67ede655b3cfdc92ce9
+20250925	23:07:56	bf4556fe-68ce-4c65-8126-38524fc7ce0d	not found /api/v1/sales/getConfirmedFiles?saleId=68c1a67ede655b3cfdc92ce9

@@ -16,14 +16,12 @@ export const register = async (data) => {
 };
 
 export const login = async (userId, password) => {
-  console.log(userId);
   try {
     const response = await API.post(
       `${BASE_URL}/login`,
       { userId, password },
       { withCredentials: true }
     );
-    console.log(response);
     return { message: response.data.message, status: response.status };
   } catch (error) {
     // console.log(error);

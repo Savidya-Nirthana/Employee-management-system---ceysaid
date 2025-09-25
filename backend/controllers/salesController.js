@@ -228,10 +228,14 @@ export const getApprovedData = asyncHandler(async (req, res) => {
 
 export const salesConfirmation = asyncHandler(async (req, res) => {
   try {
-    const { saleId, urls } = req.query;
+    const { saleId, files } = req.body;
+
+    if(!files || !files.length){
+      return res.status(400).json({ message: "No files provided", isError: true });
+    }
     const newLog = {
       category: "confirmation",
-      attachements: urls,
+      attachements: files,
     };
 
     const response = await SalesModel.findByIdAndUpdate(
@@ -250,5 +254,22 @@ export const salesConfirmation = asyncHandler(async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Error", isError: true });
+  }
+});
+
+export const getConfirmedFiles = asyncHandler(async (req, res) => {
+  try {
+
+    const { saleId } = req.query;
+    const sale = await SalesModel.findById(saleId);
+    if (!sale) {
+      return res.status(404).json({ message: "Sale not found" });
+    }
+    const confirmedLogs = sale.logs?.confirmation || [];
+    const files = confirmedLogs.map(log => log.attachements).flat().filter(file => file && file.url);
+    return res.status(200).json({ files });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Error fetching confirmed files" });
   }
 });
