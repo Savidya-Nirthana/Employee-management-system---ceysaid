@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Leave Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 20px;
+    }
+    .container {
+      width: 95%;
+      margin: auto;
+    }
+    h2 {
+      margin-bottom: 15px;
+    }
+    input[type="text"] {
+      width: 300px;
+      padding: 8px;
+      margin-bottom: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #errorMsg {
+      color: red;
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    th, td {
+      text-align: center;
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: #f2f2f2;
+    }
+    .emp-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    .emp-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .badge {
+      padding: 5px 10px;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.9em;
+    }
+    .accounts { background-color: #4CAF50; }
+    .sales { background-color: #f47c57; }
+    .it { background-color: #2196F3; }
+    .warning {
+      background-color: #ffcccc !important;
+      font-weight: bold;
+    }
+    mark {
+      background-color: yellow;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Employee Leave Records</h2>
+    <input type="text" id="searchInput" onkeyup="searchEmployee()" placeholder="Search by Employee ID or Name...">
+    <p id="errorMsg">❌ No employee found</p>
+
+    <table id="empTable">
+      <tr>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Department</th>
+        <th>Month Used Leave</th>
+        <th>Month Quota</th>
+        <th>Annual Used Leave</th>
+        <th>Allocated Annual Leave</th>
+      </tr>
+      <tr>
+        <td><div class="emp-info"><img src="https://i.pravatar.cc/40?img=1" alt="profile">EMP001</div></td>
+        <td>John Micheal</td>
+        <td><span class="badge accounts">Accounts</span></td>
+        <td>2</td>
+        <td>3</td>
+        <td>10</td>
+        <td>20</td>
+      </tr>
+      <tr>
+        <td><div class="emp-info"><img src="https://i.pravatar.cc/40?img=2" alt="profile">EMP002</div></td>
+        <td>Jane Smith</td>
+        <td><span class="badge sales">Sales</span></td>
+        <td>3</td>
+        <td>3</td>
+        <td>18</td>
+        <td>18</td>
+      </tr>
+      <tr>
+        <td><div class="emp-info"><img src="https://i.pravatar.cc/40?img=3" alt="profile">EMP003</div></td>
+        <td>David Lee</td>
+        <td><span class="badge it">IT</span></td>
+        <td>4</td>
+        <td>3</td>
+        <td>5</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td><div class="emp-info"><img src="https://i.pravatar.cc/40?img=4" alt="profile">EMP004</div></td>
+        <td>Cane Williamson</td>
+        <td><span class="badge sales">Sales</span></td>
+        <td>1</td>
+        <td>3</td>
+        <td>22</td>
+        <td>22</td>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+    function searchEmployee() {
+      const input = document.getElementById("searchInput");
+      const filter = input.value.trim().toUpperCase();
+      const table = document.getElementById("empTable");
+      const tr = table.getElementsByTagName("tr");
+      const errorMsg = document.getElementById("errorMsg");
+      let found = false;
+
+      for (let i = 1; i < tr.length; i++) {
+        const tdId = tr[i].getElementsByTagName("td")[0];
+        const tdName = tr[i].getElementsByTagName("td")[1];
+
+        // Reset highlights
+        tdId.innerHTML = tdId.textContent;
+        tdName.innerHTML = tdName.textContent;
+
+        const txtId = tdId.textContent.toUpperCase();
+        const txtName = tdName.textContent.toUpperCase();
+
+        if (txtId.includes(filter) || txtName.includes(filter)) {
+          tr[i].style.display = "";
+          found = true;
+
+          // Highlight matched text
+          if (filter) {
+            tdId.innerHTML = tdId.textContent.replace(new RegExp(filter, "gi"), match => `<mark>${match}</mark>`);
+            tdName.innerHTML = tdName.textContent.replace(new RegExp(filter, "gi"), match => `<mark>${match}</mark>`);
+          }
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+
+      errorMsg.style.display = !found && filter.length > 0 ? "block" : "none";
+    }
+
+    function highlightWarnings() {
+      const table = document.getElementById("empTable");
+      const tr = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < tr.length; i++) {
+        const monthLeave = parseInt(tr[i].getElementsByTagName("td")[3].innerText);
+        const monthQuota = parseInt(tr[i].getElementsByTagName("td")[4].innerText);
+        const annualUsed = parseInt(tr[i].getElementsByTagName("td")[5].innerText);
+        const allocated = parseInt(tr[i].getElementsByTagName("td")[6].innerText);
+
+        if (monthLeave >= monthQuota || annualUsed >= allocated) {
+          tr[i].classList.add("warning");
+        }
+      }
+    }
+
+    // Run on page load
+    highlightWarnings();
+  </script>
+</body>
+</html>
