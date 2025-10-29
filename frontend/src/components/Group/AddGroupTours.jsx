@@ -165,7 +165,7 @@ const AddGroupTours = ({setRefresh}) => {
         </>
       ) : (
         <>
-          <div className=" w-[520px] bg-slate-50  px-10 py-4  rounded-[10px]  shadow-lg shadow-black/25">
+          <div className=" w-[520px] bg-slate-50  px-10 py-4  rounded-[10px]  border border-slate-300">
             <div className=" text-xl font-semibold  text-slate-600 m-2">
               Add group tours
             </div>

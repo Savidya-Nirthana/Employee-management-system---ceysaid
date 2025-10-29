@@ -13,6 +13,8 @@ import {
   uploadConfimation,
   uploadSalesContent,
   getConfirmedFiles,
+  getOperationPersons,
+  uploadaOperationFin,
 } from "../controllers/salesController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import multer from "multer";
@@ -31,6 +33,13 @@ router.post("/OpFiles", protect, upload.single("file"), uploadSalesContent);
 router.post("/saveFiles", protect, saveFiles);
 router.get("/getApproved", getApprovedData);
 router.post("/conFiles", protect, upload.single("file"), uploadConfimation);
-router.post("/sendConfirmation", protect ,salesConfirmation);
+router.post("/sendConfirmation", protect, salesConfirmation);
 router.get("/getConfirmedFiles", getConfirmedFiles);
+router.get("/getOperationPersons", protect, getOperationPersons);
+router.post(
+  "/uploadFilesFin",
+  protect,
+  upload.array("files"),
+  uploadaOperationFin
+);
 export default router;

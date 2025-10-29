@@ -113,7 +113,7 @@ const SalesTeamForm = ({ setRefresh }) => {
     }
   };
   return (
-    <div className="w-[800px]  bg-slate-50   pb-8  rounded-[10px]   shadow-md shadow-black/25 ">
+    <div className="w-[800px]    pb-8  rounded-[10px]  border-[1px] border-slate-300">
       <ToastContainer />
       <div className=" flex flex-row items-center gap-2  rounded-t-[10px] text-slate-700 p-2">
         <h2 className=" text-xl font-semibold p-2">Add sales details</h2>
@@ -121,13 +121,13 @@ const SalesTeamForm = ({ setRefresh }) => {
       </div>
 
       <form className="m-auto px-8 mt-6" onSubmit={handleSumbit}>
-        <div className="">
-          <div className="my-3 ">
+        <div className=" ">
+          <div className="my-4 ">
             <input
               type="text"
               name="customername"
               id=""
-              className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+              className="w-full border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               value={customername}
               onChange={(e) => setCustomername(e.target.value)}
@@ -136,13 +136,13 @@ const SalesTeamForm = ({ setRefresh }) => {
             />
           </div>
 
-          <div className="my-3 ">
+          <div className="my-4 ">
             <div className=" flex w-full gap-2">
               <select
                 name="contactMethod"
                 value={contactMethod}
                 onChange={(e) => setContactMethod(e.target.value)}
-                className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+                className="w-full border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
                 required
               >
@@ -156,7 +156,7 @@ const SalesTeamForm = ({ setRefresh }) => {
                   name={contactMethod}
                   value={contactValue}
                   onChange={(e) => setContactValue(e.target.value)}
-                  className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+                  className="w-full border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
                   placeholder={
                     contactMethod === "phone" ? "Phone number" : "Email"
@@ -167,11 +167,11 @@ const SalesTeamForm = ({ setRefresh }) => {
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-4">
             <select
               name="lead"
               id=""
-              className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+              className="w-full border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               required
               value={lead}
@@ -197,18 +197,18 @@ const SalesTeamForm = ({ setRefresh }) => {
             id=""
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+            className="w-full border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
             placeholder="Subject"
             required
           />
         </div>
-        <div className="my-3 relative">
+        <div className="my-4 relative">
           <input
             type="text"
             name="country"
             id=""
-            className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+            className="w-full border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
             value={country}
             onChange={handlesCountrySearch}
@@ -262,7 +262,7 @@ const SalesTeamForm = ({ setRefresh }) => {
             onFocus={() => setShowCities(true)}
             placeholder="Main Cities & Places"
             onChange={handleCitySearch}
-            className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+            className="w-full border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
           />
           <div className="absolute left-0 top-12 cursor-pointer">
@@ -326,7 +326,7 @@ const SalesTeamForm = ({ setRefresh }) => {
           </div>
         </div>
 
-        <div className="mb-3 flex-col items-center">
+        <div className="mb-4 flex-col items-center">
           <div className="text-[14px]  text-slate-600">Passangers:</div>
           <div className="flex gap-2 w-full">
             <input
@@ -335,7 +335,7 @@ const SalesTeamForm = ({ setRefresh }) => {
               id=""
               value={adults}
               onChange={(e) => setAdults(e.target.value)}
-              className="flex-1 border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+              className="flex-1 border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               placeholder="Adults"
               required
@@ -346,7 +346,7 @@ const SalesTeamForm = ({ setRefresh }) => {
               id=""
               value={children}
               onChange={(e) => setChildren(e.target.value)}
-              className="flex-1 border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+              className="flex-1 border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               placeholder="Children"
             />
@@ -356,19 +356,19 @@ const SalesTeamForm = ({ setRefresh }) => {
               id=""
               value={infants}
               onChange={(e) => setInfants(e.target.value)}
-              className="flex-1 border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+              className="flex-1 border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               placeholder="Infants"
             />
           </div>
         </div>
-        <div className="my-3 flex-col gap-3">
+        <div className="my-4 flex-col gap-3">
           <select
             name="priority"
             id=""
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
-            className="w-full border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
+            className="w-full border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
             required
           >
@@ -378,7 +378,7 @@ const SalesTeamForm = ({ setRefresh }) => {
             <option value="low">Low</option>
           </select>
         </div>
-        <div className="mb-3 flex items-center gap-4">
+        <div className="mb-4 flex items-center gap-4">
           <div className="flex-col flex flex-1">
             <label className="text-[14px]  text-slate-600">
               Travel start date :{" "}
@@ -389,7 +389,7 @@ const SalesTeamForm = ({ setRefresh }) => {
               id=""
               value={travelStartDate}
               onChange={(e) => setTravelStartDate(e.target.value)}
-              className="border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
+              className="border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
               required
             />
           </div>
@@ -403,21 +403,21 @@ const SalesTeamForm = ({ setRefresh }) => {
               id=""
               value={numofdays}
               onChange={(e) => setNumofdays(e.target.value)}
-              className="border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
+              className="border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
               placeholder="Number of days"
               required
             />
           </div>
         </div>
 
-        <div className="mb-3">
+        <div className="mb-4">
           <textarea
             name="additionalDetails"
             id=""
             value={additionalDetails}
             placeholder="Enter additional details"
             onChange={(e) => setAdditionalDetails(e.target.value)}
-            className="border-[2px] border-slate-200 py-2 rounded-md px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
+            className="border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
             rows="4"
             required
           />

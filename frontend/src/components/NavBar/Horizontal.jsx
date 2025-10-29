@@ -37,7 +37,7 @@ const Horizontal = () => {
   return (
     <div className="">
       <div
-        className={` fixed top-[0px] flex flex-row items-center justify-between  bg-white p-2 ${
+        className={` fixed top-[0px] flex flex-row items-center justify-between  bg-white border-[1px] border-slate-300 p-2 ${
           showNav ? "left-[200px]" : "left-[50px] duration-500"
         }`}
         style={

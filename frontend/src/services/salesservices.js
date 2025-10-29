@@ -136,7 +136,7 @@ export const sendCofimation = async (saleId, files) => {
       `/api/v1/sales/sendConfirmation`,
       {
         saleId,
-        files: files
+        files: files,
       },
       { withCredentials: true }
     );
@@ -162,3 +162,32 @@ export const confirmationUpload = async (subject, file) => {
   }
 };
 
+export const getOperationPersons = async () => {
+  try {
+    const data = await API.get(`${BASE_URL}/getOperationPersons`, {
+      withCredentials: true,
+    });
+    return data.data;
+    // return data.data.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const uploadFilesFin = async (files, name, subject) => {
+  const formData = new FormData();
+  files.forEach((file) => {
+    formData.append("files", file);
+  });
+  formData.append("name", name);
+  formData.append("subject", subject);
+  try {
+    const response = await API.post(`${BASE_URL}/uploadFilesFin`, formData, {
+      withCredentials: true,
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

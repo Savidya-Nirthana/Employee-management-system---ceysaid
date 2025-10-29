@@ -4,72 +4,60 @@ import {
   faClock,
   faRocket,
   faThumbsUp,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useContext } from "react";
 
 const UserDetails = () => {
+  const { user } = useContext(AuthContext);
   return (
-    <div className=" w-[100%] border-b-[1px] border-slate-200 p-5 relative top-[-20px] bg-[#023047] shadow-md shadow-black/25">
-      <div className=" flex flex-row justify-center gap-20">
-        <div className=" w-[200px] h-[100px] bg-slate-0 border-amber-400 border-2 bg-slate-100 p-5 rounded-[10px]">
-          <div className=" text-center text-[30px] font-semibold">11</div>
-          <div className="">
-            <div className=" flex flex-row items-center gap-2 justify-center    ">
-              <FontAwesomeIcon icon={faClock} className=" text-slate-800" />
-              <div className=" text-slate-800 font-bold">Pending</div>
-            </div>
-            {/* <FontAwesomeIcon
-              icon={faChevronRight}
-              className=" text-slate-800 font-bold"
-            /> */}
+    <div className=" mx-10 flex flex-row justify-between items-center mb-10">
+      <div>
+        <div className="text-2xl font-semibold">Home</div>
+        <div className=" flex flex-row items-center gap-3 text-[14px] font-semibold">
+          <div className=" flex flex-row items-center gap-3 mt-5 text-[14px] font-semibold border-[1px] border-slate-300 py-2 px-5  rounded-lg">
+            <FontAwesomeIcon icon={faClock} className=" text-blue-500" />
+            <div>Pending</div>
+            <div>11</div>
+          </div>
+          <div className=" flex flex-row items-center gap-3 mt-5 text-[14px] font-semibold border-[1px] border-slate-300 py-2 px-5  rounded-lg">
+            <FontAwesomeIcon icon={faThumbsUp} className=" text-green-500" />
+            <div>Approved</div>
+            <div>5</div>
+          </div>
+          <div className=" flex flex-row items-center gap-3 mt-5 text-[14px] font-semibold border-[1px] border-slate-300 py-2 px-5  rounded-lg">
+            <FontAwesomeIcon
+              icon={faClipboardCheck}
+              className=" text-gray-500"
+            />
+            <div>Completed</div>
+            <div>8</div>
+          </div>
+          <div className=" flex flex-row items-center gap-3 mt-5 text-[14px] font-semibold border-[1px] border-slate-300 py-2 px-5  rounded-lg">
+            <FontAwesomeIcon icon={faRocket} className=" text-red-500" />
+            <div>Total</div>
+            <div>27</div>
           </div>
         </div>
-        <div className=" w-[200px] h-[100px] bg-slate-100 border-amber-400 border-2 p-5 rounded-[10px]">
-          <div className=" text-center text-[30px] font-semibold">11</div>
-          <div>
-            <div className=" flex flex-row items-center gap-2 justify-center">
-              <FontAwesomeIcon icon={faThumbsUp} className=" text-slate-800" />
-              <div className="text-slate-800 font-bold">Approved</div>
+      </div>
+      <div className=" flex flex-row items-center gap-3 bg-[#1AB394] text-white pr-10 rounded-sm">
+        <div className=" w-[100px] h-[100px] rounded-full">
+          {user.attachments.employeeImage ? (
+            <div className="w-[100px] h-[100px] flex items-center justify-center ">
+              <img src={user.attachments.employeeImage} alt="" className="w-[80px] h-[80px] object-cover rounded-full" />
             </div>
-            {/* <FontAwesomeIcon
-              icon={faChevronRight}
-              className=" text-slate-800"
-            /> */}
-          </div>
+          ) : (
+            <div className=" flex items-center justify-center w-full h-full">
+              <FontAwesomeIcon icon={faUser} className=" text-[50px]" />
+            </div>
+          )}
         </div>
-        <div className="w-[200px] h-[100px] bg-slate-100 border-amber-400 border-2 p-5 rounded-[10px]">
-          <div className=" text-[30px] text-center text-slate-800 font-semibold">
-            11
-          </div>
-
-          <div className="">
-            <div className=" flex flex-row items-center gap-2 justify-center">
-              <FontAwesomeIcon
-                icon={faClipboardCheck}
-                className=" text-slate-800"
-              />
-              <div className=" text-slate-800 font-bold">Completed</div>
-            </div>
-            {/* <FontAwesomeIcon
-              icon={faChevronRight}
-              className=" text-green-600"
-            /> */}
-          </div>
-        </div>
-        <div className=" w-[200px] h-[100px] bg-slate-300 border-white border-2 p-5 rounded-[10px]">
-          <div className=" text-[30px] text-center text-slate-800 font-semibold">
-            535,000
-          </div>
-          <div className=" ">
-            <div className=" flex flex-row items-center gap-2 justify-center">
-              <FontAwesomeIcon
-                icon={faRocket}
-                className="text-slate-800 font-bold"
-              />
-              <div className=" text-slate-800 font-bold">Target</div>
-            </div>
-            {/* <FontAwesomeIcon icon={faChevronRight} className=" text-red-600" /> */}
-          </div>
+        <div>
+          <div className="  text-xl font-semibold">{user && user.fullName}</div>
+          <div className=" text-[14px]">{user && user.email}</div>
+          <div className=" text-[14px]">{user && user.role}</div>
         </div>
       </div>
     </div>

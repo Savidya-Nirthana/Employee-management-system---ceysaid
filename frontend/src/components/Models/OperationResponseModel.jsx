@@ -31,6 +31,7 @@ const OperationResponseModel = ({
   user,
   refresh,
   setRefresh,
+  setOpen,
 }) => {
   const [isUpload, setIsUpload] = useState(false);
   const [uploadCount, setUploadCount] = useState(0);
@@ -48,6 +49,7 @@ const OperationResponseModel = ({
 
   const closeProceed = () => {
     setOpenResponse(false);
+
     // proceedClose(selectSale._id, user.userId);
   };
 
@@ -224,9 +226,11 @@ const OperationResponseModel = ({
     for (const elt of uploadedFiles) {
       const res = await opertationUpload(selectSale.subject, elt);
       urls.push(res);
-      setUploadCount((prev) => prev + 1); 
+      setUploadCount((prev) => prev + 1);
     }
     setOpenLoading(false);
+    setOpenResponse(false);
+    setOpen(false);
     const response = await saveFiles(urls, selectSale);
     if (!response.isError) {
       setRefresh((prev) => !prev);

@@ -27,7 +27,7 @@ const LeaveApplication = () => {
     }
   };
   return (
-    <div className="bg-slate-50 w-[650px]  p-5 h-[380px] rounded-[10px]  shadow-lg shadow-black/25">
+    <div className="bg-slate-50 w-[650px]  p-5 h-[380px] rounded-[10px]   border-[1px] m-auto border-slate-300">
       <div className="  ">
         <div className="text-[20px] text-[#023047] font-semibold pb-3">
           Leave application
@@ -67,7 +67,9 @@ const LeaveApplication = () => {
                   name=""
                   id=""
                   className=" text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
+                  required
                 >
+                  <option value="">Select leave type</option>
                   <option value="annual">Annual leave</option>
                   <option value="casual">Casual leave</option>
                   <option value="lieu">Lieu leave</option>

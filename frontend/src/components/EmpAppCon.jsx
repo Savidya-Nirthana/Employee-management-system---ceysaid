@@ -60,7 +60,7 @@ const EmpAppCon = ({ refresh, setRefresh, viewDeatails, setViewDetails }) => {
 
   return (
     <div
-      className={`bg-slate-50 flex-1 xl:w-[550px] z-[0]  py-5 my-2  rounded-[10px]  shadow-lg shadow-black/25  ${
+      className={`bg-slate-50 flex-1 xl:w-[550px] z-[0]  py-5 my-2  rounded-[10px]  border border-slate-300  ${
         viewDeatails ? "" : ""
       }
 `}

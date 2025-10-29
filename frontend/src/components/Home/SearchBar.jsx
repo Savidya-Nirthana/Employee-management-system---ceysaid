@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 
-const SearchBar = ({ refresh, data, search, setSearch }) => {
+const SearchBar = ({ refresh, data, search, setSearch, searchBy }) => {
   const searchRef = useRef(null);
   const [type, setType] = useState("");
 
@@ -46,9 +46,15 @@ const SearchBar = ({ refresh, data, search, setSearch }) => {
       }
 
       if (type) {
-        filteredData = filteredData.filter((u) =>
-          String(u.customerDetails.name.toLowerCase()).includes(type)
-        );
+        if (searchBy === "userId") {
+          filteredData = filteredData.filter((u) =>
+            String(u.userId.toLowerCase()).includes(type)
+          );
+        } else {
+          filteredData = filteredData.filter((u) =>
+            String(u.customerDetails.name.toLowerCase()).includes(type)
+          );
+        }
       }
       setCountries([...new Set(data.map((u) => String(u.country)))]);
       setSearch(filteredData);

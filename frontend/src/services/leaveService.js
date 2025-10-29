@@ -15,3 +15,14 @@ export const leaveApply = async (leaveData) => {
     console.error(e);
   }
 };
+
+export const fetchLeaves = async () => {
+  try {
+    const response = await API.get(`${BASE_URL}/getLeaves`, {
+      withCredentials: true,
+    });
+    return response.data.leaves;
+  } catch (e) {
+    console.error(e);
+  }
+};

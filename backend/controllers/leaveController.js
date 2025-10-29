@@ -8,9 +8,8 @@ import LeaveModel from "../models/leave.model.js";
 
 export const applyLeave = asyncHandler(async (req, res) => {
   const data = await req.body.leaveData;
-  console.log(res.user.user.username);
   const leaveData = await LeaveModel.create({
-    email: res.user.user.username,
+    userId: res.user.user.userId,
     year: data.leaveYear,
     leave_type: data.leaveType,
     startDate: data.leaveFrom,
@@ -19,6 +18,15 @@ export const applyLeave = asyncHandler(async (req, res) => {
     comments: data.comments,
     status: "pending",
   });
+  console.log(leaveData);
   res.status(200).json({ message: leaveData });
 });
 
+export const fetchLeaves = asyncHandler(async (req, res) => {
+  try {
+    const leaves = await LeaveModel.find({ status: "pending" });
+    res.status(200).json({ leaves });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});

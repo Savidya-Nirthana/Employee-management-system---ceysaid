@@ -69,6 +69,21 @@ const OperationConfirmation = mongoose.Schema({
   },
 });
 
+  const opProcessing = mongoose.Schema({
+  category: {
+    type: String,
+    default: "processing",
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+  attachements: {
+    name: { type: String, required: true },
+    url: { type: String, required: true },
+  },
+});
+
 const salesSchema = mongoose.Schema(
   {
     userId: {
@@ -162,6 +177,7 @@ const salesSchema = mongoose.Schema(
     logs: {
       acceptance: [OperationAcceptance],
       confirmation: [OperationConfirmation],
+      processing: [opProcessing],
     },
   },
   {

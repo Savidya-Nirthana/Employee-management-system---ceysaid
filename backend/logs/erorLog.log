@@ -10936,3 +10936,19 @@
 20250925	21:08:48	b445bfe9-13d8-40c3-a624-269049f6abbe	not found /api/v1/sales/getConfirmedFiles?saleId=686628fe0e12e00689c10dd8
 20250925	23:07:56	03a88f35-eee6-4aa8-84e3-7072e99c226f	not found /api/v1/sales/getConfirmedFiles?saleId=68c1a67ede655b3cfdc92ce9
 20250925	23:07:56	bf4556fe-68ce-4c65-8126-38524fc7ce0d	not found /api/v1/sales/getConfirmedFiles?saleId=68c1a67ede655b3cfdc92ce9
+20250925	23:28:47	cac25b65-d5fb-4934-b89a-89e2d022632a	UserId or password invalid
+20251010	10:46:07	7b47ee09-e6ab-4ec9-a343-2324ebf7ee14	UserId or password invalid
+20251019	10:14:02	5d127192-f2d8-465a-a56d-67561f42eb42	Unexpected field
+20251019	10:14:33	612a6a48-c34a-4780-b3b8-3d2e48b18618	Unexpected field
+20251019	10:14:36	5f8a6996-5b78-49e8-ad9b-2fcba73d72e9	Unexpected field
+20251019	10:15:08	ee3d0542-790f-4006-ae95-0be137ea0c01	Unexpected field
+20251019	10:16:12	3cfabf7f-b790-4f2b-8aad-e04ec98a43e7	Unexpected field
+20251019	10:16:18	c85fdd87-4727-453c-9436-a0462e15035f	Unexpected field
+20251019	10:16:28	155d504c-2b68-4515-91b9-bc3aae223b1f	Unexpected field
+20251019	10:17:29	7f417c48-7b3a-4c25-a59b-7227195d9c5b	Unexpected field
+20251019	10:23:25	a1890d70-6cec-4879-9c04-373639f7bdf2	Unexpected field
+20251019	10:23:31	382ea0c4-8429-4e8d-b509-c55be3b86af6	Unexpected field
+20251019	10:23:31	d8435be1-3b25-4862-ab01-621f319d099e	Unexpected field
+20251019	13:36:39	2865bccf-351c-4700-8c5d-b027a9005863	leave validation failed: leave_type: Path `leave_type` is required.
+20251019	13:37:18	a65d3693-d1f1-4f1b-8061-3d8fbb9fe4b6	leave validation failed: leave_type: Path `leave_type` is required.
+20251019	13:38:39	b78e36ec-e518-401e-b3d9-8b59199e76fb	leave validation failed: leave_type: Path `leave_type` is required.

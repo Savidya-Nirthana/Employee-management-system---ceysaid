@@ -21,6 +21,7 @@ const MultipleFileUpload = ({ data, onConfirm }) => {
         const res = await API.get(`/api/v1/sales/getConfirmedFiles`, {
           params: { saleId: data._id },
         });
+        console.log(res);
         if (res.data && Array.isArray(res.data.files)) {
           const filesWithNames = res.data.files.map((file) => ({
             url: file.url || file.path,

@@ -51,7 +51,7 @@ const Home = () => {
           </div>
         </ProtectedComponents>
 
-        <ProtectedComponents allowedRoles={["accounts"]}>
+        <ProtectedComponents allowedRoles={["accounts", "operation"]}>
           <div>
             <UserDetails />
           </div>

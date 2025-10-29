@@ -67,7 +67,7 @@ function App() {
           <Route
             path="group"
             element={
-              <ProtectedRoutes allowedRoles={["admin"]}>
+              <ProtectedRoutes allowedRoles={["admin", "operation"]}>
                 <GroupTours/>
               </ProtectedRoutes>
             }

@@ -57,14 +57,18 @@ export default function Group_Tour() {
     );
   }
   return (
-    <div className=" flex flex-col shadow-md shadow-black/25  rounded-lg bg-slate-50">
+    <div className=" flex flex-col  rounded-lg ">
+      <div className=" flex flex-row justify-between items-center border-slate-300">
+      <div className=" text-slate-700 font-semibold pl-5">Group Tours</div>
+      <input type="text" className=" border-[1px] border-slate-300 rounded-lg p-1 px-2 ml-10 text-[14px]" placeholder="Search group tours..."/>
+      </div>
       <div className="h-[760px]  m-5 w-[500px]">
         {dataArray
           .slice(startIndex, startIndex + itemsPerPage)
           .map((elt, index) => (
             <div
               key={index}
-              className=" max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-5 mb-3"
+              className=" max-w-md mx-auto bg-white rounded-xl border-[1px] border-slate-300 md:max-w-2xl p-5 mb-3"
             >
               <div className=" flex flex-row">
                 <div
@@ -80,10 +84,10 @@ export default function Group_Tour() {
                   />
                 </div>
                 <div className=" m-3">
-                  <h2 className=" text-lg font-semibold uppercase text-slate-600">
+                  <div className=" text-sm font-semibold uppercase text-slate-600">
                     {elt.name}
-                  </h2>
-                  <div className="mt-2 text-gray-500">{elt.country}</div>
+                  </div>
+                  <div className="mt-2 w-[95px] rounded-xl text-center bg-violet-600 text-white">{elt.country}</div>
                   <div className="text-gray-700 flex gap-2">
                     {elt.mainCities.map((e, index) => (
                       <div key={index}>{e}</div>
@@ -102,12 +106,12 @@ export default function Group_Tour() {
               </div>
               <div className=" flex flex-row gap-2 justify-end">
                 <a href={elt.pdf} download={`${elt.name}.pdf`} target="_blank">
-                  <button className="cursor-pointer hover:bg-slate-700 hover:text-white  border-[2px] border-slate-700 text-slate-700 text-[14px] px-4 py-2 rounded transition-all duration-300 ease-in-out">
+                  <button className="cursor-pointer hover:bg-slate-700 hover:text-white  border-[2px] border-slate-700 text-slate-700 text-[14px] px-3 py-1 rounded transition-all duration-300 ease-in-out">
                     Download pdf
                   </button>
                 </a>
                 <button
-                  className="cursor-pointer bg-slate-700 hover:bg-white hover:text-slate-600 border-[2px] border-slate-700 text-white px-4 py-2 text-[14px] rounded ml-2 transition-all duration-300 ease-in-out"
+                  className="cursor-pointer bg-slate-700 hover:bg-white hover:text-slate-600 border-[2px] border-slate-700 text-white px-3 py-1 text-[14px] rounded ml-2 transition-all duration-300 ease-in-out"
                   onClick={() => setSelectGroup(elt)}
                 >
                   Add

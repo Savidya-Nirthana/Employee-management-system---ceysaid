@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import SalesModel from "../models/sales.model.js";
 import { io } from "../server.mjs";
 import { uploadSalesContentMid } from "../middlewares/uploadSalesContentMid.js";
+import PermenentUser from "../models/permenent_emp.model.js";
 
 export const addSales = asyncHandler(async (req, res) => {
   try {
@@ -224,14 +225,16 @@ export const getApprovedData = asyncHandler(async (req, res) => {
   } catch (err) {
     console.log("error");
   }
-}); 
+});
 
 export const salesConfirmation = asyncHandler(async (req, res) => {
   try {
     const { saleId, files } = req.body;
 
-    if(!files || !files.length){
-      return res.status(400).json({ message: "No files provided", isError: true });
+    if (!files || !files.length) {
+      return res
+        .status(400)
+        .json({ message: "No files provided", isError: true });
     }
     const newLog = {
       category: "confirmation",
@@ -259,17 +262,52 @@ export const salesConfirmation = asyncHandler(async (req, res) => {
 
 export const getConfirmedFiles = asyncHandler(async (req, res) => {
   try {
-
     const { saleId } = req.query;
     const sale = await SalesModel.findById(saleId);
     if (!sale) {
       return res.status(404).json({ message: "Sale not found" });
     }
     const confirmedLogs = sale.logs?.confirmation || [];
-    const files = confirmedLogs.map(log => log.attachements).flat().filter(file => file && file.url);
+    const files = confirmedLogs
+      .map((log) => log.attachements)
+      .flat()
+      .filter((file) => file && file.url);
+    // console.log(files);
     return res.status(200).json({ files });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Error fetching confirmed files" });
+  }
+});
+
+export const getOperationPersons = asyncHandler(async (req, res) => {
+  try {
+    const users = await PermenentUser.find({ role: "operation" }).select(
+      "userId"
+    );
+    res.status(200).json({ data: users });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching operation persons" });
+  }
+});
+
+export const uploadaOperationFin = asyncHandler(async (req, res) => {
+  try {
+    if (!req.files) {
+      return res.status(400).json({ message: "No file received" });
+    }
+    const { name, subject } = req.body;
+    const urls = [];
+    for (const file of req.files) {
+      const folder = `uploads/${subject}/${name}`;
+      const result = await uploadSalesContentMid(file, folder);
+      urls.push(result);
+    }
+    return res
+      .status(200)
+      .json({ message: "File uploaded successfully", urls });
+  } catch (e) {
+    console.log(e);
   }
 });

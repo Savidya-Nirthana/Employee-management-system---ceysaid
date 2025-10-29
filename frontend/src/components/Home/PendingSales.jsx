@@ -75,10 +75,10 @@ const PendingSales = () => {
     return <div className=" h-[800px]">loading</div>;
   } else {
     return (
-      <div className="w-[800px]    pb-8  rounded-[10px]   shadow-md shadow-black/25 m-5">
-        <div className=" bg-slate-700 rounded-t-[10px] p-[5px] flex flex-row justify-start items-center gap-2">
-          <h2 className=" text-xl font-semibold  text-white m-3 ">Pending</h2>
-          <FontAwesomeIcon icon={faSpinner} className=" text-white  text-xl" />
+      <div className="w-[800px]    pb-8  rounded-[10px]   border-[1px] border-slate-300  bg-white">
+        <div className=" rounded-t-[10px] p-[5px] flex flex-row justify-start items-center gap-2">
+          <h2 className=" text-xl font-semibold  text-slate=700 m-3 ">Pending</h2>
+          <FontAwesomeIcon icon={faSpinner} className=" text-slate-700  text-xl" />
         </div>
         {/* <div className=" w-[100%] flex-col flex items-center  relative pt-10">
           <FontAwesomeIcon
@@ -208,6 +208,7 @@ const PendingSales = () => {
                   setOpen={setOpen}
                   refresh={refresh}
                   setRefresh={setRefresh}
+                  pending={true}
                 />
               </motion.div>
             </motion.div>

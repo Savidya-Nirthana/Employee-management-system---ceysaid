@@ -50,8 +50,7 @@ const AddUsers = () => {
   return (
     <>
       <div
-        className=" bg-slate-50  flex-1 xl:w-[550px] p-5 rounded-[10px] my-2 shadow-lg shadow-black/25]
-"
+        className=" bg-slate-50  flex-1 xl:w-[550px] p-5 rounded-[10px] my-2 border border-slate-300"
       >
         <ToastContainer />
         <div className=" w-[100%] my-1 text-[20px] text-[#023047] font-semibold">

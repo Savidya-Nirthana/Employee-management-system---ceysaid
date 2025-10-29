@@ -3,6 +3,7 @@ import {
   faAngleRight,
   faCircleXmark,
   faFile,
+  faTriangleExclamation,
   faUser,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +12,11 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { useDropzone } from "react-dropzone";
 import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
+import {
+  getOperationPersons,
+  uploadFilesFin,
+} from "../../services/salesservices";
 
 const CustomerBlock = ({
   field,
@@ -18,6 +24,7 @@ const CustomerBlock = ({
   onChange,
   onFileDrop,
   onRemoveFile,
+  onRemoveField,
 }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: (acceptedFiles) => onFileDrop(index, acceptedFiles),
@@ -28,7 +35,7 @@ const CustomerBlock = ({
       <FontAwesomeIcon
         icon={faCircleXmark}
         className="absolute top-[-10px] right-[-10px] text-[25px] text-red-500 cursor-pointer"
-        onClick={() => onRemoveFile(index)}
+        onClick={() => onRemoveField(index)}
       />
       <input
         type="text"
@@ -186,6 +193,9 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
   const [numberOfPassengers, setNumberOfPassengers] = useState(1);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [opUsers, setOpUsers] = useState([]);
+  const [assignedUser, setAssignedUser] = useState("");
+  const [isError, setIsError] = useState(false);
   // const handledFiles = (select) => {
   //   const fileArray = Array.from(select);
   //   setFiles((prev) => [...prev, ...fileArray]);
@@ -203,11 +213,49 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
   //   }
   // };
 
+  useEffect(() => {
+    const getOpPersons = async () => {
+      const response = await getOperationPersons();
+      setOpUsers(response.data);
+    };
+    getOpPersons();
+  }, []);
+
   const [fields, setFields] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
-  const handleSubmit = () => {
-    //
+  const handleSubmit = async () => {
+    if (!assignedUser) {
+      setIsError("Please select a user");
+      return;
+    }
+
+    if (isIndividual) {
+      if (fields.length === 0) {
+        setIsError("No fields added");
+        return;
+      } else {
+        const urls = [];
+        for (const field of fields) {
+          const res = await uploadFilesFin(
+            field.uploadedFiles,
+            field.name,
+            selectSale.subject
+          );
+          // urls.push(...res);
+
+          urls.push({ name: field.name, files: res.urls });
+        }
+        console.log(urls);
+      }
+    } else {
+      if (uploadedFiles.length === 0) {
+        setIsError("No files uploaded");
+        return;
+      } else {
+        console.log("Sponser files ready to upload");
+      }
+    }
   };
 
   const handleAddField = () => {
@@ -233,15 +281,22 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
     updatedFields[fieldIndex].uploadedFiles.splice(fileIndex, 1);
     setFields(updatedFields);
   };
+
+  const onRemoveField = (index) => {
+    const updatedFields = fields.filter((_, i) => i !== index);
+    currentSlide > index && setCurrentSlide(currentSlide - 1);
+    setFields(updatedFields);
+  };
+
   const variants = {
     enter: (dir) => ({
       opacity: 0,
-      x: dir === 1 ? 50 : -50, 
+      x: dir === 1 ? 50 : -50,
     }),
     center: { opacity: 1, x: 0 },
     exit: (dir) => ({
       opacity: 0,
-      x: dir === 1 ? -50 : 50, 
+      x: dir === 1 ? -50 : 50,
     }),
   };
 
@@ -254,6 +309,8 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
           }`}
           onClick={() => {
             setIsIndividual(true);
+            setUploadedFiles([]);
+            setIsError(false);
           }}
         >
           Individual
@@ -264,6 +321,9 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
           }`}
           onClick={() => {
             setIsIndividual(false);
+            setFields([]);
+            setCurrentSlide(0);
+            setIsError(false);
           }}
         >
           Sponser
@@ -303,6 +363,7 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
                       onChange={handleChange}
                       onFileDrop={handleFileDrop}
                       onRemoveFile={handleRemoveFile}
+                      onRemoveField={onRemoveField}
                     />
                   </motion.div>
                 ) : (
@@ -375,12 +436,31 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
       >
         <FontAwesomeIcon icon={faCircleXmark} />
       </div>
-      <div className=" flex justify-end gap-5 my-5">
+      <div className=" flex justify-between gap-5 my-5">
+        <div className=" flex gap-10 items-center">
+          <div>Assign: </div>
+          <select
+            className="border border-gray-300 rounded-md p-1"
+            onChange={(e) => setAssignedUser(e.target.value)}
+          >
+            <option value="">Select User</option>
+            {opUsers.map((user) => (
+              <option key={user.userId} value={user.id}>
+                {user.userId}
+              </option>
+            ))}
+          </select>
+
+          {isError && (
+            <div className="text-red-500 flex items-center gap-2">
+              <FontAwesomeIcon icon={faTriangleExclamation} />{" "}
+              <div>{isError}</div>
+            </div>
+          )}
+        </div>
+
         <button
-          onClick={() => {
-            console.log(fields);
-            console.log(uploadedFiles);
-          }}
+          onClick={handleSubmit}
           className="bg-white text-slate-900 border-[2px] border-slate-700 hover:bg-slate-700   hover:text-white text-[14px] px-4 py-2 rounded cursor-pointer"
         >
           Send

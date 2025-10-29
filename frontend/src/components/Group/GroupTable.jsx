@@ -61,7 +61,7 @@ const GroupTable = ({ refresh }) => {
     }
   };
   return (
-    <div className=" bg-slate-50 px-10 py-4  rounded-[10px]  shadow-lg shadow-black/25">
+    <div className=" bg-slate-50 px-10 py-4  rounded-[10px]  border border-slate-300">
       <div className=" flex justify-between items-center">
         <div className="text-xl font-semibold  text-slate-600 m-2">
           Group Tour Table

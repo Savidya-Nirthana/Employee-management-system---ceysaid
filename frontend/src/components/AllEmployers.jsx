@@ -84,7 +84,7 @@ const AllEmployers = ({ refresh, setRefresh, showNav, open, setOpen }) => {
           showNav ? "" : "xl:w-auto "
         } min-w-[700px] 
           ${open ? "h-[0px]" : "h-[800px]"}
-         bg-slate-50  py-5  rounded-[10px]  shadow-lg shadow-black/25`}
+         bg-slate-50  py-5  rounded-[10px]  border border-slate-300`}
       >
         <div className="flex flex-row items-center justify-between w-[90%]  m-auto my-2">
           <div className="text-[20px] text-[#023047] font-semibold">

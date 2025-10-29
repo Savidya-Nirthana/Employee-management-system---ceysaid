@@ -66,23 +66,23 @@ const SalesApproval = () => {
   }, [userId]);
   return (
     <>
-      <div className="rounded-[10px]   shadow-md h-[800px] shadow-black/25  bg-slate-0  pb-[20px]">
+      <div className="rounded-[10px] border-[1px]  border-slate-300  h-[800px] w-[100%] m-auto   bg-slate-0  pb-[20px]">
         <div className="  rounded-t-[10px] text-slate-700 p-2 flex flex-row items-center gap-2">
           <h2 className=" text-xl font-semibold    m-2">Approval sales</h2>
           <FontAwesomeIcon icon={faThumbsUp} />
         </div>
         <SearchBar data={dataArray} search={search} setSearch={setSearch} />
         <div className=" flex-col flex justify-between gap-10 ">
-          <div className="h-[400px] bg-slate-50">
+          <div className="h-[400px] ">
             <table className=" w-[100%] text-center">
-              <thead>
-                <th className="px-4 py-3 text-center">Name</th>
-                <th className="px-4 py-3 text-center">Country</th>
-                <th className="px-4 py-3 text-center">No of days</th>
-                <th className="px-4 py-3 text-center">Start Date</th>
-                <th className="px-4 py-3 text-center">Priority</th>
-                <th className="px-4 py-3 text-center">Active status</th>
-                <th className="px-4 py-3 text-center">Approved by</th>
+              <thead className=" border-y border-gray-300 bg-slate-50 text-slate-600">
+                <th className="px-4 py-3 text-left">Name</th>
+                <th className="px-4 py-3 text-left">Country</th>
+                <th className="px-4 py-3 text-left">No of days</th>
+                <th className="px-4 py-3 text-left">Start Date</th>
+                <th className="px-4 py-3 text-left">Priority</th>
+                <th className="px-4 py-3 text-left">Active status</th>
+                <th className="px-4 py-3 text-left">Approved by</th>
               </thead>
               <tbody>
                 {search.length > 0 ? (
@@ -91,21 +91,21 @@ const SalesApproval = () => {
                     .map((elt, index) => (
                       <tr
                         key={index}
-                        className="hover:bg-white border-t border-gray-300 cursor-pointer "
+                        className=" border-y hover:bg-slate-50 border-gray-300 cursor-pointer text-slate-500"
                         onClick={() => {
                           setResOpen(true);
                           setSelectSale(elt);
                         }}
                       >
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-4 py-3 text-left ">
                           {elt.customerDetails.name}
                         </td>
-                        <td className="px-4 py-3 text-center">{elt.country}</td>
-                        <td className="px-4 py-3 text-center">{elt.noDays}</td>
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-4 py-3 text-left">{elt.country}</td>
+                        <td className="px-4 py-3 text-left">{elt.noDays}</td>
+                        <td className="px-4 py-3 text-left">
                           {elt.startDate.split("T")[0]}
                         </td>
-                        <td className="px-4 py-2 justify-items-center">
+                        <td className="px-4 py-2">
                           <div
                             className={`w-[90px]  text-center rounded-full ${
                               elt.priority === "low"
@@ -119,7 +119,7 @@ const SalesApproval = () => {
                               elt.priority.substring(1)}
                           </div>
                         </td>
-                        <td className={`px-4 py-2  justify-items-center`}>
+                        <td className={`px-4 py-2`}>
                           <div
                             className={`  w-[90px]  text-center rounded-full ${
                               elt.status === "pending"
@@ -135,7 +135,7 @@ const SalesApproval = () => {
                               elt.status.substring(1)}
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-4 py-3">
                           {elt.approvedBy}
                         </td>
                       </tr>

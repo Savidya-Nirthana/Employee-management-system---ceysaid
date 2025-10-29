@@ -82,23 +82,23 @@ const AllSales = ({ refresh }) => {
   }, [refresh]);
 
   return (
-    <div className="rounded-[10px]   shadow-md shadow-black/25  bg-slate-0 h-auto  pb-[20px]">
+    <div className="rounded-[10px]   border-[1px] m-auto border-slate-300 h-auto  pb-[20px]">
       <div className="rounded-t-[10px] p-[5px] flex flex-row justify-start items-center gap-2">
         <h2 className=" text-xl font-semibold  text-slate-700 m-3 ">All sales</h2>
         <FontAwesomeIcon icon={faGlobe} className=" text-slate-700 text-xl" />
       </div>
       <SearchBar data={salesArray} search={search} setSearch={setSearch} />
       <div>
-        <div className=" h-[600px] bg-slate-50 w-[100%] m-auto rounded-md">
-          <table className="table-auto w-[100%] m-auto">
-            <thead className="">
-              <tr className=" border-b border-gray-300 text-slate-700 font-semibold">
-                <th className="px-4 py-3 text-center">Name</th>
-                <th className="px-4 py-3 text-center">Country</th>
-                <th className="px-4 py-3 text-center">No of Days</th>
-                <th className="px-4 py-3 text-center">Start Date</th>
-                <th className="px-4 py-3 text-center">Priority</th>
-                <th className="px-4 py-3 text-center">Active Status</th>
+        <div className=" h-[600px]  w-[100%]  m-auto rounded-md">
+          <table className="table-auto m-auto rounded-md w-[100%]">
+            <thead className=" ">
+              <tr className=" border border-gray-300 bg-slate-50 text-slate-600 ">
+                <th className="px-4 py-3 text-left ">Name</th>
+                <th className="px-4 py-3 text-left ">Country</th>
+                <th className="px-4 py-3 text-left">No of Days</th>
+                <th className="px-4 py-3 text-left">Start Date</th>
+                <th className="px-4 py-3 text-left ">Priority</th>
+                <th className="px-4 py-3 text-left ">Active Status</th>
               </tr>
             </thead>
             <tbody className="">
@@ -116,23 +116,23 @@ const AllSales = ({ refresh }) => {
                     .map((elt, index) => (
                       <tr
                         key={index}
-                        className="hover:bg-white cursor-pointer border-t border-gray-300"
+                        className="hover:bg-slate-50 hover:border-r hover:border-gray-300 cursor-pointer border-b border-gray-300 text-slate-500"
                         onClick={() => {
                           setOpen(true);
                           setSelectSale(elt);
                         }}
                       >
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-4 py-3">
                           {elt.customerDetails.name}
                         </td>
-                        <td className="px-4 py-3 text-center">{elt.country}</td>
-                        <td className="px-4 py-3 text-center">{elt.noDays}</td>
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-4 py-3">{elt.country}</td>
+                        <td className="px-4 py-3">{elt.noDays}</td>
+                        <td className="px-4 py-3">
                           {elt.startDate.split("T")[0]}
                         </td>
-                        <td className="px-4 py-2 justify-items-center">
+                        <td className="px-4 py-2 ">
                           <div
-                            className={`w-[90px]  text-center rounded-full ${
+                            className={`w-[90px]  text-center rounded-full  ${
                               elt.priority === "low"
                                 ? "bg-green-300 text-green-700"
                                 : elt.priority === "normal"
@@ -144,7 +144,7 @@ const AllSales = ({ refresh }) => {
                               elt.priority.substring(1)}
                           </div>
                         </td>
-                        <td className="px-4 py-2 justify-items-center">
+                        <td className="px-4 py-2">
                           <div
                             className={`w-[90px] text-center rounded-full ${
                               elt.status === "pending"
