@@ -6,7 +6,7 @@ import {
   confirmationUpload,
   sendCofimation,
 } from "../../services/salesservices";
-import API from "../../services/axiosinstant"
+import API from "../../services/axiosinstant";
 
 const MultipleFileUpload = ({ data, onConfirm }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -21,10 +21,12 @@ const MultipleFileUpload = ({ data, onConfirm }) => {
         const res = await API.get(`/api/v1/sales/getConfirmedFiles`, {
           params: { saleId: data._id },
         });
+        console.log(res);
         if (res.data && Array.isArray(res.data.files)) {
-          const filesWithNames = res.data.files.map(file => ({
+          const filesWithNames = res.data.files.map((file) => ({
             url: file.url || file.path,
-            name: file.name || (file.path ? file.path.split("/").pop() : "Unknown"),
+            name:
+              file.name || (file.path ? file.path.split("/").pop() : "Unknown"),
           }));
           setConfirmedFiles(filesWithNames);
 
@@ -59,18 +61,17 @@ const MultipleFileUpload = ({ data, onConfirm }) => {
         urlsWithNames.push({ url, name: file.name });
       }
 
-      await sendCofimation(data._id,urlsWithNames);
+      await sendCofimation(data._id, urlsWithNames);
 
-      setConfirmedFiles(prev => [...prev, ...urlsWithNames]);
+      setConfirmedFiles((prev) => [...prev, ...urlsWithNames]);
       setUploadedFiles([]);
       setIsConfirmed(true);
       setShowUploadBox(false);
-      
 
-      if (onConfirm){
+      if (onConfirm) {
         onConfirm({
           files: urlsWithNames,
-          status: "confirm"
+          status: "confirm",
         });
       }
     } catch (error) {
@@ -90,13 +91,19 @@ const MultipleFileUpload = ({ data, onConfirm }) => {
   });
   return (
     <div>
-      {confirmedFiles.length > 0 && (
+      {(confirmedFiles.length > 0 || isConfirmed || isAlreadyConfirmed) && (
         <div className="border-2 border-dashed mt-10 border-blue-500 p-10 m-5 rounded-md text-center bg-blue-50">
-          <h3  className="text-2xl font-semibold mb-2 text-center">Confirmed Files</h3>
+         {confirmedFiles.length > 0 ? (
           <div className="flex overflow-x-auto space-x-4 p-2">
             {confirmedFiles.map((file, index) => (
-              <div key={index} className="min-w-[100px] h-40 bg-gray-100 shadow p-5">
-                <FontAwesomeIcon icon={faFile} className="text-blue-500 text-8xl mb-2" />
+              <div
+                key={index}
+                className="min-w-[100px] h-40 bg-gray-100 shadow p-5"
+              >
+                <FontAwesomeIcon
+                  icon={faFile}
+                  className="text-blue-500 text-8xl mb-2"
+                />
                 <div className="text-center">
                   <a
                     href={file.url}
@@ -114,77 +121,87 @@ const MultipleFileUpload = ({ data, onConfirm }) => {
               </div>
             ))}
           </div>
-      </div>
-    )}
-    {!isAlreadyConfirmed && showUploadBox && (
-      <div
-        {...getRootProps()}
-        className="border-2 border-dashed mt-20 border-blue-500 p-10  m-5 rounded-md text-center cursor-pointer bg-blue-50"
-      >
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <>
-            <FontAwesomeIcon
-              icon={faFile}
-              className="text-blue-500 text-9xl mb-2"
-            />
-            <p className="text-blue-700">Drop the files here...</p>
-          </>
-        ) : uploadedFiles.length == 0 ? (
-          <>
-            <FontAwesomeIcon
-              icon={faFile}
-              className="text-blue-500 text-9xl mb-2"
-            />
-            <p className="text-blue-700">Drop files here, or click to select</p>
-          </>
         ) : (
-          <div className="flex overflow-x-auto space-x-4 p-3 ">
-            {uploadedFiles.map((file, index) => (
-              <div
-                key={index}
-                className="relative min-w-[100px] h-40 bg-gray-100 shadow items-center p-5 mr-6"
-              >
-                <FontAwesomeIcon
-                  icon={faFile}
-                  className="text-blue-500 text-8xl mb-2"
-                />
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeFile(index);
-                  }}
-                  className="absolute bottom-35 left-22 text-blue-400 hover:text-blue-700"
-                >
-                  <FontAwesomeIcon icon={faCircleXmark} className="text-3xl" />
-                </button>
-                <div className="text-center">
-                  <p className="text-xs font-semibold text-gray-500 break-words">
-                    {file.name.length > 15
-                      ? file.name.slice(0, 15) + "..."
-                      : file.name}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {(file.size / 1024).toFixed(1)} KB
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="text-gray-500 font-medium text-3xl m-5">
+            Confirmed
           </div>
         )}
       </div>
-    )}
-    {!isAlreadyConfirmed && showUploadBox && uploadedFiles.length > 0 && (
-      <div className=" flex gap-3 justify-end">
-        <button
-          className="m-5 hover:bg-slate-700 text-slate-700 border-[2px] border-slate-700  hover:text-white px-2.5 py-1.5  rounded cursor-pointer bg-white transition-all duration-300 ease-in-out"
-          onClick={submitHandlerFiles}
+      )}
+      {!isAlreadyConfirmed && !isConfirmed && (
+        <div
+          {...getRootProps()}
+          className="border-2 border-dashed mt-20 border-blue-500 p-10  m-5 rounded-md text-center cursor-pointer bg-blue-50"
         >
-          Confirm
-        </button>
-      </div>
-    )}
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <>
+              <FontAwesomeIcon
+                icon={faFile}
+                className="text-blue-500 text-9xl mb-2"
+              />
+              <p className="text-blue-700">Drop the files here...</p>
+            </>
+          ) : uploadedFiles.length == 0 ? (
+            <>
+              <FontAwesomeIcon
+                icon={faFile}
+                className="text-blue-500 text-9xl mb-2"
+              />
+              <p className="text-blue-700">
+                Drop files here, or click to select
+              </p>
+            </>
+          ) : (
+            <div className="flex overflow-x-auto space-x-4 p-3 ">
+              {uploadedFiles.map((file, index) => (
+                <div
+                  key={index}
+                  className="relative min-w-[100px] h-40 bg-gray-100 shadow items-center p-5 mr-6"
+                >
+                  <FontAwesomeIcon
+                    icon={faFile}
+                    className="text-blue-500 text-8xl mb-2"
+                  />
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFile(index);
+                    }}
+                    className="absolute bottom-35 left-22 text-blue-400 hover:text-blue-700"
+                  >
+                    <FontAwesomeIcon
+                      icon={faCircleXmark}
+                      className="text-3xl"
+                    />
+                  </button>
+                  <div className="text-center">
+                    <p className="text-xs font-semibold text-gray-500 break-words">
+                      {file.name.length > 15
+                        ? file.name.slice(0, 15) + "..."
+                        : file.name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {(file.size / 1024).toFixed(1)} KB
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+      {!isAlreadyConfirmed && showUploadBox && uploadedFiles.length > 0 && (
+        <div className=" flex gap-3 justify-end">
+          <button
+            className="m-5 hover:bg-slate-700 text-slate-700 border-[2px] border-slate-700  hover:text-white px-2.5 py-1.5  rounded cursor-pointer bg-white transition-all duration-300 ease-in-out"
+            onClick={submitHandlerFiles}
+          >
+            Confirm
+          </button>
+        </div>
+      )}
     </div>
   );
 };
