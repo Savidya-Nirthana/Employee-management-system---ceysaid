@@ -10952,3 +10952,114 @@
 20251019	13:36:39	2865bccf-351c-4700-8c5d-b027a9005863	leave validation failed: leave_type: Path `leave_type` is required.
 20251019	13:37:18	a65d3693-d1f1-4f1b-8061-3d8fbb9fe4b6	leave validation failed: leave_type: Path `leave_type` is required.
 20251019	13:38:39	b78e36ec-e518-401e-b3d9-8b59199e76fb	leave validation failed: leave_type: Path `leave_type` is required.
+20251030	08:35:03	f726705f-69d1-432e-8fc5-d0f43c24920e	user id not found
+20251030	08:35:03	0ecf92b0-5905-4514-aa97-4cc2df714132	user id not found
+20251030	08:35:17	b238f1c4-6155-43c9-98f7-b3420888118a	user id not found
+20251030	08:35:17	1c58a7ae-bce7-445f-82e3-907cf55c5796	user id not found
+20251030	16:45:44	3a5838e6-b432-4d09-bb9d-8b96371b0801	not found /api/v1/groups/getParticipants/68c1e238db90ef9ba166f166
+20251030	16:45:44	e51a2463-bf37-4eec-8bda-b031cec1e298	not found /api/v1/groups/getParticipants/68c1e238db90ef9ba166f166
+20251030	16:46:11	458e6508-4bf0-4611-8d6f-35838a1340c2	not found /api/v1/groups/getParticipants/68c1e115db90ef9ba166f0bc
+20251030	16:46:11	fb677295-0566-4137-bcac-53b34c8a1dd0	not found /api/v1/groups/getParticipants/68c1e115db90ef9ba166f0bc
+20251030	16:46:15	c79d8616-0a96-4fd6-b2fd-24435440f3c1	not found /api/v1/groups/getParticipants/68c1e238db90ef9ba166f166
+20251030	16:46:15	c9c0385f-c712-4be9-b038-6a669d0e7293	not found /api/v1/groups/getParticipants/68c1e238db90ef9ba166f166
+20251030	16:46:17	eb058e40-b69c-441c-84fb-8d7a219b1e7f	not found /api/v1/groups/getParticipants/68c1dfc7db90ef9ba166f00d
+20251030	16:46:17	b9753837-cdad-48ef-b19c-1fe9363a0c8e	not found /api/v1/groups/getParticipants/68c1dfc7db90ef9ba166f00d
+20251030	16:47:01	211b9052-cfdf-4520-9dbb-3f9cf165b610	not found /api/v1/groups/getParticipants/68c1e115db90ef9ba166f0bc
+20251030	16:47:01	9863ff10-dc8b-4477-9633-793d80f1428a	not found /api/v1/groups/getParticipants/68c1e115db90ef9ba166f0bc
+20251030	16:47:23	1856390e-cc7b-4dde-b994-6a95a1c397b3	not found /api/v1/groups/getParticipants/68c1e238db90ef9ba166f166
+20251030	16:47:23	5710e3bf-11f0-43c5-8357-903b47ecbd19	not found /api/v1/groups/getParticipants/68c1e238db90ef9ba166f166
+20251030	16:53:19	eeda20f0-b88f-4c42-949a-7058b43fb675	not found /api/v1/groups/getParticipants/68c1e115db90ef9ba166f0bc
+20251030	16:53:23	d8d3bbc6-f660-42b2-bc77-0559d6c4fa39	not found /api/v1/groups/getParticipants/68c1e115db90ef9ba166f0bc
+20251030	16:53:23	f8e0b927-453f-4ef5-bcdc-29846147c889	not found /api/v1/groups/getParticipants/68c1e115db90ef9ba166f0bc
+20251030	16:53:47	e733d92d-b70d-4ab1-a326-262da2af24c4	not found /api/v1/groups/getParticipants/68c1e115db90ef9ba166f0bc
+20251030	16:53:47	79ce65ec-dd1a-4dd9-b4c7-e934a6c972c4	not found /api/v1/groups/getParticipants/68c1e115db90ef9ba166f0bc
+20251030	16:54:18	b998065c-1ca9-4e27-83ec-4db9548a4280	not found /api/v1/groups/getParticipants/'
+20251030	16:54:33	2627bcd9-8a1d-4c13-83d5-d9f93f25899c	not found /api/v1/groups/getParticipants/
+20251030	16:54:36	8ac1638c-162f-47b8-ab31-fe5e1ae0f046	not found /api/v1/groups/getParticipants/
+20251030	16:54:37	cc53572e-b65a-4358-8c46-396694a327cb	not found /api/v1/groups/getParticipants/
+20251030	16:54:49	e482d0ee-5865-4eca-b7a1-7a41d36af820	not found /api/v1/groups/getParticipants/
+20251030	16:54:49	e5e7ddd9-82b6-4741-bf5a-1bbae308ba35	not found /api/v1/groups/getParticipants/?groupId=68c1e115db90ef9ba166f0bc
+20251030	23:21:50	8df029e2-9b9a-4e65-ae4e-d889b653928f	user id not found
+20251030	23:21:50	53efcfd3-0498-43dc-847d-6bd7ff08c6dc	user id not found
+20251031	00:57:26	badffe6d-85ec-43f6-8f6b-7d038c7c64c0	not found /api/v1/leave/accept
+20251031	00:58:39	5ae57523-34b0-4a6f-a30b-f3f685bb1d05	not found /api/v1/leave/accept
+20251031	09:33:25	01ace1f6-600a-43a6-bd32-0cc055f572a6	Cannot read properties of undefined (reading 'user')
+20251031	09:33:25	e685b240-d26a-4288-a280-8e0d1b31189c	Cannot read properties of undefined (reading 'user')
+20251031	09:36:29	f9e10c26-1991-49fe-b4bf-9972f3f5612d	not found /api/v1/leave/leaveStat
+20251031	09:36:41	4cdc2fae-069d-4cdf-a22a-2d8609318c4e	not found /api/v1/leave/leaveStat
+20251031	09:36:52	db7cd888-cd7e-4e4c-a6f8-f10673f6978b	not found /api/v1/leave/leaveStat
+20251031	09:36:52	d8247a48-865c-4301-aed7-cc565b93429c	not found /api/v1/leave/leaveStat
+20251031	09:37:16	175b5df6-e699-424c-b634-e7cdd557a0a0	not found /api/v1/leave/leaveStat
+20251031	09:37:17	196e6685-38a2-41c1-8867-5f7710fb698d	not found /api/v1/leave/leaveStat
+20251031	09:37:23	6f2604d9-3201-4f92-9e2a-3f269f2209d5	not found /api/v1/leave/leaveStat
+20251031	09:37:23	6154a515-bc33-4cc0-a312-3f2a4c812691	not found /api/v1/leave/leaveStat
+20251102	05:19:16	4fd6eb50-adf5-4f09-a52d-87bbc0469930	not found /api/v1/leave/allData
+20251102	05:19:21	a0199fe4-5da4-4e26-9a2c-e6c729ebd4fb	not found /api/v1/leave/allData
+20251102	05:19:21	e61f79cb-c3d9-4c13-bf6b-b5e526106869	not found /api/v1/leave/allData
+20251102	05:21:24	dceae13f-08ee-4105-a659-6bb6ff6da6e7	not found /api/v1/leave/allData
+20251102	05:21:25	e3650547-c6ac-4dab-a9b9-e491da8d3b9b	not found /api/v1/leave/allData
+20251102	05:22:01	c177c970-a4c1-4397-b142-840a6c49db0a	not found /api/v1/leave/allData
+20251102	05:22:01	bd781af8-44d9-45a8-a486-36fde5022575	not found /api/v1/leave/allData
+20251102	05:22:49	264e6445-90fd-4aa9-b667-8391cdf239d8	not found /api/v1/leave/allData
+20251102	05:22:50	ea453063-c487-4ba4-9b13-8ad3470219f3	not found /api/v1/leave/allData
+20251102	06:52:38	bf4fbf13-c3c0-4955-96ec-fc59ce0ae78f	userId is not defined
+20251102	06:52:38	770c9409-3fe1-4462-a035-04a4fe993826	userId is not defined
+20251102	06:56:15	1eef3771-16f1-4c2a-bec8-daf853dae995	userId is not defined
+20251102	06:56:15	dcd1be35-d01a-40f0-b6cb-0f642ecac5cf	userId is not defined
+20251102	06:56:15	7ed53c2f-119d-4fa4-b9b3-df842a94befb	userId is not defined
+20251102	06:56:27	9a7b1ea6-3459-464b-8020-fb4048f85783	userId is not defined
+20251102	06:56:27	b9044112-e188-4b2d-bedb-9aa93419a006	userId is not defined
+20251102	06:56:27	39a78923-25d9-4eda-937c-11c219f0654f	userId is not defined
+20251102	06:56:37	764ad7cb-7313-4893-b602-516c3b58127c	userId is not defined
+20251102	06:56:37	76e3646b-03d8-4f9c-a875-9d02902b7df6	userId is not defined
+20251102	06:56:37	18504c84-03d6-4f79-bc57-282a74f72180	userId is not defined
+20251102	06:56:46	67a50bdf-80c7-4822-8d2a-f9733465e280	userId is not defined
+20251102	06:56:46	ba319cf0-5392-4fbb-aea8-4276721d0bad	userId is not defined
+20251102	06:58:52	ee169194-484e-4b1b-acbb-32994ea9000d	userId is not defined
+20251102	06:58:52	f443bc90-be25-41a2-84b9-a39e5880a183	userId is not defined
+20251102	06:59:09	1461e575-63e8-4b21-852b-f6d492ede473	userId is not defined
+20251102	06:59:09	e2378264-8a18-4719-b665-5c7833ed315f	userId is not defined
+20251102	06:59:28	0daece47-6dc3-4f7d-87a4-a58382d174fc	userId is not defined
+20251102	06:59:28	250390b5-4dc9-4c0e-acdb-a2fb99b40c18	userId is not defined
+20251102	07:00:08	e0939688-d544-4ee2-8e9d-bbc04b3dae13	userId is not defined
+20251102	07:00:08	a6b2b6d9-9fa5-4e46-a31f-c4a6d9c18987	userId is not defined
+20251102	07:01:34	594a5ec8-39af-4cb5-8739-f574a5cb0fa4	userId is not defined
+20251102	07:01:34	b167beb9-97cb-461b-9df2-75a660bb50dc	userId is not defined
+20251102	07:02:08	35239cca-35f4-421c-958c-4f36463a0fa9	userId is not defined
+20251102	07:02:08	411567a1-d4c6-4b58-b55f-415fe29674fe	userId is not defined
+20251102	07:03:31	3b5c8ef9-d25e-4e89-a42d-19f0aaf7dd18	userId is not defined
+20251102	07:03:31	6015d0a9-6346-465d-a080-f4ad9fa1ca3e	userId is not defined
+20251102	07:04:14	20fe98a7-2f89-4da2-b3b2-6f7f6ae61cf6	Assignment to constant variable.
+20251102	07:04:14	dafe8545-ec3c-4120-b011-f757835da835	Assignment to constant variable.
+20251102	07:05:15	3506cc27-c51b-4fff-a557-dd6b6f9b901d	Assignment to constant variable.
+20251102	07:05:15	7dbcfa61-4c91-499d-9da4-3a1e9b1af6f5	Assignment to constant variable.
+20251102	07:06:04	9392d41a-2f05-4c7f-a82d-d1b476e5eb1f	Assignment to constant variable.
+20251102	07:06:04	3eb020dd-b27e-455e-aa36-fa1fa6692fe7	Assignment to constant variable.
+20251102	07:06:17	9a64ab19-c43d-4cfa-9013-97140ae5f97c	Assignment to constant variable.
+20251102	07:06:17	5b8a6c40-4322-4b31-94e8-2ebfae4fb4af	Assignment to constant variable.
+20251102	07:06:38	f82e82c5-7dea-425e-8ba1-21299c5f60c9	Assignment to constant variable.
+20251102	07:06:38	59d9ca04-6c60-4d8b-a9d3-34f92811e1b0	Assignment to constant variable.
+20251102	07:08:14	7f2b5eac-f056-4289-b15a-b7e4622acd21	Assignment to constant variable.
+20251102	07:08:14	ece2a8c0-75f8-427a-a628-dc031e26f6e3	Assignment to constant variable.
+20251102	07:09:16	dcd29158-6de4-4951-b7a7-e08e565b8417	Assignment to constant variable.
+20251102	07:09:16	844d2db8-986e-442c-989e-8e5ab2cb3bd7	Assignment to constant variable.
+20251102	07:09:25	f6745ec7-931e-4201-9fce-601fa178dc65	Assignment to constant variable.
+20251102	07:09:25	f27d0ea4-15e5-4da7-977a-e263fe87daea	Assignment to constant variable.
+20251102	07:09:49	85d375af-3843-404a-89ec-81e4cd731936	Assignment to constant variable.
+20251102	07:09:49	e58e014d-ab89-4593-89da-9b8599051424	Assignment to constant variable.
+20251102	07:10:39	7c21ed17-da9d-435e-9add-671dd165e639	Assignment to constant variable.
+20251102	07:10:39	9c8e5b85-b071-4a27-8ecf-939446e2c97a	Assignment to constant variable.
+20251102	07:10:48	6783dd3b-6edd-4e1d-ae79-02974f99cc7d	Assignment to constant variable.
+20251102	07:10:48	b652ffe4-e0e6-4ebd-bc50-a88657c1b7c4	Assignment to constant variable.
+20251102	07:10:58	09a748b4-523d-4bf3-8771-2506b836b199	Assignment to constant variable.
+20251102	07:10:58	71725b20-82d0-47b3-a387-65601cfc312d	Assignment to constant variable.
+20251102	07:13:05	14682168-d6a2-4b9f-97d2-a7285c2019bb	Assignment to constant variable.
+20251102	07:13:05	a606ff34-3347-452e-901d-b40195699149	Assignment to constant variable.
+20251102	07:13:38	3c8ba78f-f03c-4d32-9ed2-a7ed4b8360bb	Assignment to constant variable.
+20251102	07:13:38	fde77c05-d590-4e75-96e3-d6b708177a88	Assignment to constant variable.
+20251102	07:14:42	f36a0b5e-cffa-433a-a09b-4335aaa66852	Assignment to constant variable.
+20251102	07:14:42	d2030fce-75de-4644-97af-e487bac2ce1f	Assignment to constant variable.
+20251102	07:15:01	791936ec-f8e4-44c9-8649-712e0b9b9b74	Assignment to constant variable.
+20251102	07:15:01	959769ab-4a54-4b0f-8603-e293e3591ff1	Assignment to constant variable.
+20251106	22:16:05	9b043e1a-db71-433d-b2a9-262db0db1f51	data and hash arguments required
+20251106	23:49:50	f674d9f2-72dc-4dd8-82a2-426cd315f2c2	UserId or password invalid

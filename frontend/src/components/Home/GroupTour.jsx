@@ -11,6 +11,7 @@ import { data } from "react-router";
 import HashLoader from "react-spinners/HashLoader";
 import EmptyData from "../../assets/images/messages/emptyData.png";
 import { AnimatePresence, motion } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
 export default function Group_Tour() {
   const [dataArray, setDataArray] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -58,9 +59,14 @@ export default function Group_Tour() {
   }
   return (
     <div className=" flex flex-col  rounded-lg ">
+      <ToastContainer />
       <div className=" flex flex-row justify-between items-center border-slate-300">
-      <div className=" text-slate-700 font-semibold pl-5">Group Tours</div>
-      <input type="text" className=" border-[1px] border-slate-300 rounded-lg p-1 px-2 ml-10 text-[14px]" placeholder="Search group tours..."/>
+        <div className=" text-slate-700 font-semibold pl-5">Group Tours</div>
+        <input
+          type="text"
+          className=" border-[1px] border-slate-300 rounded-lg p-1 px-2 ml-10 text-[14px]"
+          placeholder="Search group tours..."
+        />
       </div>
       <div className="h-[760px]  m-5 w-[500px]">
         {dataArray
@@ -68,8 +74,13 @@ export default function Group_Tour() {
           .map((elt, index) => (
             <div
               key={index}
-              className=" max-w-md mx-auto bg-white rounded-xl border-[1px] border-slate-300 md:max-w-2xl p-5 mb-3"
+              className={`relative max-w-md mx-auto bg-white rounded-xl border-[1px] border-slate-300 md:max-w-2xl p-5 mb-3 ${elt.available === 0 ? "opacity-40" : "" }`}
             >
+              {elt.available === 0 && (
+                <div className="opacity-100 absolute top-0 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                  Not Available
+                </div>
+              )}
               <div className=" flex flex-row">
                 <div
                   className="m-3"
@@ -87,7 +98,9 @@ export default function Group_Tour() {
                   <div className=" text-sm font-semibold uppercase text-slate-600">
                     {elt.name}
                   </div>
-                  <div className="mt-2 w-[95px] rounded-xl text-center bg-violet-600 text-white">{elt.country}</div>
+                  <div className="mt-2 w-[95px] rounded-xl text-center bg-violet-600 text-white">
+                    {elt.country}
+                  </div>
                   <div className="text-gray-700 flex gap-2">
                     {elt.mainCities.map((e, index) => (
                       <div key={index}>{e}</div>
@@ -112,7 +125,7 @@ export default function Group_Tour() {
                 </a>
                 <button
                   className="cursor-pointer bg-slate-700 hover:bg-white hover:text-slate-600 border-[2px] border-slate-700 text-white px-3 py-1 text-[14px] rounded ml-2 transition-all duration-300 ease-in-out"
-                  onClick={() => setSelectGroup(elt)}
+                  onClick={() => setSelectGroup(elt)} disabled={elt.available === 0}
                 >
                   Add
                 </button>
@@ -157,11 +170,30 @@ export default function Group_Tour() {
         )}
       </AnimatePresence>
 
-      {selectGroup && (
-        <div className="fixed inset-0 flex  z-222 bg-[#ffffffd2] justify-center items-center">
-          <GroupAddForm setSelectGroup={setSelectGroup} />{" "}
-        </div>
-      )}
+      <AnimatePresence>
+        {selectGroup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex justify-center items-center z-[222] bg-[#00000065]   "
+          >
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 120,
+                damping: 15,
+              }}
+              className="origin-center"
+            >
+              <GroupAddForm setSelectGroup={setSelectGroup} selectGroup={selectGroup} toast={toast} />{" "}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

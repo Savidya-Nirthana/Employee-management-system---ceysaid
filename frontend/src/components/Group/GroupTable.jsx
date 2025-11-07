@@ -11,6 +11,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import ImageZoomModel from "../Models/ImageZoomModel";
 import EditGroupModel from "../Models/EditGroupModel";
 import BeatLoader from "react-spinners/BeatLoader";
+import GroupTourParticipants from "../Models/GroupTourParticipants";
 
 const GroupTable = ({ refresh }) => {
   const [dataArray, setDataArray] = useState([]);
@@ -18,6 +19,7 @@ const GroupTable = ({ refresh }) => {
   const [selectEdit, setSelectEdit] = useState(null);
   const [itemsPerPage, setItemsPerPage] = useState(7);
   const [startIndex, setStartIndex] = useState(0);
+  const [showParticipants, setShowParticipants] = useState(false);
 
   const [selectDel, setSelectDel] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -103,6 +105,9 @@ const GroupTable = ({ refresh }) => {
                 <tr
                   key={index}
                   className="h-[50px] border-b-[1px] border-slate-300 hover:bg-slate-100 cursor-pointer text-[14px] text-slate-600"
+                  onClick={() => {
+                    setShowParticipants(elt);
+                  }}
                 >
                   <td className="text-center align-middle">{elt.name}</td>
                   <td className="text-center align-middle">{elt.country}</td>
@@ -116,7 +121,10 @@ const GroupTable = ({ refresh }) => {
                           className="w-[25px] rounded-md hovrer:scale-110 duration-300"
                           src={elt.flyer}
                           alt=""
-                          onClick={() => setSelectImage(elt.flyer)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectImage(elt.flyer);
+                          }}
                         />
                       </div>
                       <a
@@ -132,14 +140,20 @@ const GroupTable = ({ refresh }) => {
                   <td className="text-center align-middle">
                     <div className="flex gap-3 items-center justify-center">
                       <button
-                        className="text-green-700 bg-green-300 w-[100px] rounded-sm hover:text-white hover:bg-green-400 cursor-pointer"
-                        onClick={() => setSelectEdit(elt)}
+                        className="text-green-700 bg-green-300 w-[100px] rounded-sm hover:text-white hover:bg-green-400 cursor-pointer "
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectEdit(elt);
+                        }}
                       >
                         Edit
                       </button>
                       <button
                         className="text-red-700 bg-red-300 w-[100px] rounded-sm hover:text-white hover:bg-red-400 cursor-pointer"
-                        onClick={() => setSelectDel(elt)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectDel(elt);
+                        }}
                       >
                         Delete
                       </button>
@@ -233,6 +247,21 @@ const GroupTable = ({ refresh }) => {
                   <BeatLoader color="#50c5ff" loading={true} size={20} />
                 )}
               </div>
+            </motion.div>
+          </div>
+        )}
+        {showParticipants && (
+          <div className=" fixed inset-0 flex justify-center z-[222] bg-[#00000065] items-center">
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+              <GroupTourParticipants
+                setShowParticipants={setShowParticipants}
+                showParticipants={showParticipants}
+              />
             </motion.div>
           </div>
         )}

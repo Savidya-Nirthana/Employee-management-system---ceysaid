@@ -236,12 +236,12 @@ export const salesConfirmation = asyncHandler(async (req, res) => {
         .status(400)
         .json({ message: "No files provided", isError: true });
     }
-    const newLog = {
+    /*const newLog = {
       category: "confirmation",
       attachements: files,
-    };
+    };*/
 
-    const response = await SalesModel.findByIdAndUpdate(
+    /*await SalesModel.findByIdAndUpdate(
       saleId,
       {
         $push: {
@@ -252,8 +252,40 @@ export const salesConfirmation = asyncHandler(async (req, res) => {
         },
       },
       { new: true }
-    );
-    return res.status(200).json({ message: "Upload success", isError: false });
+    );*/
+
+    const sale = await SalesModel.findById(saleId);
+    if (!sale) {
+      return res.status(404).json({ message: "Sale not found", isError: true });
+    }
+
+    if (!sale.logs.acceptance || sale.logs.acceptance.length === 0) {
+      sale.logs.acceptance = [
+        {
+          category: "acceptance",
+          isText: false,
+          attachements: [],
+        },
+      ];
+    }
+
+    const confirmedUrls = files.map((file) => file.url);
+    sale.logs.acceptance[0].attachements = confirmedUrls;
+
+    sale.logs.confirmation = [];
+    sale.status = "confirm";
+
+    await sale.save();
+
+    const updatedAcceptanceFiles = sale.logs.acceptance[0].attachements;
+
+    return res
+      .status(200)
+      .json({
+        message: "Upload success",
+        isError: false,
+        updatedAcceptanceFiles,
+      });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Error", isError: true });
@@ -311,3 +343,4 @@ export const uploadaOperationFin = asyncHandler(async (req, res) => {
     console.log(e);
   }
 });
+

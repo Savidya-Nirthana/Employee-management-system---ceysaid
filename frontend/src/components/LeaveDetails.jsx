@@ -10,16 +10,60 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import { useEffect } from "react";
+import { leaveStat } from "../services/leaveService";
 
-const LeaveDetails = () => {
+const LeaveDetails = ({ selectedLeave }) => {
   const [isStat, setIsStat] = useState(false);
-  const data = [
-    { name: "Used", value: 5 },
-    { name: "Balance", value: 45 },
-    
+  const [leaveStats, setLeaveStats] = useState(null);
+  const [annualLeave, setAnnualLeave] = useState(0);
+  const [casualLeave, setCasualLeave] = useState(0);
+  const [lieuLeave, setLieuLeave] = useState(0);
+  const [pendingLieuLeave, setPendingLieuLeave] = useState(0);
+  const [pendingAnnualLeave, setPendingAnnualLeave] = useState(0);
+  const [pendingCasualLeave, setPendingCasualLeave] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await leaveStat(
+        selectedLeave ? selectedLeave.userId : null
+      );
+      setLeaveStats(response);
+      setCasualLeave(
+        response.find((l) => l.leave_type === "casual")?.approved || 0
+      );
+      setAnnualLeave(
+        response.find((l) => l.leave_type === "annual")?.approved || 0
+      );
+      setLieuLeave(
+        response.find((l) => l.leave_type === "lieu")?.approved || 0
+      );
+      setPendingCasualLeave(
+        response.find((l) => l.leave_type === "casual")?.pending || 0
+      );
+      setPendingAnnualLeave(
+        response.find((l) => l.leave_type === "annual")?.pending || 0
+      );
+      setPendingLieuLeave(
+        response.find((l) => l.leave_type === "lieu")?.pending || 0
+      );
+    };
+
+    fetchData();
+  }, []);
+  const annualdata = [
+    { name: "Used", value: annualLeave },
+    { name: "Balance", value: 14 - annualLeave },
+  ];
+  const casualdata = [
+    { name: "Used", value: casualLeave },
+    { name: "Balance", value: 14 - casualLeave },
+  ];
+  const lieudata = [
+    { name: "Used", value: lieuLeave },
+    { name: "Balance", value: 14 - lieuLeave },
   ];
 
-  const COLORS = ["#219ebc","#d6d6d6"];
+  const COLORS = ["#219ebc", "#d6d6d6"];
   return (
     <motion.div
       layout
@@ -64,23 +108,23 @@ const LeaveDetails = () => {
                 <tr>
                   <td className="py-2">Lieu leave</td>
                   <td>14.00</td>
-                  <td>14.00</td>
-                  <td>0.00</td>
-                  <td>0.00</td>
+                  <td>{14.0 - lieuLeave}</td>
+                  <td>{lieuLeave}</td>
+                  <td>{pendingLieuLeave}</td>
                 </tr>
                 <tr>
                   <td className="py-2">Annual leave</td>
                   <td>14.00</td>
-                  <td>14.00</td>
-                  <td>0.00</td>
-                  <td>0.00</td>
+                  <td>{14.0 - annualLeave}</td>
+                  <td>{annualLeave}</td>
+                  <td>{pendingAnnualLeave}</td>
                 </tr>
                 <tr>
                   <td className="py-2">Casual leave</td>
                   <td>14.00</td>
-                  <td>14.00</td>
-                  <td>0.00</td>
-                  <td>0.00</td>
+                  <td>{14.0 - casualLeave}</td>
+                  <td>{casualLeave}</td>
+                  <td>{pendingCasualLeave}</td>
                 </tr>
               </tbody>
             </motion.table>
@@ -98,15 +142,15 @@ const LeaveDetails = () => {
                   <div className="relative">
                     <div className=" absolute w-[80px]  h-[80px] bg-white rounded-full z-[1] m-auto left-0 right-0 top-0 bottom-0">
                       <div className=" flex flex-col justify-center items-center h-full">
-                        <div className=" font-semibold">14.0</div>
+                        <div className=" font-semibold">{lieuLeave}</div>
                         <div className=" w-[50px] h-[2px] bg-slate-400"></div>
-                        <div>50</div>
+                        <div>14.0</div>
                       </div>
                     </div>
                     <ResponsiveContainer width={150} height={150}>
                       <PieChart>
                         <Pie
-                          data={data}
+                          data={lieudata}
                           cx="50%"
                           cy="50%"
                           outerRadius={50}
@@ -114,7 +158,7 @@ const LeaveDetails = () => {
                           startAngle={90}
                           endAngle={-270}
                         >
-                          {data.map((entry, index) => (
+                          {lieudata.map((entry, index) => (
                             <Cell
                               key={`cell-1-${index}`}
                               fill={COLORS[index % COLORS.length]}
@@ -131,15 +175,15 @@ const LeaveDetails = () => {
                   <div className="relative">
                     <div className=" absolute w-[80px]  h-[80px] bg-white rounded-full z-[10] m-auto left-0 right-0 top-0 bottom-0">
                       <div className=" flex flex-col justify-center items-center h-full">
-                        <div className=" font-semibold">14.0</div>
+                        <div className=" font-semibold">{annualLeave}</div>
                         <div className=" w-[50px] h-[2px] bg-slate-400"></div>
-                        <div>50</div>
+                        <div>14.0</div>
                       </div>
                     </div>
                     <ResponsiveContainer width={150} height={150}>
                       <PieChart>
                         <Pie
-                          data={data}
+                          data={annualdata}
                           cx="50%"
                           cy="50%"
                           outerRadius={50}
@@ -147,7 +191,7 @@ const LeaveDetails = () => {
                           startAngle={90}
                           endAngle={-270}
                         >
-                          {data.map((entry, index) => (
+                          {annualdata.map((entry, index) => (
                             <Cell
                               key={`cell-1-${index}`}
                               fill={COLORS[index % COLORS.length]}
@@ -164,15 +208,15 @@ const LeaveDetails = () => {
                   <div className="relative">
                     <div className=" absolute w-[80px]  h-[80px] bg-white rounded-full z-[10] m-auto left-0 right-0 top-0 bottom-0">
                       <div className=" flex flex-col justify-center items-center h-full">
-                        <div className=" font-semibold">14.0</div>
+                        <div className=" font-semibold">{casualLeave}</div>
                         <div className=" w-[50px] h-[2px] bg-slate-400"></div>
-                        <div>50</div>
+                        <div>14.0</div>
                       </div>
                     </div>
                     <ResponsiveContainer width={150} height={150}>
                       <PieChart>
                         <Pie
-                          data={data}
+                          data={casualdata}
                           cx="50%"
                           cy="50%"
                           outerRadius={50}
@@ -180,7 +224,7 @@ const LeaveDetails = () => {
                           startAngle={90}
                           endAngle={-270}
                         >
-                          {data.map((entry, index) => (
+                          {casualdata.map((entry, index) => (
                             <Cell
                               key={`cell-1-${index}`}
                               fill={COLORS[index % COLORS.length]}
@@ -205,7 +249,6 @@ const LeaveDetails = () => {
                     </div>
                   </div>
                 </div>
-
               </div>
 
               <div className="">

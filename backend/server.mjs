@@ -22,7 +22,7 @@ const io = new SocketServer(server, {
     methods: ["GET", "POST"],
     credentials: true,
   },
-});
+});   
 
 export { io };
 
@@ -62,6 +62,14 @@ server.listen(process.env.PORT, () => {
   databaseConnection();
   console.log("server is running " + process.env.PORT);
 });
+
+
+
+
+
+
+
+
 
 
 

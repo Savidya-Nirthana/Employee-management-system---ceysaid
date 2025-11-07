@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+
+
+
 const leaveSchema = mongoose.Schema({
   userId: {
     type: String,
@@ -12,6 +15,11 @@ const leaveSchema = mongoose.Schema({
   leave_type: {
     type: String,
     required: true,
+  },
+  half_day: {
+    type: String,
+    enum: ["none", "first_half", "second_half"],
+    default: "none"
   },
   startDate: {
     type: Date,
@@ -32,6 +40,9 @@ const leaveSchema = mongoose.Schema({
     enum : ["pending", "approved", "rejected"],
     default: "pending"
   },
+  approvedBy : {
+    type: String
+  },
   appliedAt : {
     type: Date,
     default: Date.now
@@ -44,7 +55,13 @@ const leaveSchema = mongoose.Schema({
   timestamps: true
 });
 
+const leaveDetails = mongoose.Schema({
+  userId: { type: String, required: true },
+  leaves : [leaveSchema]
+});
 
-const LeaveModel = mongoose.model('leave', leaveSchema);
+
+
+const LeaveModel = mongoose.model('leave', leaveDetails);
 
 export default LeaveModel;

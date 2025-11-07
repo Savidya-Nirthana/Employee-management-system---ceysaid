@@ -58,3 +58,75 @@ export const groupDelete = asyncHandler(async (req, res) => {
     console.log(e);
   }
 });
+
+export const participantDocUpload = asyncHandler(async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file received" });
+    }
+    const buffer = req.file;
+    const { groupId, participantName } = req.body;
+    const folder = `groups/${groupId}/participants/${participantName}`;
+
+    const result = await uploadGroupContentMid(buffer, folder);
+    res.status(200).json({ path: result });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+export const addParticipant = asyncHandler(async (req, res) => {
+  const {
+    groupId,
+    fullName,
+    contactNo,
+    payment,
+    airTicket,
+    visa,
+    foods,
+    remarks,
+    uploadedFiles,
+  } = req.body;
+  try {
+    const { userId } = res.user.user;
+    const groupTour = await GroupTours.findById(groupId);
+    console.log(userId);
+    if (!groupTour) {
+      return res.status(404).json({ message: "Group tour not found" });
+    }
+
+    const newParticipant = {
+      userId,
+      fullName,
+      contactNo,
+      payment,
+      airTicket,
+      visa,
+      foods,
+      remarks,
+      uploadedFiles,
+    };
+    console.log(newParticipant);
+
+    groupTour.participants.push(newParticipant);
+    groupTour.available -= 1;
+    await groupTour.save();
+    res.status(201).json({ message: "Participant added successfully" });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+export const getParticipants = asyncHandler(async (req, res) => {
+  const { groupId } = req.body;
+
+  try {
+    const groupTour = await GroupTours.findById(groupId);
+    if (!groupTour) {
+      return res.status(404).json({ message: "Group tour not found" });
+    }
+    return res.status(200).json({ data: groupTour.participants });
+  } catch (e) {
+    console.log(e);
+  }
+});

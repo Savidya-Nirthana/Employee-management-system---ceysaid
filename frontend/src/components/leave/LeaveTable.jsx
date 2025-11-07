@@ -1,64 +1,32 @@
 import React, { useState, useEffect } from "react";
-
-const employeesData = [
-  {
-    id: "EMP001",
-    name: "John Micheal",
-    dept: "Accounts",
-    deptColor: "bg-green-600",
-    monthUsed: 2,
-    monthQuota: 3,
-    annualUsed: 10,
-    annualQuota: 20,
-    img: "https://i.pravatar.cc/40?img=1",
-  },
-  {
-    id: "EMP002",
-    name: "Jane Smith",
-    dept: "Sales",
-    deptColor: "bg-orange-500",
-    monthUsed: 3,
-    monthQuota: 3,
-    annualUsed: 18,
-    annualQuota: 18,
-    img: "https://i.pravatar.cc/40?img=2",
-  },
-  {
-    id: "EMP003",
-    name: "David Lee",
-    dept: "IT",
-    deptColor: "bg-blue-500",
-    monthUsed: 4,
-    monthQuota: 3,
-    annualUsed: 5,
-    annualQuota: 15,
-    img: "https://i.pravatar.cc/40?img=3",
-  },
-  {
-    id: "EMP004",
-    name: "Cane Williamson",
-    dept: "Sales",
-    deptColor: "bg-orange-500",
-    monthUsed: 1,
-    monthQuota: 3,
-    annualUsed: 22,
-    annualQuota: 22,
-    img: "https://i.pravatar.cc/40?img=4",
-  },
-];
+import { leaveData } from "../../services/leaveService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { AnimatePresence, motion } from "framer-motion";
+import EmployerPreInfo from "../Models/EmployerPreInfo";
 
 export default function LeaveTable() {
-  const [search, setSearch] = useState("");
-  const [filteredEmployees, setFilteredEmployees] = useState(employeesData);
+  const [summery, setSummery] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      const response = await leaveData();
+      setSummery(response.data);
+      console.log(summery);
+    };
+    getData();
+  }, []);
 
+  const [search, setSearch] = useState("");
+  const [filteredEmployees, setFilteredEmployees] = useState(summery);
+  const [showEmployeeInfo, setShowEmployeeInfo] = useState(null);
   useEffect(() => {
     if (!search.trim()) {
-      setFilteredEmployees(employeesData);
+      setFilteredEmployees(summery);
       return;
     }
 
     const filter = search.toLowerCase();
-    const results = employeesData.filter(
+    const results = summery.filter(
       (emp) =>
         emp.id.toLowerCase().includes(filter) ||
         emp.name.toLowerCase().includes(filter)
@@ -112,10 +80,9 @@ export default function LeaveTable() {
           </tr>
         </thead>
         <tbody className="text-slate-500 ">
-          {filteredEmployees.map((emp, index) => {
+          {summery.map((emp, index) => {
             const warning =
-              emp.monthUsed >= emp.monthQuota ||
-              emp.annualUsed >= emp.annualQuota;
+              emp.monthUsedLeave >= 3 || emp.annualUsedLeave >= 14;
 
             return (
               <tr
@@ -124,33 +91,72 @@ export default function LeaveTable() {
                   warning ? "bg-red-50 text-[14px]" : ""
                 }`}
               >
-                <td className="p-3">
+                <td className="p-3" onClick={() => setShowEmployeeInfo(emp)}>
                   <div className="flex items-center justify-center gap-2">
-                    <img
-                      src={emp.img}
-                      alt="profile"
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                    {highlightText(emp.id, search)}
+                    {emp.img ? (
+                      <img
+                        src={emp.img}
+                        alt="profile"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <FontAwesomeIcon icon={faUser} />
+                    )}
+                    {highlightText(emp.employeeId, search)}
                   </div>
                 </td>
-                <td className="p-3">{highlightText(emp.name, search)}</td>
+                <td className="p-3">
+                  {highlightText(emp.employeeName, search)}
+                </td>
                 <td className="p-3">
                   <span
-                    className={`px-3 py-1 rounded-full text-white text-sm ${emp.deptColor}`}
+                    className={`px-3 py-1 rounded-full  ${
+                      emp.department === "accounts"
+                        ? "bg-[#2e8b563c] text-[#2E8B57] font-semibold"
+                        : emp.department === "sales"
+                        ? "bg-[#e67d224c] text-[#E67E22] font-semibold"
+                        : "bg-[#3498db44] text-[#3498DB] font-semibold"
+                    }`}
                   >
-                    {emp.dept}
+                    {emp.department}
                   </span>
                 </td>
-                <td className="p-3">{emp.monthUsed}</td>
-                <td className="p-3">{emp.monthQuota}</td>
-                <td className="p-3">{emp.annualUsed}</td>
-                <td className="p-3">{emp.annualQuota}</td>
+                <td className="p-3">{emp.monthUsedLeave}</td>
+                <td className="p-3">{3}</td>
+                <td className="p-3">{emp.annualUsedLeave}</td>
+                <td className="p-3">{14}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      <AnimatePresence>
+        {showEmployeeInfo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex justify-center items-center z-[222] bg-[#00000065]"
+          >
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 120,
+                damping: 15,
+              }}
+              className="origin-center"
+            >
+              <EmployerPreInfo
+                setShowEmployeeInfo={setShowEmployeeInfo}
+                showEmployeeInfo={showEmployeeInfo}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { UIContext } from "../contexts/UIContext";
 import LeaveApplicationApp from "../components/LeaveApplicationApp";
 import LeaveTable from "../components/leave/LeaveTable";
 import ProtectedComponents from "../routes/ProtectedComponents";
+import LeavePersonList from "../components/leave/LeavePersonList";
 const Leave = () => {
   const { showNav, setShowNav } = useContext(UIContext);
   return (
@@ -18,18 +19,21 @@ const Leave = () => {
           <div>
             <div className=" flex flex-row gap-5 ">
               <div className=" flex flex-col gap-5">
-                <LeaveApplication />
-                <LeaveDetails />
+                <LeaveApplication type={"apply"} selectedLeave={null} />
+                <LeaveDetails selectedLeave={null} />
               </div>
-              <div className=" flex-1">
-                <LeaveApplicationApp />
-              </div>
+              <ProtectedComponents allowedRoles={["admin"]}>
+                <div className=" flex-1">
+                  <LeaveApplicationApp />
+                </div>
+              </ProtectedComponents>
             </div>
             <ProtectedComponents allowedRoles={["admin"]}>
               <div className=" my-6">
                 <LeaveTable />
               </div>
             </ProtectedComponents>
+            <LeavePersonList />
           </div>
         </div>
       </div>

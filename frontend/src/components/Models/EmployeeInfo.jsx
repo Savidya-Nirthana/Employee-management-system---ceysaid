@@ -6,6 +6,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import ImageZoomModel from "./ImageZoomModel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { AnimatePresence, motion } from "framer-motion";
 const EmployeeInfo = (props) => {
   const { userId, type, user, setUser, setIsEdit } = props;
   const [imageUrl, setImageUrl] = useState(null);
@@ -15,7 +16,6 @@ const EmployeeInfo = (props) => {
   const [profileHover, setProfileHover] = useState(null);
   const [selectImageUrl, setSelectImageUrl] = useState(null);
 
-  const baseUrl = `${import.meta.env.VITE_BASE_URL}`;
   useEffect(() => {
     const getUser = async () => {
       const data = await getPermRegUser(userId);
@@ -600,13 +600,23 @@ const EmployeeInfo = (props) => {
             </div>
           </div>
         </form>
-        {selectImageUrl && (
-          <ImageZoomModel
-            imageUrl={selectImageUrl}
-            isOpen={selectImageUrl}
-            setIsOpen={setSelectImageUrl}
-          />
-        )}
+        <AnimatePresence>
+          {selectImageUrl && (
+            <div className="fixed inset-0  flex justify-center bg-[#353535d2] py-20 overflow-y-scroll scroll-auto">
+              <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}>
+                <ImageZoomModel
+                  imageUrl={selectImageUrl}
+                  isOpen={selectImageUrl}
+                  setIsOpen={setSelectImageUrl}
+                />
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </>
     ) : (
       <div className=" flex items-center justify-center w-[500px] h-[500px]">
