@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,6 +16,7 @@ const Horizontal = () => {
   const [navDrop, setNavDrop] = useState(false);
   const { showNav, setShowNav } = useContext(UIContext);
   const navRef = useRef(null);
+  const location = useLocation();
   useEffect(() => {
     const handleResize = () => setWinWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -33,6 +34,17 @@ const Horizontal = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const getPageName = () => {
+    const path = location.pathname.toLowerCase();
+    if (path === "/dashboard" || path === "/dashboard/") return "HOME";
+    if (path.includes("employers")) return "EMPLOYERS";
+    if (path.includes("group")) return "GROUP TOURS";
+    if (path.includes("leave")) return "LEAVE";
+    if (path.includes("password-reset")) return "PASSWORD RESET";
+    if (path.includes("profile")) return "PROFILE";
+    return "DASHBOARD";
+  };
 
   return (
     <div className="">
@@ -53,7 +65,7 @@ const Horizontal = () => {
             className=" text-slate-50  bg-[#023047] py-2 px-3 rounded-sm cursor-pointer"
             onClick={() => setShowNav(!showNav)}
           />
-          <div className=" text-[13px]">HOME / EMPLOYERS</div>
+          <div className=" text-[13px]">{getPageName()}</div>
         </div>
         <div>
           <div
