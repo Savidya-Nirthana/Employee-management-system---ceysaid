@@ -43,6 +43,7 @@ const Horizontal = () => {
     if (path.includes("leave")) return "LEAVE";
     if (path.includes("password-reset")) return "PASSWORD RESET";
     if (path.includes("profile")) return "PROFILE";
+    if (path.includes("profit")) return "PROFIT";
     return "DASHBOARD";
   };
 

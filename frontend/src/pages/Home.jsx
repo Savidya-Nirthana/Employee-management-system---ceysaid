@@ -10,6 +10,7 @@ import AllSales from "../components/Home/AllSales";
 import PendingSales from "../components/Home/PendingSales";
 import SalesApproval from "../components/Home/SalesApproval";
 import OperationnApproval from "../components/Home/OperationApproval";
+import Processing from "../components/Home/Processing";
 const Home = () => {
   const [refresh, setRefresh] = useState(false);
   const { showNav, scrollOff } = useContext(UIContext);
@@ -60,6 +61,10 @@ const Home = () => {
             <GroupTour />
           </div>
           <OperationnApproval />
+        </ProtectedComponents>
+
+        <ProtectedComponents allowedRoles={["accounts", "operation", "admin"]}>
+          <Processing />
         </ProtectedComponents>
       </div>
     </div>

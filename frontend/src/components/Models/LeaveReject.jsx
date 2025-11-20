@@ -10,7 +10,7 @@ import {
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { leaveAccept } from "../../services/leaveService";
+import { leaveAccept, rejectLeave } from "../../services/leaveService";
 const LeaveReject = ({
   showComment,
   setShowComment,
@@ -20,8 +20,12 @@ const LeaveReject = ({
   update,
   setUpdate,
   setSelectedLeave,
+  refresh,
+  setRefresh,
 }) => {
   const [showLeaveBalance, setShowLeaveBalance] = useState(false);
+  const [showReject, setShowReject] = useState(false);
+  const [comment, setComment] = useState(null);
   const slideVariants = {
     hidden: { width: 0, opacity: 0 },
     visible: {
@@ -42,8 +46,27 @@ const LeaveReject = ({
     },
   };
 
+  const applyReject = async () => {
+    const response = await rejectLeave(selectedLeave, comment);
+    if (!response.error) {
+      // setShowReject(null);
+      // setShowComment(false);
+      // setShowLeaveBalance(false);
+      // setSelectedLeave(null);
+      toast.success(response.message);
+
+      setShowReject(false);
+      setShowDetails(false);
+      setTimeout(() => {
+        setRefresh((prev) => !prev);
+      }, 300);
+    } else {
+      toast.error("not found");
+    }
+  };
+
   const handleAccept = async () => {
-    const response = await leaveAccept(selectedLeave._id);
+    const response = await leaveAccept(selectedLeave.leaveId);
     if (response.error) {
       toast.error(response.message);
     } else {
@@ -118,13 +141,17 @@ const LeaveReject = ({
                   type="text"
                   placeholder="Add comments for rejection"
                   className="w-full border border-gray-300 rounded-md p-2 mt-4"
+                  onChange={(e) => setComment(e.target.value)}
                 />
                 <div className=" flex flex-row gap-5">
-                  <button className="bg-blue-500 text-white px-4 py-1 rounded-[4px] mt-2">
+                  <button
+                    className="bg-indigo-400 text-white px-4 py-1 rounded-[4px] mt-2 transition-all duration-300 hover:bg-indigo-500 cursor-pointer"
+                    onClick={() => setShowReject(true)}
+                  >
                     Submit
                   </button>
                   <button
-                    className="bg-gray-500 text-white px-4 py-1 rounded-[4px] mt-2 "
+                    className="bg-red-500 text-white px-4 py-1 rounded-[4px] mt-2  cursor-pointer transition-all duration-300 hover:bg-red-600"
                     onClick={() => setShowComment(false)}
                   >
                     Close
@@ -138,20 +165,62 @@ const LeaveReject = ({
         {!showComment && (
           <div className=" mt-5 flex justify-end">
             <button
+              className=" bg-indigo-400 text-white px-4 py-1 rounded-[4px] mr-5 cursor-pointer transition-all duration-300 hover:bg-indigo-500"
+              onClick={handleAccept}
+            >
+              Approve
+            </button>
+            <button
               className=" bg-red-500 text-white px-4 py-1 rounded-[4px] transition-all duration-300 hover:bg-red-600 cursor-pointer"
               onClick={() => setShowComment(true)}
             >
               Reject
             </button>
-            <button
-              className=" bg-indigo-400 text-white px-4 py-1 rounded-[4px] ml-2 cursor-pointer transition-all duration-300 hover:bg-indigo-500"
-              onClick={handleAccept}
-            >
-              Approve
-            </button>
           </div>
         )}
       </div>
+      <AnimatePresence>
+        {showReject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex justify-center items-center z-[222] bg-[#00000065]"
+          >
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 120,
+                damping: 15,
+              }}
+              className="origin-center"
+            >
+              <div className=" w-[400px] h-[100px] flex flex-col bg-white text-[20px] justify-center items-center gap-2">
+                <div>Are sure want to reject leave?</div>
+                <div className=" flex justify-center gap-10 text-[16px]">
+                  <button
+                    className=" text-red-500 bg-red-300 w-[100px] rounded-sm py-1 hover:text-red-50 hover:bg-red-600 transition-all duration-300"
+                    onClick={applyReject}
+                  >
+                    Reject
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowReject(false);
+                    }}
+                    className=" bg-gray-400 text-gray-600 w-[100px] py-1 rounded-sm font-bold hover:bg-gray-700 cursor-pointer transition-all duration-300 hover:text-gray-50"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

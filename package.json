@@ -2,5 +2,8 @@
   "dependencies": {
     "node-cron": "^4.1.1",
     "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^54.0.7"
   }
 }

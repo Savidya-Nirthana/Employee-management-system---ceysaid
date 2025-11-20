@@ -191,3 +191,63 @@ export const uploadFilesFin = async (files, name, subject) => {
     console.log(error);
   }
 };
+
+export const salesCompleteness = async (
+  urls,
+  saleId,
+  category,
+  assignedUser
+) => {
+  try {
+    const response = await API.post(
+      `${BASE_URL}/updateUrls`,
+      { urls, saleId, category, assignedUser },
+      {
+        withCredentials: true,
+      }
+    );
+    return { message: response.data.message, isError: false };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getProcess = async () => {
+  try {
+    const response = await API.post(
+      `${BASE_URL}/getProcess`,
+      {},
+      { withCredentials: true }
+    );
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const setComplete = async (saleId) => {
+  try {
+    const response = await API.post(
+      `${BASE_URL}/setComplete`,
+      { saleId },
+      { withCredentials: true }
+    );
+    return { isError: false, message: response.data.message };
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const userStat = async () => {
+  try {
+    const response = await API.post(
+      `${BASE_URL}/getStat`,
+      {},
+      { withCredentials: true }
+    );
+
+    return response.data.data;
+  } catch (e) {
+    console.log(e);
+  }
+};

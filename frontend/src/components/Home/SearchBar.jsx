@@ -244,10 +244,22 @@ const SearchBar = ({ refresh, data, search, setSearch, searchBy }) => {
                     Approved
                   </li>
                   <li
-                    onClick={() => filterHandler("activeStatus", "review")}
-                    className=" bg-slate-100 px-3 rounded-md text-slate-800 cursor-pointer py-1"
+                    onClick={() => filterHandler("activeStatus", "confirm")}
+                    className="px-3 rounded-md bg-yellow-300 text-white cursor-pointer py-1"
                   >
-                    Review
+                    Confirm
+                  </li>
+                  <li
+                    onClick={() => filterHandler("activeStatus", "completed")}
+                    className="px-3 rounded-md bg-green-300 text-green-700 cursor-pointer py-1"
+                  >
+                    Completed
+                  </li>
+                  <li
+                    onClick={() => filterHandler("activeStatus", "processing")}
+                    className="px-3 rounded-md bg-blue-300 text-blue-700 cursor-pointer py-1"
+                  >
+                    Processing
                   </li>
                 </ul>
               </div>

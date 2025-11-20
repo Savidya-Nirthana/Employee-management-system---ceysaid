@@ -24,7 +24,7 @@ const OperationApproval = () => {
   };
 
   const [startIndex, setStartIndex] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(9);
 
   const nextPage = () => {
     if (startIndex + itemsPerPage < approvedData.length) {
@@ -49,7 +49,7 @@ const OperationApproval = () => {
   });
 
   return (
-    <div className="px-4 rounded-[10px] border-[1px]  border-slate-300 mx-5 h-[900px] my-5">
+    <div className="px-4 rounded-[10px] border-[1px]  border-slate-300 mx-5 h-[900px] my-5 relative">
       <div className="  rounded-t-[10px] p-[5px] flex flex-row justify-start items-center gap-2">
         <h2 className=" text-xl font-semibold  text-slate-500 m-3 ">Approved</h2>
         <FontAwesomeIcon icon={faThumbsUp} className=" text-slate-500  text-xl" />
@@ -114,7 +114,7 @@ const OperationApproval = () => {
             </tbody>
           </table>
         </div>
-        <div className=" flex m-auto w-[70px] justify-around text-[#219ebc] h-[100px] z-[0]">
+        <div className=" flex m-auto w-[70px] justify-around text-[#219ebc] h-[100px] z-[0] absolute left-0 right-0 bottom-0">
           <button disabled={startIndex === 0} className=" disabled:opacity-50">
             <FontAwesomeIcon
               icon={faChevronCircleLeft}

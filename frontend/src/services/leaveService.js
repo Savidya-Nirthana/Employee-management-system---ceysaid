@@ -37,6 +37,7 @@ export const fetchLeaves = async () => {
 
 export const leaveAccept = async (leaveId) => {
   try {
+    console.log(leaveId);
     const response = await API.post(
       `${BASE_URL}/accept`,
       { leaveId },
@@ -82,14 +83,28 @@ export const leaveData = async () => {
   }
 };
 
-export const leaveUserDetails = async () => {
+export const leaveUserDetails = async (showLeaveDetails) => {
   try {
+    console.log(showLeaveDetails);
     const response = await API.post(
       `${BASE_URL}/getUserData`,
-      {},
+      { showLeaveDetails },
       { withCredentials: true }
     );
-    return response;
+    return response.data.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const rejectLeave = async (selectedLeave, comment) => {
+  try {
+    const response = await API.post(
+      `${BASE_URL}/rejectLeave`,
+      { selectedLeave, comment },
+      { withCredentials: true }
+    );
+    return { message: response.data.message, error: false };
   } catch (e) {
     console.log(e);
   }

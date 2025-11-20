@@ -279,13 +279,11 @@ export const salesConfirmation = asyncHandler(async (req, res) => {
 
     const updatedAcceptanceFiles = sale.logs.acceptance[0].attachements;
 
-    return res
-      .status(200)
-      .json({
-        message: "Upload success",
-        isError: false,
-        updatedAcceptanceFiles,
-      });
+    return res.status(200).json({
+      message: "Upload success",
+      isError: false,
+      updatedAcceptanceFiles,
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Error", isError: true });
@@ -344,3 +342,79 @@ export const uploadaOperationFin = asyncHandler(async (req, res) => {
   }
 });
 
+export const pushUrls = asyncHandler(async (req, res) => {
+  try {
+    const { saleId, urls, category, assignedUser } = req.body;
+    const sales = await SalesModel.findByIdAndUpdate(
+      saleId,
+      {
+        $push: {
+          "logs.processing": {
+            type: category,
+            attachements: urls,
+            assingnedUser: assignedUser,
+          },
+        },
+        $set: {
+          status: "processing",
+        },
+      },
+      { new: true }
+    );
+
+    res.status(200).json({ message: "submintted successfully" });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+export const getProcessData = asyncHandler(async (req, res) => {
+  try {
+    const { userId } = res.user.user;
+    const sales = await SalesModel.find({
+      "logs.processing.assingnedUser": userId,
+      status: "processing",
+    });
+    console.log(sales);
+    res.status(200).json({ data: sales });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+export const setComplete = asyncHandler(async (req, res) => {
+  try {
+    const { saleId } = req.body;
+    const sale = await SalesModel.findByIdAndUpdate(
+      saleId,
+      { status: "completed" },
+      { new: true }
+    );
+
+    res.status(200).json({ massage: "success" });
+  } catch (e) {
+    res.status(500).json({ message: "internal server Error" });
+  }
+});
+
+export const userState = asyncHandler(async (req, res) => {
+  try {
+    const { userId } = res.user.user;
+    const result = await SalesModel.aggregate([
+      {
+        $match: {
+          userId: userId,
+        },
+      },
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    return res.status(200).json({ data: result });
+  } catch (e) {
+    console.log(e);
+  }
+});

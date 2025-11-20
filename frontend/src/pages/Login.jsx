@@ -10,15 +10,29 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../contexts/AuthContext.jsx";
+import { motion, AnimatePresence } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const navigate = useNavigate();
   const { setUser, setIsLogin } = useContext(AuthContext);
   const [userId, setUserId] = useState(null);
   const [password, setPassword] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   const loginHandle = async (e) => {
     e.preventDefault();
+    if (!userId && !password) {
+      toast.error("Please enter your UserID and Password!");
+      return;
+    } else if (!userId) {
+      toast.error("UserID is required!");
+      return;
+    } else if (!password) {
+      toast.error("Password is required!");
+      return;
+    }
     try {
       const response = await login(userId, password);
       if (response.status === 200) {
@@ -34,11 +48,11 @@ const Login = () => {
         setIsLogin(true);
         navigate("/dashboard");
       } else {
-        toast.error(response.message);
+        toast.error(response.message || "Invalid credentials!");
       }
     } catch (err) {
       console.error(err);
-      toast.error("Login failed. Please try again.");
+      toast.error("UserID or passward invalid.");
     }
   };
 
@@ -90,11 +104,49 @@ const Login = () => {
             </form>
             <div>
               Lost password?{" "}
-              <span className=" text-blue-700 underline">Click here!</span>
+              <span
+                className="text-blue-700 underline cursor-pointer"
+                onClick={() => setShowPopup(true)}
+              >
+                Click here!
+              </span>
             </div>
           </div>
         </div>
       </div>
+      <AnimatePresence>
+        {showPopup && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex justify-center items-center bg-[#00000080] z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-lg p-6 w-[450px] text-center shadow-lg relative"
+            >
+              <p className="text-gray-700 font-medium mb-4">
+                Please contact the admin for password assistance.
+              </p>
+              <button
+                onClick={() => setShowPopup(false)}
+                className="mt-2 px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700"
+              >
+                OK
+              </button>
+              <FontAwesomeIcon
+                icon={faCircleXmark}
+                onClick={() => setShowPopup(false)}
+                className="absolute top-2 right-2 text-gray-500 hover:text-red-500 cursor-pointer"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

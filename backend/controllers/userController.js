@@ -28,8 +28,9 @@ export const register = asyncHandler(async (req, res) => {
   } = await req.body.data;
 
   const isExists = await tempEmployer.findOne({ userId: userId });
+  const isExistsIntPerm = await PermenentUser.findOne({ userId: userId });
 
-  if (isExists) {
+  if (isExists || isExistsIntPerm) {
     res.status(400);
     throw new Error("User already exists");
   }
@@ -116,7 +117,6 @@ export const getUser = asyncHandler(async (req, res) => {
 });
 
 export const getPermUser = asyncHandler(async (req, res) => {
-  console.log(res.user);
   res.status(200);
   res.json(res.user);
   return res.user;
@@ -337,7 +337,6 @@ export const getProfileImage = asyncHandler(async (req, res) => {
 
 export const applyChanges = asyncHandler(async (req, res) => {
   const { user } = await req.body;
-  console.log(user.corporateDetails.corporateTitle);
   try {
     const userReg = await PermenentUser.findOneAndUpdate(
       { userId: user.userId },
@@ -355,7 +354,6 @@ export const applyChanges = asyncHandler(async (req, res) => {
       }
     );
     if (userReg) {
-      console.log(userReg.corporateDetails.corporateTitle);
       res.status(200).json({ message: "User update successfull" });
     }
   } catch (error) {
@@ -393,3 +391,5 @@ export const changePassword = asyncHandler(async (req, res) => {
     throw new Error("Password change failed");
   }
 });
+
+

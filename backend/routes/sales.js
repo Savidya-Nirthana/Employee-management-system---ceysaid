@@ -15,6 +15,10 @@ import {
   getConfirmedFiles,
   getOperationPersons,
   uploadaOperationFin,
+  pushUrls,
+  getProcessData,
+  setComplete,
+  userState,
 } from "../controllers/salesController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import multer from "multer";
@@ -42,4 +46,8 @@ router.post(
   upload.array("files"),
   uploadaOperationFin
 );
+router.post("/updateUrls", protect, pushUrls);
+router.post("/getProcess", protect, getProcessData);
+router.post("/setComplete", protect, setComplete);
+router.post("/getStat", protect, userState);
 export default router;

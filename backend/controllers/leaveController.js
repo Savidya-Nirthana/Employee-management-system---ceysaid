@@ -62,15 +62,19 @@ export const fetchLeaves = asyncHandler(async (req, res) => {
         $project: {
           _id: 0,
           leaveId: "$leaves._id",
+          year: "$leaves.year",
           userId: "$employee.userId",
           fullName: "$employee.fullName",
           img: "$employee.attachments.employeeImage",
           department: "$employee.corporateDetails.department",
           startDate: "$leaves.startDate",
           endDate: "$leaves.endDate",
-          leaveType: "$leaves.leave_type",
+          leave_type: "$leaves.leave_type",
           reason: "$leaves.reason",
           status: "$leaves.status",
+          half_day: "$leaves.half_day",
+          comments: "$leaves.comments",
+          reject: "$leaves.reject",
         },
       },
     ]);
@@ -82,6 +86,7 @@ export const fetchLeaves = asyncHandler(async (req, res) => {
 
 export const leaveAccept = asyncHandler(async (req, res) => {
   const { leaveId } = req.body;
+  console.log(leaveId);
   const { userId } = res.user.user;
   console.log("Approving leave by user:", userId);
   try {
@@ -243,9 +248,46 @@ export const getAll = asyncHandler(async (req, res) => {
   }
 });
 
-export const getLeaveData = asyncHandler(() => {
+export const getLeaveData = asyncHandler(async (req, res) => {
   try {
-    console.log("clicked");
+    // const empId = req.body.showLeaveDetails.employeeId;
+    const empId = req.body.showLeaveDetails;
+    const { userId } = res.user.user;
+    let user;
+    if (empId) {
+      user = await LeaveModel.findOne({ userId: empId.employeeId });
+    } else {
+      user = await LeaveModel.findOne({ userId: userId });
+    }
+    return res.status(200).json({ data: user.leaves });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+export const rejectLeave = asyncHandler(async (req, res) => {
+  try {
+    const { comment, selectedLeave } = req.body;
+    const leaveId = selectedLeave.leaveId;
+    const updatedLeave = await LeaveModel.findOneAndUpdate(
+      { "leaves._id": leaveId },
+      {
+        $set: {
+          "leaves.$.status": "rejected",
+          "leaves.$.reject": comment,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedLeave) {
+      console.log("not found");
+      return res.status(404).json({ message: "Leave not found" });
+    }
+
+    res.status(200).json({
+      message: "Leave rejected successfully",
+    });
   } catch (e) {
     console.log(e);
   }

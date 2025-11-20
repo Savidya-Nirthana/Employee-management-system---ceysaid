@@ -15,9 +15,11 @@ import DashLayout from "./layouts/DashLayout.jsx";
 import { AuthContext } from "./contexts/AuthContext.jsx";
 import ProtectedRoutes from "./routes/ProtectedRoutes.jsx";
 import GroupTours from "./pages/GroupTours.jsx";
+import Profit from "./pages/Profits.jsx";
 
 function App() {
-  const { user, setUser, isLogin, setIsLogin, refresh } = useContext(AuthContext); 
+  const { user, setUser, isLogin, setIsLogin, refresh } =
+    useContext(AuthContext);
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -68,7 +70,15 @@ function App() {
             path="group"
             element={
               <ProtectedRoutes allowedRoles={["admin", "operation"]}>
-                <GroupTours/>
+                <GroupTours />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="profit"
+            element={
+              <ProtectedRoutes allowedRoles={["admin", "operation"]}>
+                <Profit />
               </ProtectedRoutes>
             }
           />

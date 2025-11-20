@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Countries } from "../../data/countries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faClose, faKeyboard } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartPlus,
+  faClose,
+  faKeyboard,
+} from "@fortawesome/free-solid-svg-icons";
 import { addSales } from "../../services/salesservices";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -161,7 +165,7 @@ const SalesTeamForm = ({ setRefresh }) => {
                   placeholder={
                     contactMethod === "phone" ? "Phone number" : "Email"
                   }
-                  required 
+                  required
                 />
               )}
             </div>
@@ -246,7 +250,8 @@ const SalesTeamForm = ({ setRefresh }) => {
                     setCountry(country);
                   }}
                 >
-                  <FontAwesomeIcon icon={faKeyboard}/><div>{country}</div>
+                  <FontAwesomeIcon icon={faKeyboard} />
+                  <div>{country}</div>
                 </div>
               </div>
             )}
@@ -339,6 +344,7 @@ const SalesTeamForm = ({ setRefresh }) => {
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               placeholder="Adults"
               required
+              min="0"
             />
             <input
               type="number"
@@ -349,6 +355,7 @@ const SalesTeamForm = ({ setRefresh }) => {
               className="flex-1 border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               placeholder="Children"
+              min="0"
             />
             <input
               type="number"
@@ -359,6 +366,7 @@ const SalesTeamForm = ({ setRefresh }) => {
               className="flex-1 border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out 
              focus:border-slate-600 focus:ring-2 focus:ring-blue-300"
               placeholder="Infants"
+              min="0"
             />
           </div>
         </div>
@@ -391,6 +399,11 @@ const SalesTeamForm = ({ setRefresh }) => {
               onChange={(e) => setTravelStartDate(e.target.value)}
               className="border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
               required
+              min={
+                new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+                  .toISOString()
+                  .split("T")[0]
+              }
             />
           </div>
           <div className="flex-col flex flex-1">
@@ -406,6 +419,7 @@ const SalesTeamForm = ({ setRefresh }) => {
               className="border-[1px] border-slate-300 py-2 rounded-lg px-2 outline-none  placeholder:text-slate-600  text-slate-600 transition-all duration-300 ease-in-out focus:border-slate-600 focus:ring-2 focus:ring-blue-300 w-full"
               placeholder="Number of days"
               required
+              min="0"
             />
           </div>
         </div>
@@ -427,7 +441,7 @@ const SalesTeamForm = ({ setRefresh }) => {
           <input
             type="submit"
             value="Submit"
-            className="bg-white text-slate-600 px-4 py-2 text-[14px] rounded-sm cursor-pointer border-[1px] border-slate-600 
+            className="text-white bg-slate-600 px-4 py-2 text-[14px] rounded-sm cursor-pointer border-[1px] border-slate-600 
            hover:bg-slate-700 hover:text-white hover:border-white 
            transition-all duration-300 ease-in-out"
           />

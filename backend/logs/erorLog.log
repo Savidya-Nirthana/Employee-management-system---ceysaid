@@ -11063,3 +11063,38 @@
 20251102	07:15:01	959769ab-4a54-4b0f-8603-e293e3591ff1	Assignment to constant variable.
 20251106	22:16:05	9b043e1a-db71-433d-b2a9-262db0db1f51	data and hash arguments required
 20251106	23:49:50	f674d9f2-72dc-4dd8-82a2-426cd315f2c2	UserId or password invalid
+20251114	23:22:47	79e7a92b-9e2c-432d-8391-191ef0c10bc0	not found /
+20251114	23:22:47	1216a1ef-a633-4bd1-8d8e-2c8e249fc5e1	not found /favicon.ico
+20251114	23:29:02	970f7067-e18d-4518-9f0d-791356627964	not found /api/v1
+20251114	23:30:22	06d61087-ef9a-4a10-a59e-bae8e0fe79d5	UserId or password invalid
+20251114	23:31:10	5f95c277-e5ca-4a55-8995-f0429ebec111	Expected property name or '}' in JSON at position 7 (line 2 column 5)
+20251114	23:47:44	da89ad22-0533-4178-9287-6b25bf3cc031	data and hash arguments required
+20251115	08:35:40	e245a04c-7d07-45fe-b239-66b99a40225f	UserId or password invalid
+20251115	15:08:11	88248b86-8795-4e86-8db3-26b74e793b90	user id not found
+20251115	15:08:11	f87dd6a7-0b49-4df4-a5fd-828a680cedbf	user id not found
+20251116	01:56:00	99c6ad69-a826-4b0f-b7ed-95bfcdd317b6	UserId or password invalid
+20251116	02:02:50	2f45a135-528f-4c87-a7ea-2a6867ec12e7	UserId or password invalid
+20251117	15:37:14	e1f526cc-0b37-4352-84e2-02f21a7f1858	not found /api/v1/sales/getStat
+20251117	15:37:14	7e8fd626-ce23-4c3c-b5d6-89da747a2a74	not found /api/v1/sales/getStat
+20251117	17:26:21	327dc02b-9837-4219-90c0-841d83150f6a	not found /api/v1/profit/getAddProfit
+20251117	17:27:08	e5c1eeff-4a0e-4620-9b33-4be8d69321cc	not found /api/v1/profit/getAddProfit
+20251117	17:27:08	74e4b2e5-255c-4576-82a3-1d17ab5776bb	not found /api/v1/profit/getAddProfit
+20251117	17:28:13	a664bfd2-7cf8-4cb1-8fc2-398b7dff136c	not found /api/v1/profit/getAddProfit
+20251117	17:28:13	33f1cfad-3121-4022-b6b0-280c7259eed9	not found /api/v1/profit/getAddProfit
+20251117	17:29:58	88c947df-9fc5-4465-aa80-8d787702ae2c	not found /api/v1/profit/getAddProfit
+20251117	17:29:58	ba1cb258-9f42-48da-8df3-c0f0df69b949	not found /api/v1/profit/getAddProfit
+20251117	17:30:29	ed264e32-a132-45c7-bf7b-b377628f4642	not found /api/v1/profit/getAddProfit
+20251117	17:30:29	82258fe9-5e80-4bfd-aeef-b9f7c04a98b2	not found /api/v1/profit/getAddProfit
+20251117	17:33:38	3f0b1026-a30e-4488-84f7-1b811627cd53	not found /api/v1/profit/getAddProfit
+20251117	17:33:38	fee1a336-bad1-4b78-9829-7d04381406b4	not found /api/v1/profit/getAddProfit
+20251118	03:08:56	e121a654-4785-473c-ae58-67de1be7c99e	UserId or password invalid
+20251119	08:19:38	8a89ac75-be24-4d29-9205-de3a868b679e	User already exists
+20251119	21:23:12	41c62b3b-3ecc-4c13-9318-5f54938c6e52	UserId or password invalid
+20251119	21:23:26	c36680ab-69f3-4e32-87c9-9ee36d4114e2	UserId or password invalid
+20251119	21:30:10	5b28ce17-9a60-4806-a13f-ca6d451683a7	UserId or password invalid
+20251119	22:23:34	19b0c556-9c2e-44f6-9247-a3435f326f77	user id not found
+20251120	08:20:19	9938288e-b4a6-43ae-828a-9010281397af	e is not defined
+20251120	08:20:20	291ace87-130f-47fa-ba04-e64927793468	user id not found
+20251120	08:20:56	2639281f-c0c6-496b-a7a3-d0e16cdef3ca	user id not found
+20251120	08:30:54	edf02a7c-c8fd-4840-b28e-4bcc9e5b6d31	UserId or password invalid
+20251120	08:53:01	7b32be95-4a91-4042-bde4-b2bee24029dd	UserId or password invalid

@@ -1,67 +1,68 @@
 import mongoose from "mongoose";
 
-
-
-
-const leaveSchema = mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
+const leaveSchema = mongoose.Schema(
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
+    year: {
+      type: String,
+      required: true,
+    },
+    leave_type: {
+      type: String,
+      required: true,
+    },
+    half_day: {
+      type: String,
+      enum: ["none", "first_half", "second_half"],
+      default: "none",
+    },
+    startDate: {
+      type: Date,
+      required: true,
+    },
+    endDate: {
+      type: Date,
+      required: true,
+    },
+    reason: {
+      type: String,
+    },
+    comments: {
+      type: String,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+    },
+    approvedBy: {
+      type: String,
+    },
+    appliedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    approvedBy: {
+      type: String,
+    },
+    reject: {
+      type: String,
+      default: null,
+    },
   },
-  year: {
-    type: String,
-    required: true,
-  },
-  leave_type: {
-    type: String,
-    required: true,
-  },
-  half_day: {
-    type: String,
-    enum: ["none", "first_half", "second_half"],
-    default: "none"
-  },
-  startDate: {
-    type: Date,
-    required: true,
-  },
-  endDate: {
-    type: Date,
-    required: true,
-  },
-  reason: {
-    type: String,
-  },
-  comments : {
-    type: String
-  },
-  status : {
-    type: String,
-    enum : ["pending", "approved", "rejected"],
-    default: "pending"
-  },
-  approvedBy : {
-    type: String
-  },
-  appliedAt : {
-    type: Date,
-    default: Date.now
-  }, 
-  approvedBy : {
-    type: String
+  {
+    timestamps: true,
   }
-},
-{
-  timestamps: true
-});
+);
 
 const leaveDetails = mongoose.Schema({
   userId: { type: String, required: true },
-  leaves : [leaveSchema]
+  leaves: [leaveSchema],
 });
 
-
-
-const LeaveModel = mongoose.model('leave', leaveDetails);
+const LeaveModel = mongoose.model("leave", leaveDetails);
 
 export default LeaveModel;

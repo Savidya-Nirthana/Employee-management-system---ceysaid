@@ -13,7 +13,7 @@ import {
 import { useEffect } from "react";
 import { leaveStat } from "../services/leaveService";
 
-const LeaveDetails = ({ selectedLeave }) => {
+const LeaveDetails = ({ selectedLeave, refresh }) => {
   const [isStat, setIsStat] = useState(false);
   const [leaveStats, setLeaveStats] = useState(null);
   const [annualLeave, setAnnualLeave] = useState(0);
@@ -49,7 +49,7 @@ const LeaveDetails = ({ selectedLeave }) => {
     };
 
     fetchData();
-  }, []);
+  }, [refresh]);
   const annualdata = [
     { name: "Used", value: annualLeave },
     { name: "Balance", value: 14 - annualLeave },

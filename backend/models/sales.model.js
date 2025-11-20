@@ -5,8 +5,6 @@ const fileSchema = new mongoose.Schema({
   name: { type: String, required: true },
 });
 
-
-
 const OperationAcceptance = mongoose.Schema({
   category: {
     type: String,
@@ -69,19 +67,25 @@ const OperationConfirmation = mongoose.Schema({
   },
 });
 
-  const opProcessing = mongoose.Schema({
+const opProcessing = mongoose.Schema({
   category: {
     type: String,
     default: "processing",
+  },
+  assingnedUser: {
+    type: String,
+    required: true,
   },
   type: {
     type: String,
     required: true,
   },
-  attachements: {
-    name: { type: String, required: true },
-    url: { type: String, required: true },
-  },
+  attachements: [
+    {
+      name: { type: String, required: true },
+      files: [{ type: String, required: true }],
+    },
+  ],
 });
 
 const salesSchema = mongoose.Schema(

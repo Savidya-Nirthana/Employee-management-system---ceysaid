@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Upload } from "lucide-react";
 import LoadingModal from "../Models/LoadingModel.jsx";
 
-const AddGroupTours = ({setRefresh}) => {
+const AddGroupTours = ({ setRefresh }) => {
   const [groupTourName, setGroupTourName] = useState(null);
   const [totalSeats, setTotalSeats] = useState(null);
   const [availableSeats, setAvailableSeats] = useState(null);
@@ -118,6 +118,33 @@ const AddGroupTours = ({setRefresh}) => {
     setLoading(true);
     if (!groupTourName) {
       toast.error("Group name not set");
+      setLoading(false);
+      return;
+    }
+    if (country.length == 0) {
+      toast.error("Country is empty");
+      setLoading(false);
+      return;
+    }
+    if (!totalSeats) {
+      toast.error("total seats are empty");
+      setLoading(false);
+      return;
+    }
+    if (!availableSeats) {
+      toast.error("available seats are empty");
+      setLoading(false);
+      return;
+    }
+    if (!flyerImage) {
+      toast.error("flyer is not set");
+      setLoading(false);
+      return;
+    }
+
+    if (!pdf) {
+      toast.error("pdf is not set");
+      setLoading(false);
       return;
     }
     e.preventDefault();
@@ -355,6 +382,7 @@ const AddGroupTours = ({setRefresh}) => {
                       placeholder="Available"
                       className=" border-[1px] border-slate-300 outline-pink-400   p-[5px] text-slate-600  text-[13px] w-[250px]"
                       onChange={(e) => setAvailableSeats(e.target.value)}
+                      required
                     />
                   </td>
                 </tr>
@@ -408,6 +436,7 @@ const AddGroupTours = ({setRefresh}) => {
                             onChange={handleProfileChange}
                             disabled={profileBlur}
                             ref={fileInputRef}
+                            required
                           />
                         </label>
                         <div className=" flex justify-between w-30">
@@ -449,6 +478,7 @@ const AddGroupTours = ({setRefresh}) => {
                         id="pdf-upload"
                         className=" hidden"
                         onChange={handleTourPdf}
+                        required
                       />
                     </label>
                     <div className=" flex  items-center">

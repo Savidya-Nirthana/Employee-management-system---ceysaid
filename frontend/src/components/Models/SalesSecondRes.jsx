@@ -15,8 +15,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect } from "react";
 import {
   getOperationPersons,
+  salesCompleteness,
   uploadFilesFin,
 } from "../../services/salesservices";
+import { toast, ToastContainer } from "react-toastify";
+import LoadingModal from "./LoadingModel";
 
 const CustomerBlock = ({
   field,
@@ -196,6 +199,7 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
   const [opUsers, setOpUsers] = useState([]);
   const [assignedUser, setAssignedUser] = useState("");
   const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // const handledFiles = (select) => {
   //   const fileArray = Array.from(select);
   //   setFiles((prev) => [...prev, ...fileArray]);
@@ -225,8 +229,10 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     if (!assignedUser) {
       setIsError("Please select a user");
+      setIsLoading(false);
       return;
     }
 
@@ -246,7 +252,20 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
 
           urls.push({ name: field.name, files: res.urls });
         }
-        console.log(urls);
+        const response = salesCompleteness(
+          urls,
+          selectSale._id,
+          "individual",
+          assignedUser
+        );
+        if (!response.isError) {
+          setIsLoading(false);
+          toast.success(response.message);
+          setSaleResponse(false);
+        } else {
+          setIsLoading(false);
+          toast.error("error on submit");
+        }
       }
     } else {
       if (uploadedFiles.length === 0) {
@@ -302,6 +321,7 @@ const SalesSecondRes = ({ setSaleResponse, selectSale }) => {
 
   return (
     <div className=" bg-white p-5 rounded-md shadow-md relative w-[800px] h-[550px]">
+      {isLoading && <LoadingModal />}
       <div className=" flex flex-row gap-8 items-center ">
         <div
           className={`cursor-pointer font-semibold px-4 py-2 rounded-md text-slate-800 hover:text-sky-700 font-display transition-all duration-300 ease-in-out ${
