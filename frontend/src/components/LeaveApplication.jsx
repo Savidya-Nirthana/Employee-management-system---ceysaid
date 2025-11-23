@@ -2,16 +2,8 @@ import { useState } from "react";
 import { leaveApply } from "../services/leaveService";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
 
-const LeaveApplication = ({
-  type,
-  selectedLeave,
-  refresh,
-  setRefresh,
-  setShowDetails,
-}) => {
+const LeaveApplication = ({ type, selectedLeave }) => {
   const navigate = useNavigate();
   const [leaveYear, setLeaveYear] = useState(null);
   const [leaveType, setLeaveType] = useState(null);
@@ -20,6 +12,12 @@ const LeaveApplication = ({
   const [reason, setReason] = useState(null);
   const [comment, setComment] = useState(null);
   const [halfDay, setHalfDay] = useState(false);
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const minDate = tomorrow.toISOString().split("T")[0];
+
+  const toDateMin = leaveFrom || minDate;
 
   const handleSubmit = async (event) => {
     console.log(halfDay);
@@ -38,35 +36,11 @@ const LeaveApplication = ({
         response.message || "Failed to submit leave application."
       );
     }
-    setRefresh((prev) => !prev);
     toast.success("Leave application submitted successfully!");
   };
   return (
-    <div className="bg-slate-50 w-[650px]  p-5 h-[420px] rounded-[10px]   border-[1px] m-auto border-slate-300 relative">
+    <div className="bg-slate-50 w-[650px]  p-5 h-[420px] rounded-[10px]   border-[1px] m-auto border-slate-300">
       <ToastContainer />
-      {type === "details" && (
-        <div
-          onClick={() => {
-            setShowDetails(null);
-          }}
-          className=" absolute top-[-10px] right-[-10px] bg-red-500 rounded-full w-[35px] h-[35px] flex items-center justify-center cursor-pointer hover:w-[37px] hover:h-[37px] hover:bg-red-600 transition-all duration-300"
-        >
-          <FontAwesomeIcon icon={faClose} className=" text-white " />
-        </div>
-      )}
-      {type === "details" && (
-        <div
-          className={`absolute right-10 font-medium text-center rounded-[4px] px-3 ${
-            selectedLeave.status === "approved"
-              ? "bg-green-600 text-white "
-              : selectedLeave.status === "rejected"
-              ? "bg-red-600 text-white"
-              : "bg-yellow-600 text-white"
-          }`}
-        >
-          {selectedLeave.status}
-        </div>
-      )}
       <div className="">
         {type !== "reject" && (
           <div className="text-[20px] text-[#023047] font-semibold pb-3">
@@ -79,7 +53,7 @@ const LeaveApplication = ({
               <td className=" pb-5 w-[200px]">
                 <label htmlFor="" className=" text-[14px] text-slate-600">
                   {" "}
-                  Leave year: <span className=" text-red-500">*</span>
+                  Leave year:
                 </label>
               </td>
               <td className=" pb-5">
@@ -102,7 +76,7 @@ const LeaveApplication = ({
             <tr>
               <td className=" pb-5">
                 <label htmlFor="" className=" text-[14px] text-slate-600">
-                  Leave type:<span className=" text-red-500">*</span>
+                  Leave type:
                 </label>
               </td>
               <td className=" pb-5">
@@ -161,65 +135,58 @@ const LeaveApplication = ({
             {((selectedLeave && selectedLeave.half_day !== "none") ||
               halfDay) && (
               <tr className="">
-                <td className=" pb-5">
-                  <label htmlFor="" className=" text-[14px] text-slate-600">
-                    Date:<span className=" text-red-500">*</span>
-                  </label>
+                <td className="pb-5">
+                  <label className="text-[14px] text-slate-600">Date:</label>
                 </td>
-                <td className=" pb-5">
+                <td className="pb-5">
                   <input
                     onChange={(e) => setLeaveFrom(e.target.value)}
                     type="date"
-                    name=""
-                    id=""
-                    className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
+                    className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px]"
                     required
-                    value={
-                      selectedLeave && selectedLeave.startDate.split("T")[0]
-                    }
+                    min={minDate} 
+                    value={leaveFrom}
                     disabled={type === "reject"}
                   />
                 </td>
               </tr>
             )}
+
             {!(
               (selectedLeave && selectedLeave.half_day !== "none") ||
               halfDay
             ) && (
               <tr className="">
-                <td colSpan="2" className=" pb-5">
-                  <div className=" flex flex-row gap-[20px]">
-                    <div className=" flex flex-row gap-[10px] items-center">
-                      <label htmlFor="" className=" text-[14px] text-slate-600">
-                        From data:<span className=" text-red-500">*</span>
+                <td colSpan="2" className="pb-5">
+                  <div className="flex flex-row gap-[20px]">
+                    {/* From Date */}
+                    <div className="flex flex-row gap-[10px] items-center">
+                      <label className="text-[14px] text-slate-600">
+                        From date:
                       </label>
                       <input
                         onChange={(e) => setLeaveFrom(e.target.value)}
                         type="date"
-                        name=""
-                        id=""
-                        className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
+                        className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px]"
                         required
-                        value={
-                          selectedLeave && selectedLeave.startDate.split("T")[0]
-                        }
+                        min={minDate} 
+                        value={leaveFrom}
                         disabled={type === "reject"}
                       />
                     </div>
-                    <div className=" flex flex-row gap-[10px] items-center">
-                      <label htmlFor="" className=" text-[14px] text-slate-600">
-                        To date:<span className=" text-red-500">*</span>
+
+                    {/* To Date */}
+                    <div className="flex flex-row gap-[10px] items-center">
+                      <label className="text-[14px] text-slate-600">
+                        To date:
                       </label>
                       <input
                         onChange={(e) => setLeaveTo(e.target.value)}
                         type="date"
-                        name=""
-                        id=""
-                        className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px] placeholder:text-slate-600"
+                        className="text-slate-600 border-[1px] border-slate-300 outline-slate-400 rounded-sm text-[12px] p-1 w-[200px]"
                         required
-                        value={
-                          selectedLeave && selectedLeave.endDate.split("T")[0]
-                        }
+                        min={toDateMin} 
+                        value={leaveTo}
                         disabled={type === "reject"}
                       />
                     </div>
@@ -264,25 +231,12 @@ const LeaveApplication = ({
               </td>
             </tr>
           </table>
-          {type !== "reject" && type !== "details" && (
+          {type !== "reject" && (
             <input
               type="submit"
               value="Apply"
               className=" float-end bg-indigo-400 text-white px-8 py-1 text-[14px] rounded-sm cursor-pointer"
             />
-          )}
-          {type === "details" && (
-            <div className=" flex justify-between">
-              <div className=" text-red-500 font-bold">
-                {selectedLeave.reject}
-              </div>
-              <input
-                className=" bg-red-500 text-white px-8 py-1 text-[14px] rounded-sm cursor-pointer transition-all duration-300 hover:bg-red-600"
-                type="button"
-                value="Close"
-                onClick={() => setShowDetails(null)}
-              />
-            </div>
           )}
         </form>
       </div>
