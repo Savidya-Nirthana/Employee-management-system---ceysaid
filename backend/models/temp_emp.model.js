@@ -39,7 +39,7 @@ const temp_employer_schema = mongoose.Schema(
   {
     timestamps: true,
   }
-);
+);  
 
 temp_employer_schema.pre("save", async function (next) {
   if (!this.isModified("password")) {

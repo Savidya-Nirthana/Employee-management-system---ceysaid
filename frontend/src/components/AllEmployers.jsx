@@ -210,7 +210,7 @@ const AllEmployers = ({ refresh, setRefresh, showNav, open, setOpen }) => {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              transition={{ duration: 1, ease: "easeOut" }}
             >
               <ImageZoomModel setIsOpen={setImageShow} imageUrl={imageShow} />
             </motion.div>

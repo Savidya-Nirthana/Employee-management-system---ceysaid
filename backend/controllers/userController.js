@@ -66,7 +66,7 @@ export const login = asyncHandler(async (req, res) => {
     const token = await genarateToken(res, {
       userId: userId,
       role: "temperary",
-    });
+    }); 
     return res.status(200).json({ message: "Login successfull" });
   } else {
     res.status(401);
